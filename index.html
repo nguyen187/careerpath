@@ -988,10 +988,115 @@
     }
 
     .comment-empty { color: var(--muted); font-size: 0.85rem; font-style: italic; }
+
+    /* ── Blog ── */
+    #blogs { padding-top: 2rem; }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .blog-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .blog-card-date { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.5rem; }
+
+    .blog-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.35;
+    }
+
+    .blog-card-excerpt {
+      font-size: 0.83rem;
+      color: #94a3b8;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-empty { color: var(--muted); font-size: 0.875rem; font-style: italic; }
+
+    /* ── Overlay (post viewer + editor) ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,14,26,0.9);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+      overflow-y: auto;
+    }
+
+    .overlay-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 760px;
+      position: relative;
+      margin-top: 1rem;
+    }
+
+    .overlay-editor { max-width: 680px; }
+
+    .overlay-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .overlay-close:hover { color: var(--text); background: var(--surface2); }
+
+    /* ── Markdown content ── */
+    .markdown-body { color: #cbd5e1; font-size: 0.95rem; line-height: 1.85; }
+    .markdown-body h1,.markdown-body h2,.markdown-body h3 { color: var(--text); font-weight: 700; margin: 1.75rem 0 0.75rem; line-height: 1.25; }
+    .markdown-body h1 { font-size: 1.6rem; }
+    .markdown-body h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+    .markdown-body h3 { font-size: 1.05rem; }
+    .markdown-body p { margin-bottom: 1rem; }
+    .markdown-body a { color: var(--accent); }
+    .markdown-body strong { color: var(--text); }
+    .markdown-body code { background: var(--surface2); color: var(--accent); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    .markdown-body pre { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; overflow-x: auto; margin-bottom: 1rem; }
+    .markdown-body pre code { background: none; padding: 0; color: #e2e8f0; font-size: 0.85rem; }
+    .markdown-body ul,.markdown-body ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .markdown-body li { margin-bottom: 0.35rem; }
+    .markdown-body blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1.25rem 0; font-style: italic; }
+    .markdown-body hr { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+    .markdown-body img { max-width: 100%; border-radius: 8px; margin: 0.5rem 0; }
   </style>
 
   <!-- Supabase SDK (anon key is public — security enforced by Row Level Security) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <!-- Markdown renderer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -1005,6 +1110,7 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#roadmap" style="color:var(--highlight)">Roadmap</a></li>
+    <li><a href="#blogs">Blog</a></li>
     <li><a href="#comments">Contact</a></li>
   </ul>
   <button id="owner-btn" onclick="toggleOwnerLogin()" title="Owner login">
@@ -1700,6 +1806,41 @@
   </div>
 </section>
 
+<!-- Blog -->
+<section id="blogs">
+  <div class="section-label">Writing</div>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:2.5rem;">
+    <h2 class="section-title" style="margin-bottom:0;">Blog</h2>
+    <button id="new-post-btn" onclick="openEditor()" class="btn btn-primary" style="display:none; font-size:0.85rem; padding:0.6rem 1.25rem;">+ New Post</button>
+  </div>
+  <div id="blog-list" class="blog-grid"></div>
+</section>
+
+<!-- Blog post viewer overlay -->
+<div id="blog-viewer" class="overlay" style="display:none" onclick="handleOverlayClick(event,'blog-viewer')">
+  <div class="overlay-box">
+    <button class="overlay-close" onclick="closeBlogViewer()">✕</button>
+    <div id="blog-viewer-content"></div>
+  </div>
+</div>
+
+<!-- Blog editor overlay -->
+<div id="blog-editor" class="overlay" style="display:none" onclick="handleOverlayClick(event,'blog-editor')">
+  <div class="overlay-box overlay-editor">
+    <button class="overlay-close" onclick="closeBlogEditor()">✕</button>
+    <div style="margin-bottom:1.25rem;">
+      <span style="font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent)" id="editor-mode-label">New Post</span>
+    </div>
+    <input id="editor-title" class="comment-input" type="text" placeholder="Post title…" style="margin-bottom:0.75rem; font-size:1rem; font-weight:600;" />
+    <textarea id="editor-content" class="comment-input" placeholder="Write in Markdown…&#10;&#10;## Heading&#10;**bold**, *italic*, `code`&#10;&#10;```python&#10;print('hello')&#10;```" style="min-height:320px; font-family:monospace; font-size:0.85rem; line-height:1.7;"></textarea>
+    <div style="display:flex; gap:0.75rem; margin-top:1rem; flex-wrap:wrap; align-items:center;">
+      <button onclick="savePost()" class="btn btn-primary" id="save-post-btn">Save Post</button>
+      <button onclick="closeBlogEditor()" class="btn btn-outline">Cancel</button>
+      <button id="delete-post-btn" onclick="confirmDeletePost()" class="btn-ghost" style="margin-left:auto; color:#f87171; border-color:rgba(248,113,113,0.4); display:none;">Delete post</button>
+    </div>
+  </div>
+</div>
+
 <!-- Comments -->
 <section id="comments">
   <div class="section-label">Get in Touch</div>
@@ -1734,6 +1875,7 @@
   const SUPABASE_READY = SUPABASE_URL !== 'YOUR_SUPABASE_URL';
   const OWNER_EMAIL    = 'thanhnguyen187201@gmail.com';
   const STORE_KEY      = 'dtn_roadmap_v1';
+  let   isOwnerSession = false;
 
   let sb = null;
   if (SUPABASE_READY) {
@@ -1857,6 +1999,7 @@
   }
 
   function updateOwnerBtn(isOwner, user) {
+    isOwnerSession = isOwner;
     const btn  = document.getElementById('owner-btn');
     const icon = document.getElementById('owner-icon');
     if (isOwner) {
@@ -1868,6 +2011,8 @@
       icon.textContent = '🔒';
       btn.style.color  = '';
     }
+    const newPostBtn = document.getElementById('new-post-btn');
+    if (newPostBtn) newPostBtn.style.display = isOwner ? 'inline-flex' : 'none';
   }
 
   if (SUPABASE_READY) {
@@ -1881,6 +2026,7 @@
 
     // Load progress and subscribe to real-time changes
     loadProgress();
+    loadBlogPosts();
 
     sb.channel('roadmap-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'roadmap_progress' },
@@ -1983,6 +2129,112 @@
         <div class="comment-body">${escHtml(row.message)}</div>
       </div>`).join('');
   }
+
+  // ── Blog ──────────────────────────────────────────────────────────────────
+  let blogPosts      = [];
+  let editingPostId  = null;
+  let currentPost    = null;
+
+  async function loadBlogPosts() {
+    if (!SUPABASE_READY) return;
+    const { data } = await sb.from('blog_posts').select('*').order('created_at', { ascending: false });
+    renderBlogPosts(data || []);
+  }
+
+  function renderBlogPosts(posts) {
+    blogPosts = posts;
+    const list = document.getElementById('blog-list');
+    if (!posts.length) {
+      list.innerHTML = '<p class="blog-empty">No posts yet.</p>';
+      return;
+    }
+    list.innerHTML = posts.map((post, i) => {
+      const d       = new Date(post.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+      const excerpt = post.content.replace(/```[\s\S]*?```/g,'').replace(/[#*`_\[\]]/g,'').replace(/\s+/g,' ').trim().slice(0, 200);
+      return `<div class="blog-card" onclick="openBlogViewer(${i})">
+        <div class="blog-card-date">${d}</div>
+        <div class="blog-card-title">${escHtml(post.title)}</div>
+        <div class="blog-card-excerpt">${escHtml(excerpt)}…</div>
+      </div>`;
+    }).join('');
+  }
+
+  function openBlogViewer(index) {
+    currentPost      = blogPosts[index];
+    const d          = new Date(currentPost.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+    const editBtn    = isOwnerSession
+      ? `<div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+           <button onclick="closeBlogViewer();openEditor(currentPost)" class="btn btn-outline" style="font-size:0.82rem;padding:0.5rem 1.1rem;">Edit post</button>
+         </div>`
+      : '';
+    document.getElementById('blog-viewer-content').innerHTML =
+      `<p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">${d}</p>
+       <h1 style="font-size:1.75rem;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:1.75rem;">${escHtml(currentPost.title)}</h1>
+       <div class="markdown-body">${marked.parse(currentPost.content)}</div>
+       ${editBtn}`;
+    document.getElementById('blog-viewer').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBlogViewer() {
+    document.getElementById('blog-viewer').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function openEditor(post = null) {
+    editingPostId = post ? post.id : null;
+    document.getElementById('editor-mode-label').textContent = post ? 'Edit Post' : 'New Post';
+    document.getElementById('editor-title').value            = post ? post.title   : '';
+    document.getElementById('editor-content').value         = post ? post.content : '';
+    document.getElementById('delete-post-btn').style.display = post ? 'block' : 'none';
+    document.getElementById('blog-editor').style.display    = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('editor-title').focus(), 50);
+  }
+
+  function closeBlogEditor() {
+    document.getElementById('blog-editor').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  async function savePost() {
+    const title   = document.getElementById('editor-title').value.trim();
+    const content = document.getElementById('editor-content').value.trim();
+    if (!title)   { alert('Please add a title.'); return; }
+    if (!content) { alert('Please add some content.'); return; }
+
+    const btn = document.getElementById('save-post-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+
+    const payload = { title, content, updated_at: new Date().toISOString() };
+    const { error } = editingPostId
+      ? await sb.from('blog_posts').update(payload).eq('id', editingPostId)
+      : await sb.from('blog_posts').insert(payload);
+
+    btn.disabled = false; btn.textContent = 'Save Post';
+    if (error) { alert('Error saving: ' + error.message); return; }
+    closeBlogEditor();
+    loadBlogPosts();
+  }
+
+  async function confirmDeletePost() {
+    if (!editingPostId) return;
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    await sb.from('blog_posts').delete().eq('id', editingPostId);
+    closeBlogEditor();
+    loadBlogPosts();
+  }
+
+  function handleOverlayClick(e, overlayId) {
+    if (e.target.id === overlayId) {
+      if (overlayId === 'blog-viewer') closeBlogViewer();
+      if (overlayId === 'blog-editor') closeBlogEditor();
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeBlogViewer(); closeBlogEditor(); }
+  });
 
   document.getElementById('comment-form').addEventListener('submit', async e => {
     e.preventDefault();
