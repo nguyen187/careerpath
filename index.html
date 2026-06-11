@@ -1180,6 +1180,39 @@
 
     .job-empty { color: var(--muted); font-size: 0.875rem; font-style: italic; }
 
+    .platform-links-bar {
+      margin-top: 1.25rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      max-width: 820px;
+    }
+
+    .platform-links-note {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+      line-height: 1.5;
+    }
+
+    .platform-links-note strong { color: #f87171; }
+
+    .platform-links-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    .plat-btn {
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid;
+      text-decoration: none;
+      transition: filter 0.15s;
+      letter-spacing: 0.02em;
+    }
+
+    .plat-btn:hover { filter: brightness(1.25); }
+
     .type-pill {
       display: inline-flex;
       align-items: center;
@@ -2687,6 +2720,7 @@
 
       <!-- Ambient sound panel (Web Audio — no iframe) -->
       <div id="focus-music-panel" style="display:none;">
+        <!-- Ambient noise row -->
         <div class="ambient-panel">
           <div class="ambient-left">
             <div class="equalizer" id="focus-eq">
@@ -2696,14 +2730,25 @@
             </div>
             <span id="ambient-label" class="ambient-label">brown noise · focus</span>
           </div>
-          <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
-            <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
-              oninput="setAmbientVol(this.value)" title="Volume"/>
-            <a id="yt-music-link" href="https://www.youtube.com/watch?v=jfKfPfyJRdk"
-               target="_blank" rel="noopener"
-               style="font-size:0.68rem;color:var(--accent);text-decoration:none;white-space:nowrap;letter-spacing:0.02em;"
-               title="Open music on YouTube">▶ YouTube</a>
-          </div>
+          <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
+            oninput="setAmbientVol(this.value)" title="Volume"/>
+        </div>
+        <!-- YouTube paste-and-play -->
+        <div style="display:flex;gap:0.5rem;margin-top:0.65rem;">
+          <input id="yt-url-input" class="todo-input"
+            placeholder="Paste YouTube URL and press Enter…"
+            onkeydown="if(event.key==='Enter')playYouTubeInFocus()"
+            style="font-size:0.78rem;"/>
+          <button class="fctrl-btn" onclick="playYouTubeInFocus()"
+            style="width:auto;border-radius:8px;padding:0 0.85rem;font-size:0.78rem;font-weight:700;flex-shrink:0;">▶</button>
+        </div>
+        <!-- Embedded player (shown after URL is set) -->
+        <div id="yt-player-wrap" style="display:none;margin-top:0.65rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);">
+          <iframe id="yt-player-iframe" width="100%" height="166"
+            style="display:block;border:none;"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            allowfullscreen src="about:blank">
+          </iframe>
         </div>
       </div>
     </div>
@@ -3230,10 +3275,40 @@
     return null;
   }
 
+  function buildPlatformLinksBar() {
+    const kw  = encodeURIComponent(document.getElementById('job-keywords').value.trim() || 'data engineer');
+    const loc = encodeURIComponent(document.getElementById('job-location').value.trim());
+    const platforms = [
+      { name: 'LinkedIn',  bg: '#0A66C2', url: `https://www.linkedin.com/jobs/search/?keywords=${kw}&location=${loc}` },
+      { name: 'Indeed',    bg: '#2557a7', url: `https://www.indeed.com/jobs?q=${kw}&l=${loc}` },
+      { name: 'Glassdoor', bg: '#0CAA41', url: `https://www.glassdoor.com/Job/jobs.htm?sc.keyword=${kw}` },
+      { name: 'JobStreet', bg: '#e83e3e', url: `https://www.jobstreet.com/jobs?q=${kw}&l=${loc}` },
+      { name: 'TopDev',    bg: '#f26522', url: `https://topdev.vn/jobs?q=${kw}` },
+      { name: 'ITviec',    bg: '#00b14f', url: `https://itviec.com/it-jobs?q=${kw}` },
+    ];
+    return `
+      <div class="platform-links-bar">
+        <div class="platform-links-note">
+          <strong>⚠ LinkedIn blocks automated scrapers</strong> — results above come from Indeed, Glassdoor &amp; others.
+          Search LinkedIn and more platforms directly with your current filters:
+        </div>
+        <div class="platform-links-row">
+          ${platforms.map(p => `
+            <a href="${p.url}" target="_blank" rel="noopener" class="plat-btn"
+               style="background:${p.bg}18;border-color:${p.bg}50;color:${p.bg}">${p.name} ↗</a>`).join('')}
+        </div>
+      </div>`;
+  }
+
   function renderJobResults(jobs, location) {
     const results = document.getElementById('job-results');
     if (!jobs.length) {
-      results.innerHTML = `<p class="job-empty">No matching jobs found in <strong>${escHtml(location)}</strong>. Try a broader location or different keywords.</p>`;
+      results.innerHTML = `
+        <p class="job-empty" style="margin-bottom:0.75rem;">
+          No results found for <strong>${escHtml(location)}</strong> via automated search.
+          Try "Remote" or "Singapore" — or search platforms directly:
+        </p>
+        ${buildPlatformLinksBar()}`;
       return;
     }
 
@@ -3285,7 +3360,7 @@
         </div>`;
     }).join('');
 
-    results.innerHTML = summary + `<div class="job-results">${cards}</div>`;
+    results.innerHTML = summary + `<div class="job-results">${cards}</div>` + buildPlatformLinksBar();
   }
 
   function quickSearch(location) {
@@ -3509,8 +3584,6 @@
       const eq = document.getElementById('focus-eq');
       eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[mode].color);
     }
-    document.getElementById('yt-music-link').href  = FMODES[mode].ytUrl;
-    document.getElementById('yt-music-link').title = FMODES[mode].ytLabel + ' on YouTube';
   }
 
   function toggleFocusTimer() { focusRunning ? pauseFocusTimer() : startFocusTimer(); }
@@ -3594,8 +3667,6 @@
       btn.style.color = FMODES[focusMode].color;
       btn.style.borderColor = FMODES[focusMode].color;
       document.getElementById('ambient-label').textContent = FMODES[focusMode].noiseLabel;
-      document.getElementById('yt-music-link').href  = FMODES[focusMode].ytUrl;
-      document.getElementById('yt-music-link').title = FMODES[focusMode].ytLabel + ' on YouTube';
       const eq = document.getElementById('focus-eq');
       eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[focusMode].color);
       startAmbientSound();
@@ -3604,6 +3675,41 @@
       btn.style.color = ''; btn.style.borderColor = '';
       stopAmbientSound();
     }
+  }
+
+  function playYouTubeInFocus() {
+    const input = document.getElementById('yt-url-input');
+    const raw   = input.value.trim();
+    if (!raw) return;
+
+    let embedSrc = '';
+    try {
+      const u       = new URL(raw);
+      const videoId = u.searchParams.get('v');
+      const listId  = u.searchParams.get('list');
+
+      if (u.hostname === 'youtu.be') {
+        const vid = u.pathname.replace('/', '').split('?')[0];
+        embedSrc  = `https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0`;
+      } else if (videoId) {
+        embedSrc = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+        if (listId) embedSrc += `&list=${listId}`;
+      } else if (listId) {
+        embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0`;
+      }
+    } catch(e) {}
+
+    if (!embedSrc) {
+      input.style.borderColor = '#f87171';
+      setTimeout(() => { input.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    input.style.borderColor = '';
+    const wrap   = document.getElementById('yt-player-wrap');
+    const iframe = document.getElementById('yt-player-iframe');
+    iframe.src   = embedSrc;
+    wrap.style.display = 'block';
   }
 
   // ── Right-column tabs ────────────────────────────────────────────────────
