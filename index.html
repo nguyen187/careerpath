@@ -1817,10 +1817,15 @@
 </section>
 
 <!-- Blog post viewer overlay -->
-<div id="blog-viewer" class="overlay" style="display:none" onclick="handleOverlayClick(event,'blog-viewer')">
-  <div class="overlay-box">
-    <button class="overlay-close" onclick="closeBlogViewer()">✕</button>
-    <div id="blog-viewer-content"></div>
+<div id="blog-viewer" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:200; flex-direction:column;">
+  <!-- Top bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:0 2rem; height:60px; border-bottom:1px solid var(--border); background:rgba(10,14,26,0.95); backdrop-filter:blur(12px); flex-shrink:0;">
+    <button onclick="closeBlogViewer()" style="background:none; border:none; color:var(--accent); font-size:0.95rem; font-weight:700; cursor:pointer; letter-spacing:0.05em; font-family:inherit; padding:0;">← DTN.</button>
+    <button onclick="closeBlogViewer()" style="background:var(--surface); border:1px solid var(--border); color:var(--muted); font-size:0.82rem; padding:0.4rem 1rem; border-radius:6px; cursor:pointer; font-family:inherit; transition:all 0.2s;">✕ Close</button>
+  </div>
+  <!-- Scrollable content -->
+  <div style="flex:1; overflow-y:auto; padding:4rem 2rem 6rem;">
+    <div id="blog-viewer-content" style="max-width:720px; margin:0 auto;"></div>
   </div>
 </div>
 
