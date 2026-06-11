@@ -1410,12 +1410,20 @@
     }
 
     /* ── Focus Studio ── */
+    #focus {
+      background:
+        radial-gradient(ellipse 700px 500px at 15% 20%, rgba(0,212,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 500px 400px at 85% 75%, rgba(139,92,246,0.05) 0%, transparent 65%),
+        radial-gradient(circle, rgba(0,212,255,0.09) 1px, transparent 1px) 0 0 / 28px 28px;
+      background-color: var(--bg);
+    }
+
     .focus-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 290px 1fr;
       gap: 2rem;
       align-items: start;
-      max-width: 860px;
+      max-width: 900px;
     }
 
     .focus-modes {
@@ -1445,22 +1453,22 @@
 
     .fmode-dur { font-size: 0.65rem; font-weight: 500; opacity: 0.65; }
 
-    .focus-mode-btn.active.fmode-focus { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #f87171; }
-    .focus-mode-btn.active.fmode-chill { background: rgba(59,130,246,0.1); border-color: #3b82f6; color: #60a5fa; }
-    .focus-mode-btn.active.fmode-relax { background: rgba(16,185,129,0.1); border-color: #10b981; color: #34d399; }
+    .focus-mode-btn.active.fmode-focus { background: rgba(239,68,68,0.12);  border-color: #ef4444; color: #f87171; }
+    .focus-mode-btn.active.fmode-chill { background: rgba(59,130,246,0.12); border-color: #3b82f6; color: #60a5fa; }
+    .focus-mode-btn.active.fmode-relax { background: rgba(16,185,129,0.12); border-color: #10b981; color: #34d399; }
 
     .focus-ring-wrap {
       position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 1.25rem;
+      width: 210px;
+      height: 210px;
+      margin: 0 auto 0.75rem;
     }
 
-    .focus-ring-svg { width: 100%; height: 100%; }
+    .focus-ring-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 12px rgba(0,212,255,0.12)); }
 
     .ring-track {
       fill: none;
-      stroke: var(--surface2);
+      stroke: rgba(255,255,255,0.06);
       stroke-width: 10;
     }
 
@@ -1469,13 +1477,15 @@
       stroke: #ef4444;
       stroke-width: 10;
       stroke-linecap: round;
-      stroke-dasharray: 596.9;
+      stroke-dasharray: 534.1;
       stroke-dashoffset: 0;
       transform-box: fill-box;
       transform-origin: center;
       transform: rotate(-90deg);
       transition: stroke-dashoffset 0.6s linear, stroke 0.4s;
     }
+
+    .ring-fill.glow { filter: drop-shadow(0 0 6px currentColor); }
 
     .focus-ring-inner {
       position: absolute;
@@ -1488,21 +1498,39 @@
     }
 
     .timer-time {
-      font-size: 2.4rem;
+      font-size: 2.6rem;
       font-weight: 800;
-      letter-spacing: -0.04em;
+      letter-spacing: 0.02em;
       color: var(--text);
+      font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
       font-variant-numeric: tabular-nums;
       line-height: 1;
     }
 
-    .timer-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+    .timer-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.05em; }
+
+    /* Working-on pill */
+    .working-on-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.18);
+      border-radius: 100px;
+      max-width: 230px;
+      margin: 0.4rem auto 0.6rem;
+      overflow: hidden;
+    }
+
+    .working-on-icon { font-size: 0.72rem; color: var(--accent); flex-shrink: 0; }
+    .working-on-text { font-size: 0.72rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .focus-controls {
       display: flex;
       gap: 0.6rem;
       justify-content: center;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .fctrl-btn {
@@ -1510,7 +1538,7 @@
       height: 42px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: var(--surface);
+      background: rgba(255,255,255,0.03);
       color: var(--muted);
       cursor: pointer;
       font-size: 1.1rem;
@@ -1521,16 +1549,17 @@
       font-family: inherit;
     }
 
-    .fctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .fctrl-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.06); }
 
     .fctrl-btn.primary {
-      width: 76px;
+      width: 80px;
       border-radius: 100px;
       background: var(--accent);
       color: var(--bg);
       border-color: var(--accent);
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
     }
 
     .fctrl-btn.primary:hover   { background: #00b8d9; border-color: #00b8d9; }
@@ -1539,39 +1568,138 @@
 
     .focus-stats {
       text-align: center;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted);
       display: flex;
       gap: 0.4rem;
       justify-content: center;
+      margin-bottom: 0.5rem;
+      font-family: 'SF Mono', monospace;
     }
 
-    .focus-note-col { display: flex; flex-direction: column; gap: 1.25rem; }
+    /* Ambient sound panel */
+    .ambient-panel {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+
+    .ambient-left { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; }
+
+    .ambient-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .ambient-vol {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 64px; height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .ambient-vol::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+
+    /* Equalizer */
+    .equalizer {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .eq-bar {
+      width: 3px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+      transform-origin: bottom;
+      animation: eq-pulse 1s ease-in-out infinite;
+    }
+
+    .eq-bar:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+    .eq-bar:nth-child(2) { height: 10px; animation-delay: 0.2s;  }
+    .eq-bar:nth-child(3) { height: 14px; animation-delay: 0.35s; }
+    .eq-bar:nth-child(4) { height: 9px;  animation-delay: 0.5s;  }
+    .eq-bar:nth-child(5) { height: 5px;  animation-delay: 0.65s; }
+
+    @keyframes eq-pulse {
+      0%, 100% { transform: scaleY(0.25); opacity: 0.5; }
+      50%       { transform: scaleY(1);   opacity: 1;   }
+    }
+
+    /* Right column */
+    .focus-right-col { display: flex; flex-direction: column; }
+
+    .focus-rtabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .focus-rtab {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+
+    .focus-rtab:hover { color: var(--text); }
+    .focus-rtab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     .focus-box {
-      background: var(--surface);
+      background: rgba(255,255,255,0.02);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-top: none;
+      border-radius: 0 0 14px 14px;
       padding: 1.25rem;
     }
 
     .focus-box-head {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .focus-textarea {
       width: 100%;
-      min-height: 115px;
-      background: var(--surface2);
+      min-height: 140px;
+      background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
-      font-family: inherit;
-      font-size: 0.85rem;
-      line-height: 1.6;
+      font-family: 'SF Mono', 'JetBrains Mono', monospace;
+      font-size: 0.83rem;
+      line-height: 1.65;
       padding: 0.75rem;
       resize: vertical;
       box-sizing: border-box;
@@ -1580,12 +1708,94 @@
 
     .focus-textarea:focus { outline: none; border-color: var(--accent); }
 
+    /* Todo list */
+    .todo-add-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      align-items: center;
+    }
+
+    .todo-input {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.83rem;
+      padding: 0.45rem 0.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .todo-input:focus { outline: none; border-color: var(--accent); }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .todo-item:hover { border-color: var(--border); background: rgba(255,255,255,0.04); }
+    .todo-item.todo-active { background: rgba(0,212,255,0.06); border-color: rgba(0,212,255,0.22); }
+    .todo-item.todo-active::before { content: '▶'; font-size: 0.55rem; color: var(--accent); margin-right: -0.1rem; }
+    .todo-item.todo-done { opacity: 0.4; }
+    .todo-item.todo-done .todo-text { text-decoration: line-through; }
+
+    .todo-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: none;
+      color: transparent;
+      font-size: 0.65rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .todo-check:hover { border-color: #34d399; color: #34d399; }
+    .todo-item.todo-done .todo-check { background: #34d399; border-color: #34d399; color: var(--bg); }
+
+    .todo-text { flex: 1; font-size: 0.83rem; color: var(--text); line-height: 1.4; min-width: 0; }
+
+    .todo-pom {
+      font-size: 0.68rem;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .todo-del {
+      width: 20px; height: 20px;
+      border: none; background: none;
+      color: var(--muted); font-size: 0.65rem;
+      cursor: pointer; border-radius: 4px;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .todo-item:hover .todo-del { opacity: 1; }
+    .todo-del:hover { color: #f87171; }
+
+    /* Session history */
     .session-item {
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
-      padding: 0.65rem 0.75rem;
-      background: var(--surface2);
+      padding: 0.6rem 0.75rem;
+      background: rgba(255,255,255,0.02);
       border-radius: 8px;
     }
 
@@ -1598,14 +1808,14 @@
       border-radius: 100px;
     }
 
-    .session-dur  { font-size: 0.7rem; font-weight: 600; color: var(--highlight); }
-    .session-date { font-size: 0.65rem; color: var(--muted); margin-left: auto; }
-    .session-note { font-size: 0.8rem; color: var(--text); opacity: 0.8; line-height: 1.5; }
+    .session-dur  { font-size: 0.68rem; font-weight: 600; color: var(--highlight); font-family: 'SF Mono', monospace; }
+    .session-date { font-size: 0.63rem; color: var(--muted); margin-left: auto; font-family: 'SF Mono', monospace; }
+    .session-note { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; }
 
     @media (max-width: 720px) {
       .focus-layout { grid-template-columns: 1fr; }
       .focus-ring-wrap { width: 180px; height: 180px; }
-      .timer-time { font-size: 2rem; }
+      .timer-time { font-size: 2.1rem; }
     }
   </style>
 
@@ -2430,7 +2640,7 @@
   <h2 class="section-title">Focus Studio</h2>
 
   <div class="focus-layout">
-    <!-- Timer column -->
+    <!-- ── Timer column ── -->
     <div class="focus-timer-col">
       <div class="focus-modes">
         <button class="focus-mode-btn fmode-focus active" data-mode="focus" onclick="setFocusMode('focus')">
@@ -2451,48 +2661,86 @@
         </svg>
         <div class="focus-ring-inner">
           <div class="timer-time"  id="timer-time">25:00</div>
-          <div class="timer-label" id="timer-label">Ready</div>
+          <div class="timer-label" id="timer-label">READY</div>
         </div>
+      </div>
+
+      <!-- Current task pill -->
+      <div class="working-on-row" id="working-on-row" style="display:none">
+        <span class="working-on-icon">▶</span>
+        <span class="working-on-text" id="working-on-text"></span>
       </div>
 
       <div class="focus-controls">
         <button class="fctrl-btn" onclick="resetFocusTimer()" title="Reset">↺</button>
         <button class="fctrl-btn primary" id="focus-start-btn" onclick="toggleFocusTimer()">Start</button>
-        <button class="fctrl-btn" id="music-toggle-btn" onclick="toggleFocusMusic()" title="Toggle music">♪</button>
+        <button class="fctrl-btn" id="music-toggle-btn" onclick="toggleFocusMusic()" title="Ambient sound">♪</button>
       </div>
 
       <div class="focus-stats">
-        <span id="stat-sessions">0 sessions today</span>
+        <span id="stat-sessions">0 sessions</span>
         <span>·</span>
-        <span id="stat-total">0 min focused</span>
+        <span id="stat-total">0 min</span>
+        <span>·</span>
+        <span id="stat-tasks">0 tasks done</span>
       </div>
 
-      <div id="focus-music-panel" style="display:none; margin-top:1.25rem; border-radius:12px; overflow:hidden; border:1px solid var(--border);">
-        <iframe id="focus-music-iframe" width="100%" height="80"
-          style="display:block; border:none;"
-          allow="autoplay; clipboard-write; encrypted-media"
-          loading="lazy" src="about:blank">
-        </iframe>
-        <div style="padding:0.45rem 0.75rem; font-size:0.68rem; color:var(--muted); background:var(--surface2); display:flex; gap:0.75rem; align-items:center;">
-          <span id="music-now-label">🎵 Lo-fi beats · Focus</span>
-          <a id="music-yt-link" href="#" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; margin-left:auto;">Open ↗</a>
+      <!-- Ambient sound panel (Web Audio — no iframe) -->
+      <div id="focus-music-panel" style="display:none;">
+        <div class="ambient-panel">
+          <div class="ambient-left">
+            <div class="equalizer" id="focus-eq">
+              <div class="eq-bar"></div><div class="eq-bar"></div>
+              <div class="eq-bar"></div><div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+            </div>
+            <span id="ambient-label" class="ambient-label">brown noise · focus</span>
+          </div>
+          <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
+            oninput="setAmbientVol(this.value)" title="Volume"/>
         </div>
       </div>
     </div>
 
-    <!-- Notes + history column -->
-    <div class="focus-note-col">
-      <div class="focus-box">
-        <div class="focus-box-head">📝 Session Note</div>
-        <textarea id="focus-note-input" class="focus-textarea"
-          placeholder="What are you working on?&#10;&#10;Notes auto-save when the timer completes."></textarea>
-        <button class="btn btn-primary" onclick="saveFocusNote()"
-          style="font-size:0.8rem; padding:0.5rem 1.25rem; margin-top:0.75rem;">Save Note</button>
+    <!-- ── Right column: Tasks / Notes / History ── -->
+    <div class="focus-right-col">
+      <div class="focus-rtabs">
+        <button class="focus-rtab active" data-rtab="tasks"   onclick="switchFocusRTab('tasks')">Tasks</button>
+        <button class="focus-rtab"        data-rtab="notes"   onclick="switchFocusRTab('notes')">Notes</button>
+        <button class="focus-rtab"        data-rtab="history" onclick="switchFocusRTab('history')">History</button>
       </div>
 
-      <div class="focus-box" id="focus-history-box">
+      <!-- Tasks -->
+      <div id="ftab-tasks" class="focus-box">
+        <div class="focus-box-head">
+          <span>📋 Todo list</span>
+          <span id="todo-stats" style="font-weight:500;color:var(--muted);font-size:0.7rem;"></span>
+        </div>
+        <div class="todo-add-row">
+          <input id="todo-input" class="todo-input" placeholder="Add a task… (Enter to save)"
+            onkeydown="if(event.key==='Enter')addTodo()"/>
+          <button class="fctrl-btn" onclick="addTodo()"
+            style="width:32px;height:32px;font-size:1.15rem;font-weight:700;flex-shrink:0;">+</button>
+        </div>
+        <div id="todo-list" style="display:flex;flex-direction:column;gap:0.35rem;"></div>
+        <p id="todo-empty" style="color:var(--muted);font-size:0.78rem;margin:0;display:none;">
+          No tasks yet — add one above and click it to set as active.
+        </p>
+      </div>
+
+      <!-- Notes (hidden) -->
+      <div id="ftab-notes" class="focus-box" style="display:none;">
+        <div class="focus-box-head">📝 Session Note</div>
+        <textarea id="focus-note-input" class="focus-textarea"
+          placeholder="What are you researching or building?&#10;&#10;Notes auto-save when the timer completes, or click Save."></textarea>
+        <button class="btn btn-primary" onclick="saveFocusNote()"
+          style="font-size:0.8rem;padding:0.5rem 1.25rem;margin-top:0.75rem;">Save</button>
+      </div>
+
+      <!-- History (hidden) -->
+      <div id="ftab-history" class="focus-box" style="display:none;">
         <div class="focus-box-head">📊 Session History</div>
-        <div id="focus-history-list" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+        <div id="focus-history-list" style="display:flex;flex-direction:column;gap:0.45rem;"></div>
       </div>
     </div>
   </div>
@@ -3149,16 +3397,13 @@
     if (e.key === 'Escape') { closeBlogViewer(); closeBlogEditor(); }
   });
 
-  // ── Focus Studio (Pomodoro) ──────────────────────────────────────────────
+  // ── Focus Studio ─────────────────────────────────────────────────────────
   const FMODES = {
-    focus: { duration: 25*60, label: 'Focus', emoji: '🎯', color: '#ef4444',
-             ytId: 'jfKfPfyJRdk', ytLabel: 'Lo-fi beats · Focus' },
-    chill: { duration: 15*60, label: 'Chill', emoji: '☕', color: '#3b82f6',
-             ytId: 'DWcJFNfaw9c', ytLabel: 'Chill vibes · Break' },
-    relax: { duration:  5*60, label: 'Relax', emoji: '🌿', color: '#10b981',
-             ytId: '1ZYbU82GVz4', ytLabel: 'Nature sounds · Relax' }
+    focus: { duration: 25*60, label: 'FOCUS', emoji: '🎯', color: '#ef4444', noise: 'brown', noiseLabel: 'brown noise · focus' },
+    chill: { duration: 15*60, label: 'CHILL', emoji: '☕', color: '#3b82f6', noise: 'pink',  noiseLabel: 'pink noise · chill'  },
+    relax: { duration:  5*60, label: 'RELAX', emoji: '🌿', color: '#10b981', noise: 'white', noiseLabel: 'soft noise · relax'  }
   };
-  const F_CIRC = 2 * Math.PI * 85;  // r=85 → ≈534.1
+  const F_CIRC = 2 * Math.PI * 85;
 
   let focusMode     = 'focus';
   let focusTimeLeft = FMODES.focus.duration;
@@ -3166,6 +3411,75 @@
   let focusInterval = null;
   let focusMusicOn  = false;
 
+  // ── Web Audio noise engine ───────────────────────────────────────────────
+  let _actx = null, _nSrc = null, _nGain = null;
+
+  function _actxGet() {
+    if (!_actx || _actx.state === 'closed')
+      _actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (_actx.state === 'suspended') _actx.resume();
+    return _actx;
+  }
+
+  function _buildNoise(ctx, type) {
+    const len = ctx.sampleRate * 3;
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      if (type === 'brown') {
+        let last = 0;
+        for (let i = 0; i < len; i++) {
+          const w = Math.random() * 2 - 1;
+          d[i] = (last + 0.02 * w) / 1.02; last = d[i]; d[i] *= 3.5;
+        }
+      } else if (type === 'pink') {
+        let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+        for (let i = 0; i < len; i++) {
+          const w = Math.random()*2-1;
+          b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+          b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+          b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+          d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+        }
+      } else {
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1)*0.06;
+      }
+    }
+    return buf;
+  }
+
+  function startAmbientSound() {
+    stopAmbientSound();
+    try {
+      const ctx  = _actxGet();
+      const src  = ctx.createBufferSource();
+      src.buffer = _buildNoise(ctx, FMODES[focusMode].noise);
+      src.loop   = true;
+      _nGain = ctx.createGain();
+      const vol = parseInt(document.getElementById('ambient-vol').value) / 100 * 0.45;
+      _nGain.gain.setValueAtTime(0, ctx.currentTime);
+      _nGain.gain.linearRampToValueAtTime(vol, ctx.currentTime + 1.5);
+      src.connect(_nGain); _nGain.connect(ctx.destination); src.start();
+      _nSrc = src;
+    } catch(e) { console.warn('Ambient audio failed:', e); }
+  }
+
+  function stopAmbientSound() {
+    if (_nSrc) {
+      try {
+        _nGain.gain.setValueAtTime(_nGain.gain.value, _actx.currentTime);
+        _nGain.gain.linearRampToValueAtTime(0, _actx.currentTime + 0.4);
+        _nSrc.stop(_actx.currentTime + 0.4);
+      } catch(e) {}
+      _nSrc = null; _nGain = null;
+    }
+  }
+
+  function setAmbientVol(val) {
+    if (_nGain && _actx) _nGain.gain.setTargetAtTime(val/100*0.45, _actx.currentTime, 0.1);
+  }
+
+  // ── Timer ────────────────────────────────────────────────────────────────
   function setFocusMode(mode) {
     if (focusRunning) return;
     focusMode     = mode;
@@ -3175,24 +3489,27 @@
     const ring = document.getElementById('timer-ring');
     ring.style.stroke = FMODES[mode].color;
     ring.style.strokeDashoffset = '0';
+    ring.classList.remove('glow');
     document.getElementById('timer-time').textContent  = fmtTime(focusTimeLeft);
-    document.getElementById('timer-label').textContent = 'Ready';
+    document.getElementById('timer-label').textContent = 'READY';
     const btn = document.getElementById('focus-start-btn');
-    btn.textContent = 'Start';
-    btn.classList.remove('running');
-    if (focusMusicOn) updateFocusMusic();
+    btn.textContent = 'Start'; btn.classList.remove('running');
+    if (focusMusicOn) {
+      stopAmbientSound(); startAmbientSound();
+      document.getElementById('ambient-label').textContent = FMODES[mode].noiseLabel;
+      const eq = document.getElementById('focus-eq');
+      eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[mode].color);
+    }
   }
 
-  function toggleFocusTimer() {
-    focusRunning ? pauseFocusTimer() : startFocusTimer();
-  }
+  function toggleFocusTimer() { focusRunning ? pauseFocusTimer() : startFocusTimer(); }
 
   function startFocusTimer() {
     focusRunning = true;
     const btn = document.getElementById('focus-start-btn');
-    btn.textContent = 'Pause';
-    btn.classList.add('running');
+    btn.textContent = 'Pause'; btn.classList.add('running');
     document.getElementById('timer-label').textContent = FMODES[focusMode].label + '…';
+    document.getElementById('timer-ring').classList.add('glow');
     focusInterval = setInterval(() => {
       focusTimeLeft--;
       updateFocusRing();
@@ -3206,9 +3523,9 @@
   function pauseFocusTimer() {
     clearInterval(focusInterval); focusInterval = null; focusRunning = false;
     const btn = document.getElementById('focus-start-btn');
-    btn.textContent = 'Resume';
-    btn.classList.remove('running');
-    document.getElementById('timer-label').textContent = 'Paused';
+    btn.textContent = 'Resume'; btn.classList.remove('running');
+    document.getElementById('timer-label').textContent = 'PAUSED';
+    document.getElementById('timer-ring').classList.remove('glow');
   }
 
   function resetFocusTimer() {
@@ -3216,9 +3533,9 @@
     focusTimeLeft = FMODES[focusMode].duration;
     updateFocusRing();
     const btn = document.getElementById('focus-start-btn');
-    btn.textContent = 'Start';
-    btn.classList.remove('running');
-    document.getElementById('timer-label').textContent = 'Ready';
+    btn.textContent = 'Start'; btn.classList.remove('running');
+    document.getElementById('timer-label').textContent = 'READY';
+    document.getElementById('timer-ring').classList.remove('glow');
   }
 
   function updateFocusRing() {
@@ -3229,8 +3546,11 @@
 
   function onFocusComplete() {
     playFocusDing();
-    document.getElementById('timer-label').textContent = FMODES[focusMode].label + ' done! 🎉';
+    document.getElementById('timer-label').textContent = 'DONE 🎉';
     document.getElementById('focus-start-btn').textContent = 'Start';
+    document.getElementById('focus-start-btn').classList.remove('running');
+    document.getElementById('timer-ring').classList.remove('glow');
+    incrementActiveTodoPom();
     const note = document.getElementById('focus-note-input').value.trim();
     saveFocusSession(focusMode, FMODES[focusMode].duration, note);
   }
@@ -3262,22 +3582,102 @@
       panel.style.display = 'block';
       btn.style.color = FMODES[focusMode].color;
       btn.style.borderColor = FMODES[focusMode].color;
-      updateFocusMusic();
+      document.getElementById('ambient-label').textContent = FMODES[focusMode].noiseLabel;
+      const eq = document.getElementById('focus-eq');
+      eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[focusMode].color);
+      startAmbientSound();
     } else {
       panel.style.display = 'none';
-      document.getElementById('focus-music-iframe').src = 'about:blank';
       btn.style.color = ''; btn.style.borderColor = '';
+      stopAmbientSound();
     }
   }
 
-  function updateFocusMusic() {
-    const m = FMODES[focusMode];
-    document.getElementById('focus-music-iframe').src =
-      `https://www.youtube-nocookie.com/embed/${m.ytId}?autoplay=1&rel=0&modestbranding=1`;
-    document.getElementById('music-now-label').textContent = '🎵 ' + m.ytLabel;
-    document.getElementById('music-yt-link').href = `https://www.youtube.com/watch?v=${m.ytId}`;
+  // ── Right-column tabs ────────────────────────────────────────────────────
+  function switchFocusRTab(tab) {
+    document.querySelectorAll('.focus-rtab').forEach(b =>
+      b.classList.toggle('active', b.dataset.rtab === tab));
+    ['tasks','notes','history'].forEach(t =>
+      document.getElementById(`ftab-${t}`).style.display = t === tab ? '' : 'none');
   }
 
+  // ── Todo list ────────────────────────────────────────────────────────────
+  let todos = JSON.parse(localStorage.getItem('dtn_todos') || '[]');
+  let activeTodoId = null;
+
+  function saveTodos() { localStorage.setItem('dtn_todos', JSON.stringify(todos)); }
+
+  function addTodo() {
+    const input = document.getElementById('todo-input');
+    const text  = input.value.trim();
+    if (!text) return;
+    todos.push({ id: Date.now().toString(), text, done: false, pomodoros: 0 });
+    saveTodos(); input.value = ''; renderTodos();
+  }
+
+  function toggleTodoDone(id, e) {
+    e.stopPropagation();
+    const t = todos.find(t => t.id === id);
+    if (!t) return;
+    t.done = !t.done;
+    if (t.done && activeTodoId === id) setActiveTodo(null);
+    saveTodos(); renderTodos(); updateFocusStats();
+  }
+
+  function deleteTodo(id, e) {
+    e.stopPropagation();
+    todos = todos.filter(t => t.id !== id);
+    if (activeTodoId === id) setActiveTodo(null);
+    saveTodos(); renderTodos();
+  }
+
+  function setActiveTodo(id) {
+    activeTodoId = id;
+    const t   = todos.find(t => t.id === id && !t.done);
+    const row = document.getElementById('working-on-row');
+    if (t) {
+      document.getElementById('working-on-text').textContent = t.text;
+      row.style.display = 'flex';
+    } else {
+      activeTodoId = null;
+      row.style.display = 'none';
+    }
+    renderTodos();
+  }
+
+  function incrementActiveTodoPom() {
+    if (!activeTodoId) return;
+    const t = todos.find(t => t.id === activeTodoId);
+    if (t) { t.pomodoros = (t.pomodoros || 0) + 1; saveTodos(); renderTodos(); }
+  }
+
+  function renderTodos() {
+    const list  = document.getElementById('todo-list');
+    const empty = document.getElementById('todo-empty');
+    const done  = todos.filter(t => t.done).length;
+    document.getElementById('todo-stats').textContent = todos.length ? `${done}/${todos.length}` : '';
+
+    if (!todos.length) {
+      list.innerHTML = ''; empty.style.display = 'block'; return;
+    }
+    empty.style.display = 'none';
+
+    const sorted = [...todos.filter(t => !t.done), ...todos.filter(t => t.done)];
+    list.innerHTML = sorted.map(t => {
+      const isActive = t.id === activeTodoId;
+      const poms     = t.pomodoros || 0;
+      return `
+        <div class="todo-item${t.done ? ' todo-done' : ''}${isActive ? ' todo-active' : ''}"
+             onclick="setActiveTodo('${t.id}')">
+          <button class="todo-check" onclick="toggleTodoDone('${t.id}',event)">${t.done ? '✓' : ''}</button>
+          <span class="todo-text">${escHtml(t.text)}</span>
+          <span class="todo-pom" title="${poms} focus block${poms!==1?'s':''} completed">🍅${poms>0?`×${poms}`:''}</span>
+          <button class="todo-del" onclick="deleteTodo('${t.id}',event)">✕</button>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Session notes & history ──────────────────────────────────────────────
   async function saveFocusNote() {
     const note = document.getElementById('focus-note-input').value.trim();
     if (!note) return;
@@ -3291,30 +3691,28 @@
     const stored = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
     stored.unshift(session);
     localStorage.setItem('dtn_focus_sessions', JSON.stringify(stored.slice(0, 100)));
-
     if (SUPABASE_READY && sb) {
-      try { await sb.from('focus_sessions').insert({ mode, duration_completed: duration, note: note || '' }); }
-      catch(e) { /* silent — localStorage is source of truth */ }
+      try { await sb.from('focus_sessions').insert({ mode, duration_completed: duration, note: note||'' }); }
+      catch(e) {}
     }
-    renderFocusHistory();
-    updateFocusStats();
+    renderFocusHistory(); updateFocusStats();
   }
 
   function renderFocusHistory() {
     const stored = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
     const el = document.getElementById('focus-history-list');
     if (!stored.length) {
-      el.innerHTML = '<p style="color:var(--muted);font-size:0.78rem;">No sessions yet — start your first one!</p>';
+      el.innerHTML = '<p style="color:var(--muted);font-size:0.78rem;">No sessions yet.</p>';
       return;
     }
-    el.innerHTML = stored.slice(0, 15).map(s => {
+    el.innerHTML = stored.slice(0, 20).map(s => {
       const m    = FMODES[s.mode] || FMODES.focus;
       const date = new Date(s.created_at).toLocaleString('en', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
-      const dur  = s.duration_completed ? Math.round(s.duration_completed / 60) + ' min' : '';
+      const dur  = s.duration_completed ? Math.round(s.duration_completed/60) + ' min' : '';
       return `
         <div class="session-item">
           <div class="session-row">
-            <span class="session-badge" style="background:${m.color}22;color:${m.color}">${m.emoji} ${m.label}</span>
+            <span class="session-badge" style="background:${m.color}20;color:${m.color}">${m.emoji} ${m.label}</span>
             ${dur ? `<span class="session-dur">${dur}</span>` : ''}
             <span class="session-date">${date}</span>
           </div>
@@ -3324,14 +3722,17 @@
   }
 
   function updateFocusStats() {
-    const stored  = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
-    const today   = new Date().toDateString();
-    const todayS  = stored.filter(s => new Date(s.created_at).toDateString() === today);
-    const totalM  = todayS.reduce((sum, s) => sum + Math.round((s.duration_completed || 0) / 60), 0);
-    document.getElementById('stat-sessions').textContent = `${todayS.length} session${todayS.length !== 1 ? 's' : ''} today`;
-    document.getElementById('stat-total').textContent    = `${totalM} min focused`;
+    const stored = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
+    const today  = new Date().toDateString();
+    const todayS = stored.filter(s => new Date(s.created_at).toDateString() === today);
+    const totalM = todayS.reduce((sum, s) => sum + Math.round((s.duration_completed||0)/60), 0);
+    const doneT  = todos.filter(t => t.done).length;
+    document.getElementById('stat-sessions').textContent = `${todayS.length} sessions`;
+    document.getElementById('stat-total').textContent    = `${totalM} min`;
+    document.getElementById('stat-tasks').textContent    = `${doneT} task${doneT!==1?'s':''} done`;
   }
 
+  renderTodos();
   renderFocusHistory();
   updateFocusStats();
 
