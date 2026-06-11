@@ -2696,8 +2696,14 @@
             </div>
             <span id="ambient-label" class="ambient-label">brown noise · focus</span>
           </div>
-          <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
-            oninput="setAmbientVol(this.value)" title="Volume"/>
+          <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
+            <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
+              oninput="setAmbientVol(this.value)" title="Volume"/>
+            <a id="yt-music-link" href="https://www.youtube.com/watch?v=jfKfPfyJRdk"
+               target="_blank" rel="noopener"
+               style="font-size:0.68rem;color:var(--accent);text-decoration:none;white-space:nowrap;letter-spacing:0.02em;"
+               title="Open music on YouTube">▶ YouTube</a>
+          </div>
         </div>
       </div>
     </div>
@@ -3399,9 +3405,12 @@
 
   // ── Focus Studio ─────────────────────────────────────────────────────────
   const FMODES = {
-    focus: { duration: 25*60, label: 'FOCUS', emoji: '🎯', color: '#ef4444', noise: 'brown', noiseLabel: 'brown noise · focus' },
-    chill: { duration: 15*60, label: 'CHILL', emoji: '☕', color: '#3b82f6', noise: 'pink',  noiseLabel: 'pink noise · chill'  },
-    relax: { duration:  5*60, label: 'RELAX', emoji: '🌿', color: '#10b981', noise: 'white', noiseLabel: 'soft noise · relax'  }
+    focus: { duration: 25*60, label: 'FOCUS', emoji: '🎯', color: '#ef4444', noise: 'brown', noiseLabel: 'brown noise · focus',
+             ytUrl: 'https://www.youtube.com/watch?v=jfKfPfyJRdk', ytLabel: 'Lo-fi study beats' },
+    chill: { duration: 15*60, label: 'CHILL', emoji: '☕', color: '#3b82f6', noise: 'pink',  noiseLabel: 'pink noise · chill',
+             ytUrl: 'https://www.youtube.com/watch?v=DWcJFNfaw9c', ytLabel: 'Chill / sleep beats' },
+    relax: { duration:  5*60, label: 'RELAX', emoji: '🌿', color: '#10b981', noise: 'white', noiseLabel: 'soft noise · relax',
+             ytUrl: 'https://www.youtube.com/watch?v=1ZYbU82GVz4', ytLabel: 'Nature & rain sounds' }
   };
   const F_CIRC = 2 * Math.PI * 85;
 
@@ -3500,6 +3509,8 @@
       const eq = document.getElementById('focus-eq');
       eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[mode].color);
     }
+    document.getElementById('yt-music-link').href  = FMODES[mode].ytUrl;
+    document.getElementById('yt-music-link').title = FMODES[mode].ytLabel + ' on YouTube';
   }
 
   function toggleFocusTimer() { focusRunning ? pauseFocusTimer() : startFocusTimer(); }
@@ -3583,6 +3594,8 @@
       btn.style.color = FMODES[focusMode].color;
       btn.style.borderColor = FMODES[focusMode].color;
       document.getElementById('ambient-label').textContent = FMODES[focusMode].noiseLabel;
+      document.getElementById('yt-music-link').href  = FMODES[focusMode].ytUrl;
+      document.getElementById('yt-music-link').title = FMODES[focusMode].ytLabel + ' on YouTube';
       const eq = document.getElementById('focus-eq');
       eq.querySelectorAll('.eq-bar').forEach(b => b.style.background = FMODES[focusMode].color);
       startAmbientSound();
