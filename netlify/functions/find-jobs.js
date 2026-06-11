@@ -24,9 +24,10 @@ const CORS = {
   'Content-Type': 'application/json'
 };
 
-async function searchJobs(query, extraParams = '') {
+async function searchJobs(query, extraParams = '', employmentTypes = '') {
   const q = encodeURIComponent(query);
-  const url = `https://jsearch.p.rapidapi.com/search?query=${q}&page=1&num_pages=2${extraParams}`;
+  const typeParam = employmentTypes ? `&employment_types=${encodeURIComponent(employmentTypes)}` : '';
+  const url = `https://jsearch.p.rapidapi.com/search?query=${q}&page=1&num_pages=2${extraParams}${typeParam}`;
   const res = await fetch(url, {
     headers: {
       'x-rapidapi-key': RAPIDAPI_KEY,
@@ -121,28 +122,33 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: CORS, body: '' };
   }
 
-  const { location = '', keywords = 'data engineer' } = event.queryStringParameters || {};
+  const { location = '', keywords = 'data engineer', types = 'FULLTIME' } = event.queryStringParameters || {};
 
   if (!location.trim()) {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Location is required.' }) };
   }
 
   try {
-    const kw  = keywords.trim();
     const loc = location.trim();
+    const typeList = types.trim();
+
+    // When contract/freelance is selected, inject relevant keyword to improve results
+    const hasContract = typeList.includes('CONTRACTOR');
+    const extraKw = hasContract ? ' (contract OR freelance OR remote)' : '';
+    const kw = keywords.trim() + extraKw;
 
     // ── Strategy 1: exact query ──────────────────────────────────────────────
-    let rawJobs = await searchJobs(`${kw} ${loc}`);
+    let rawJobs = await searchJobs(`${kw} ${loc}`, '', typeList);
 
     // ── Strategy 2: add "remote" if few results ──────────────────────────────
     if (rawJobs.length < 3) {
-      const remote = await searchJobs(`${kw} remote ${loc}`);
+      const remote = await searchJobs(`${kw} remote ${loc}`, '', typeList);
       rawJobs = [...rawJobs, ...remote];
     }
 
     // ── Strategy 3: Southeast Asia fallback ─────────────────────────────────
     if (rawJobs.length < 3) {
-      const sea = await searchJobs(`${kw} Southeast Asia remote`);
+      const sea = await searchJobs(`${kw} Southeast Asia remote`, '', typeList);
       rawJobs = [...rawJobs, ...sea];
     }
 

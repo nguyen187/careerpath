@@ -1180,6 +1180,29 @@
 
     .job-empty { color: var(--muted); font-size: 0.875rem; font-style: italic; }
 
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .type-pill:has(input:checked) {
+      color: var(--accent);
+      border-color: rgba(0,212,255,0.4);
+      background: rgba(0,212,255,0.08);
+    }
+
+    .type-pill input { display: none; }
+
     @media (max-width: 600px) {
       .job-card { grid-template-columns: 48px 1fr; }
       .job-action { grid-column: 2; margin-top: 0.75rem; }
@@ -1987,6 +2010,13 @@
     </button>
   </div>
 
+  <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom:2rem;">
+    <span style="font-size:0.72rem; color:var(--muted);">Job type:</span>
+    <label class="type-pill"><input type="checkbox" name="jobtype" value="FULLTIME" checked> Full-time</label>
+    <label class="type-pill"><input type="checkbox" name="jobtype" value="PARTTIME"> Part-time</label>
+    <label class="type-pill"><input type="checkbox" name="jobtype" value="CONTRACTOR"> Contract / Freelance</label>
+  </div>
+
   <div id="job-results"></div>
 </section>
 
@@ -2344,7 +2374,8 @@
       </div>`).join('');
 
     try {
-      const url = `/.netlify/functions/find-jobs?location=${encodeURIComponent(location)}&keywords=${encodeURIComponent(keywords)}`;
+      const types = [...document.querySelectorAll('input[name="jobtype"]:checked')].map(el => el.value).join(',') || 'FULLTIME';
+      const url = `/.netlify/functions/find-jobs?location=${encodeURIComponent(location)}&keywords=${encodeURIComponent(keywords)}&types=${encodeURIComponent(types)}`;
       const res  = await fetch(url);
       const data = await res.json();
 
