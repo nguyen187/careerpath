@@ -102,13 +102,14 @@ function buildJobObj(j, s) {
     ? `${j.job_salary_currency || 'USD'} ${Number(j.job_min_salary).toLocaleString()}–${Number(j.job_max_salary).toLocaleString()}`
     : null;
   return {
-    title:    j.job_title,
-    company:  j.employer_name,
-    location: [j.job_city, j.job_state, j.job_country].filter(Boolean).join(', '),
+    title:     j.job_title,
+    company:   j.employer_name,
+    location:  [j.job_city, j.job_state, j.job_country].filter(Boolean).join(', '),
     salary,
-    remote:   !!j.job_is_remote,
-    url:      j.job_apply_link,
-    posted:   j.job_posted_at_datetime_utc,
+    remote:    !!j.job_is_remote,
+    url:       j.job_apply_link,
+    publisher: j.job_publisher || null,
+    posted:    j.job_posted_at_datetime_utc,
     score:    s.score,
     verdict:  s.verdict,
     why:      s.why,

@@ -1268,6 +1268,215 @@
     .markdown-body blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1.25rem 0; font-style: italic; }
     .markdown-body hr { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
     .markdown-body img { max-width: 100%; border-radius: 8px; margin: 0.5rem 0; }
+
+    /* ── Platform badge ── */
+    .badge-platform {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 100px;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Focus Studio ── */
+    .focus-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      align-items: start;
+      max-width: 860px;
+    }
+
+    .focus-modes {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .focus-mode-btn {
+      flex: 1;
+      padding: 0.55rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      transition: all 0.2s;
+      line-height: 1.3;
+    }
+
+    .fmode-dur { font-size: 0.65rem; font-weight: 500; opacity: 0.65; }
+
+    .focus-mode-btn.active.fmode-focus { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #f87171; }
+    .focus-mode-btn.active.fmode-chill { background: rgba(59,130,246,0.1); border-color: #3b82f6; color: #60a5fa; }
+    .focus-mode-btn.active.fmode-relax { background: rgba(16,185,129,0.1); border-color: #10b981; color: #34d399; }
+
+    .focus-ring-wrap {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .focus-ring-svg { width: 100%; height: 100%; }
+
+    .ring-track {
+      fill: none;
+      stroke: var(--surface2);
+      stroke-width: 10;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: #ef4444;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 596.9;
+      stroke-dashoffset: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      transition: stroke-dashoffset 0.6s linear, stroke 0.4s;
+    }
+
+    .focus-ring-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .timer-time {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .timer-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .focus-controls {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .fctrl-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .fctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .fctrl-btn.primary {
+      width: 76px;
+      border-radius: 100px;
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .fctrl-btn.primary:hover   { background: #00b8d9; border-color: #00b8d9; }
+    .fctrl-btn.primary.running { background: #ef4444; border-color: #ef4444; }
+    .fctrl-btn.primary.running:hover { background: #dc2626; border-color: #dc2626; }
+
+    .focus-stats {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+
+    .focus-note-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .focus-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+
+    .focus-box-head {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .focus-textarea {
+      width: 100%;
+      min-height: 115px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      padding: 0.75rem;
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    .focus-textarea:focus { outline: none; border-color: var(--accent); }
+
+    .session-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding: 0.65rem 0.75rem;
+      background: var(--surface2);
+      border-radius: 8px;
+    }
+
+    .session-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+    .session-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 100px;
+    }
+
+    .session-dur  { font-size: 0.7rem; font-weight: 600; color: var(--highlight); }
+    .session-date { font-size: 0.65rem; color: var(--muted); margin-left: auto; }
+    .session-note { font-size: 0.8rem; color: var(--text); opacity: 0.8; line-height: 1.5; }
+
+    @media (max-width: 720px) {
+      .focus-layout { grid-template-columns: 1fr; }
+      .focus-ring-wrap { width: 180px; height: 180px; }
+      .timer-time { font-size: 2rem; }
+    }
   </style>
 
   <!-- Supabase SDK (anon key is public — security enforced by Row Level Security) -->
@@ -1289,6 +1498,7 @@
     <li><a href="#roadmap" style="color:var(--highlight)">Roadmap</a></li>
     <li><a href="#jobs">Jobs</a></li>
     <li><a href="#blogs">Blog</a></li>
+    <li><a href="#focus">Focus</a></li>
     <li><a href="#comments">Contact</a></li>
   </ul>
   <button id="owner-btn" onclick="toggleOwnerLogin()" title="Owner login">
@@ -2060,6 +2270,80 @@
   </div>
 </div>
 
+<!-- Focus Studio -->
+<section id="focus">
+  <div class="section-label">Deep Work</div>
+  <h2 class="section-title">Focus Studio</h2>
+
+  <div class="focus-layout">
+    <!-- Timer column -->
+    <div class="focus-timer-col">
+      <div class="focus-modes">
+        <button class="focus-mode-btn fmode-focus active" data-mode="focus" onclick="setFocusMode('focus')">
+          🎯 Focus<span class="fmode-dur">25:00</span>
+        </button>
+        <button class="focus-mode-btn fmode-chill" data-mode="chill" onclick="setFocusMode('chill')">
+          ☕ Chill<span class="fmode-dur">15:00</span>
+        </button>
+        <button class="focus-mode-btn fmode-relax" data-mode="relax" onclick="setFocusMode('relax')">
+          🌿 Relax<span class="fmode-dur">5:00</span>
+        </button>
+      </div>
+
+      <div class="focus-ring-wrap">
+        <svg class="focus-ring-svg" viewBox="0 0 200 200">
+          <circle class="ring-track" cx="100" cy="100" r="85"/>
+          <circle class="ring-fill"  cx="100" cy="100" r="85" id="timer-ring"/>
+        </svg>
+        <div class="focus-ring-inner">
+          <div class="timer-time"  id="timer-time">25:00</div>
+          <div class="timer-label" id="timer-label">Ready</div>
+        </div>
+      </div>
+
+      <div class="focus-controls">
+        <button class="fctrl-btn" onclick="resetFocusTimer()" title="Reset">↺</button>
+        <button class="fctrl-btn primary" id="focus-start-btn" onclick="toggleFocusTimer()">Start</button>
+        <button class="fctrl-btn" id="music-toggle-btn" onclick="toggleFocusMusic()" title="Toggle music">♪</button>
+      </div>
+
+      <div class="focus-stats">
+        <span id="stat-sessions">0 sessions today</span>
+        <span>·</span>
+        <span id="stat-total">0 min focused</span>
+      </div>
+
+      <div id="focus-music-panel" style="display:none; margin-top:1.25rem; border-radius:12px; overflow:hidden; border:1px solid var(--border);">
+        <iframe id="focus-music-iframe" width="100%" height="80"
+          style="display:block; border:none;"
+          allow="autoplay; clipboard-write; encrypted-media"
+          loading="lazy" src="about:blank">
+        </iframe>
+        <div style="padding:0.45rem 0.75rem; font-size:0.68rem; color:var(--muted); background:var(--surface2); display:flex; gap:0.75rem; align-items:center;">
+          <span id="music-now-label">🎵 Lo-fi beats · Focus</span>
+          <a id="music-yt-link" href="#" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; margin-left:auto;">Open ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes + history column -->
+    <div class="focus-note-col">
+      <div class="focus-box">
+        <div class="focus-box-head">📝 Session Note</div>
+        <textarea id="focus-note-input" class="focus-textarea"
+          placeholder="What are you working on?&#10;&#10;Notes auto-save when the timer completes."></textarea>
+        <button class="btn btn-primary" onclick="saveFocusNote()"
+          style="font-size:0.8rem; padding:0.5rem 1.25rem; margin-top:0.75rem;">Save Note</button>
+      </div>
+
+      <div class="focus-box" id="focus-history-box">
+        <div class="focus-box-head">📊 Session History</div>
+        <div id="focus-history-list" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Comments -->
 <section id="comments">
   <div class="section-label">Get in Touch</div>
@@ -2389,6 +2673,36 @@
     }
   }
 
+  function detectPlatform(url, publisher) {
+    if (publisher) {
+      const p = publisher.trim();
+      const map = {
+        'LinkedIn': '#0A66C2', 'Indeed': '#2557a7', 'Glassdoor': '#0CAA41',
+        'Monster': '#6c0dad', 'ZipRecruiter': '#00a550', 'Workday': '#f0752b',
+        'Greenhouse': '#3dba4e', 'Lever': '#5351FB', 'Seek': '#e8222d',
+        'JobStreet': '#e33e3e', 'SimplyHired': '#6c47e8', 'CareerJet': '#e84337',
+        'Adzuna': '#ef6c00', 'Snagajob': '#f5812a'
+      };
+      for (const [name, bg] of Object.entries(map)) {
+        if (p.toLowerCase().includes(name.toLowerCase())) return { name, bg };
+      }
+      return { name: p, bg: '#475569' };
+    }
+    if (!url) return null;
+    const u = url.toLowerCase();
+    if (u.includes('linkedin.com'))     return { name: 'LinkedIn',  bg: '#0A66C2' };
+    if (u.includes('indeed.com'))       return { name: 'Indeed',    bg: '#2557a7' };
+    if (u.includes('glassdoor.com'))    return { name: 'Glassdoor', bg: '#0CAA41' };
+    if (u.includes('monster.com'))      return { name: 'Monster',   bg: '#6c0dad' };
+    if (u.includes('ziprecruiter.com')) return { name: 'ZipRecruiter', bg: '#00a550' };
+    if (u.includes('workday.com'))      return { name: 'Workday',   bg: '#f0752b' };
+    if (u.includes('greenhouse.io'))    return { name: 'Greenhouse',bg: '#3dba4e' };
+    if (u.includes('lever.co'))         return { name: 'Lever',     bg: '#5351FB' };
+    if (u.includes('seek.com'))         return { name: 'Seek',      bg: '#e8222d' };
+    if (u.includes('jobstreet.com'))    return { name: 'JobStreet', bg: '#e33e3e' };
+    return null;
+  }
+
   function renderJobResults(jobs, location) {
     const results = document.getElementById('job-results');
     if (!jobs.length) {
@@ -2413,6 +2727,7 @@
       const cardClass  = job.priority === 'Apply Now' ? 'priority-apply' : job.priority === 'Consider' ? 'priority-consider' : 'priority-skip';
       const posted     = job.posted ? timeAgo(job.posted) : '';
 
+      const platform = detectPlatform(job.url, job.publisher);
       return `
         <div class="job-card ${cardClass}">
           <div class="job-score">
@@ -2424,6 +2739,7 @@
             <div class="job-meta">
               <span>${escHtml(job.company)}</span>
               ${job.location ? `<span>· ${escHtml(job.location)}</span>` : ''}
+              ${platform ? `<span class="job-badge badge-platform" style="background:${platform.bg}">${escHtml(platform.name)}</span>` : ''}
               ${job.remote   ? `<span class="job-badge badge-remote">Remote</span>` : ''}
               ${job.salary   ? `<span class="job-badge badge-salary">${escHtml(job.salary)}</span>` : ''}
               <span class="job-badge badge-verdict">${escHtml(job.verdict)}</span>
@@ -2559,6 +2875,192 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeBlogViewer(); closeBlogEditor(); }
   });
+
+  // ── Focus Studio (Pomodoro) ──────────────────────────────────────────────
+  const FMODES = {
+    focus: { duration: 25*60, label: 'Focus', emoji: '🎯', color: '#ef4444',
+             ytId: 'jfKfPfyJRdk', ytLabel: 'Lo-fi beats · Focus' },
+    chill: { duration: 15*60, label: 'Chill', emoji: '☕', color: '#3b82f6',
+             ytId: 'DWcJFNfaw9c', ytLabel: 'Chill vibes · Break' },
+    relax: { duration:  5*60, label: 'Relax', emoji: '🌿', color: '#10b981',
+             ytId: '1ZYbU82GVz4', ytLabel: 'Nature sounds · Relax' }
+  };
+  const F_CIRC = 2 * Math.PI * 85;  // r=85 → ≈534.1
+
+  let focusMode     = 'focus';
+  let focusTimeLeft = FMODES.focus.duration;
+  let focusRunning  = false;
+  let focusInterval = null;
+  let focusMusicOn  = false;
+
+  function setFocusMode(mode) {
+    if (focusRunning) return;
+    focusMode     = mode;
+    focusTimeLeft = FMODES[mode].duration;
+    document.querySelectorAll('.focus-mode-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.mode === mode));
+    const ring = document.getElementById('timer-ring');
+    ring.style.stroke = FMODES[mode].color;
+    ring.style.strokeDashoffset = '0';
+    document.getElementById('timer-time').textContent  = fmtTime(focusTimeLeft);
+    document.getElementById('timer-label').textContent = 'Ready';
+    const btn = document.getElementById('focus-start-btn');
+    btn.textContent = 'Start';
+    btn.classList.remove('running');
+    if (focusMusicOn) updateFocusMusic();
+  }
+
+  function toggleFocusTimer() {
+    focusRunning ? pauseFocusTimer() : startFocusTimer();
+  }
+
+  function startFocusTimer() {
+    focusRunning = true;
+    const btn = document.getElementById('focus-start-btn');
+    btn.textContent = 'Pause';
+    btn.classList.add('running');
+    document.getElementById('timer-label').textContent = FMODES[focusMode].label + '…';
+    focusInterval = setInterval(() => {
+      focusTimeLeft--;
+      updateFocusRing();
+      if (focusTimeLeft <= 0) {
+        clearInterval(focusInterval); focusInterval = null; focusRunning = false;
+        onFocusComplete();
+      }
+    }, 1000);
+  }
+
+  function pauseFocusTimer() {
+    clearInterval(focusInterval); focusInterval = null; focusRunning = false;
+    const btn = document.getElementById('focus-start-btn');
+    btn.textContent = 'Resume';
+    btn.classList.remove('running');
+    document.getElementById('timer-label').textContent = 'Paused';
+  }
+
+  function resetFocusTimer() {
+    clearInterval(focusInterval); focusInterval = null; focusRunning = false;
+    focusTimeLeft = FMODES[focusMode].duration;
+    updateFocusRing();
+    const btn = document.getElementById('focus-start-btn');
+    btn.textContent = 'Start';
+    btn.classList.remove('running');
+    document.getElementById('timer-label').textContent = 'Ready';
+  }
+
+  function updateFocusRing() {
+    const progress = focusTimeLeft / FMODES[focusMode].duration;
+    document.getElementById('timer-ring').style.strokeDashoffset = F_CIRC * (1 - progress);
+    document.getElementById('timer-time').textContent = fmtTime(focusTimeLeft);
+  }
+
+  function onFocusComplete() {
+    playFocusDing();
+    document.getElementById('timer-label').textContent = FMODES[focusMode].label + ' done! 🎉';
+    document.getElementById('focus-start-btn').textContent = 'Start';
+    const note = document.getElementById('focus-note-input').value.trim();
+    saveFocusSession(focusMode, FMODES[focusMode].duration, note);
+  }
+
+  function fmtTime(s) {
+    return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  }
+
+  function playFocusDing() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [880, 1100, 1320].forEach((freq, i) => {
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.frequency.value = freq; osc.type = 'sine';
+        const t = ctx.currentTime + i * 0.18;
+        g.gain.setValueAtTime(0.3, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+        osc.start(t); osc.stop(t + 0.9);
+      });
+    } catch(e) {}
+  }
+
+  function toggleFocusMusic() {
+    focusMusicOn = !focusMusicOn;
+    const panel = document.getElementById('focus-music-panel');
+    const btn   = document.getElementById('music-toggle-btn');
+    if (focusMusicOn) {
+      panel.style.display = 'block';
+      btn.style.color = FMODES[focusMode].color;
+      btn.style.borderColor = FMODES[focusMode].color;
+      updateFocusMusic();
+    } else {
+      panel.style.display = 'none';
+      document.getElementById('focus-music-iframe').src = 'about:blank';
+      btn.style.color = ''; btn.style.borderColor = '';
+    }
+  }
+
+  function updateFocusMusic() {
+    const m = FMODES[focusMode];
+    document.getElementById('focus-music-iframe').src =
+      `https://www.youtube-nocookie.com/embed/${m.ytId}?autoplay=1&rel=0&modestbranding=1`;
+    document.getElementById('music-now-label').textContent = '🎵 ' + m.ytLabel;
+    document.getElementById('music-yt-link').href = `https://www.youtube.com/watch?v=${m.ytId}`;
+  }
+
+  async function saveFocusNote() {
+    const note = document.getElementById('focus-note-input').value.trim();
+    if (!note) return;
+    await saveFocusSession(focusMode, 0, note);
+    document.getElementById('focus-note-input').value = '';
+  }
+
+  async function saveFocusSession(mode, duration, note) {
+    const session = { id: Date.now().toString(), mode, duration_completed: duration,
+                      note, created_at: new Date().toISOString() };
+    const stored = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
+    stored.unshift(session);
+    localStorage.setItem('dtn_focus_sessions', JSON.stringify(stored.slice(0, 100)));
+
+    if (SUPABASE_READY && sb) {
+      try { await sb.from('focus_sessions').insert({ mode, duration_completed: duration, note: note || '' }); }
+      catch(e) { /* silent — localStorage is source of truth */ }
+    }
+    renderFocusHistory();
+    updateFocusStats();
+  }
+
+  function renderFocusHistory() {
+    const stored = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
+    const el = document.getElementById('focus-history-list');
+    if (!stored.length) {
+      el.innerHTML = '<p style="color:var(--muted);font-size:0.78rem;">No sessions yet — start your first one!</p>';
+      return;
+    }
+    el.innerHTML = stored.slice(0, 15).map(s => {
+      const m    = FMODES[s.mode] || FMODES.focus;
+      const date = new Date(s.created_at).toLocaleString('en', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      const dur  = s.duration_completed ? Math.round(s.duration_completed / 60) + ' min' : '';
+      return `
+        <div class="session-item">
+          <div class="session-row">
+            <span class="session-badge" style="background:${m.color}22;color:${m.color}">${m.emoji} ${m.label}</span>
+            ${dur ? `<span class="session-dur">${dur}</span>` : ''}
+            <span class="session-date">${date}</span>
+          </div>
+          ${s.note ? `<div class="session-note">${escHtml(s.note)}</div>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+  function updateFocusStats() {
+    const stored  = JSON.parse(localStorage.getItem('dtn_focus_sessions') || '[]');
+    const today   = new Date().toDateString();
+    const todayS  = stored.filter(s => new Date(s.created_at).toDateString() === today);
+    const totalM  = todayS.reduce((sum, s) => sum + Math.round((s.duration_completed || 0) / 60), 0);
+    document.getElementById('stat-sessions').textContent = `${todayS.length} session${todayS.length !== 1 ? 's' : ''} today`;
+    document.getElementById('stat-total').textContent    = `${totalM} min focused`;
+  }
+
+  renderFocusHistory();
+  updateFocusStats();
 
   document.getElementById('comment-form').addEventListener('submit', async e => {
     e.preventDefault();
