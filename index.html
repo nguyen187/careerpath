@@ -1845,6 +1845,212 @@
     .session-date { font-size: 0.63rem; color: var(--muted); margin-left: auto; font-family: 'SF Mono', monospace; }
     .session-note { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; }
 
+    /* ── Notes mini-app ── */
+    .notes-toolbar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      align-items: center;
+    }
+
+    .notes-search {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.7rem;
+      transition: border-color 0.2s;
+    }
+
+    .notes-search:focus { outline: none; border-color: var(--accent); }
+
+    .note-item {
+      padding: 0.7rem 0.85rem;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.02);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .note-item:hover { border-color: var(--border); background: rgba(255,255,255,0.04); }
+    .note-item + .note-item { margin-top: 0.35rem; }
+
+    .note-item-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .note-item-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note-item-date {
+      font-size: 0.63rem;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .note-item-preview {
+      font-size: 0.77rem;
+      color: #94a3b8;
+      line-height: 1.45;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      margin-bottom: 0.3rem;
+    }
+
+    .note-item-footer { display: flex; align-items: center; gap: 0.5rem; }
+    .note-item-wc { font-size: 0.62rem; color: var(--muted); margin-left: auto; font-family: 'SF Mono', monospace; }
+
+    /* Editor */
+    .note-editor-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .note-back-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      letter-spacing: 0.02em;
+      transition: opacity 0.15s;
+    }
+
+    .note-back-btn:hover { opacity: 0.7; }
+
+    .note-del-btn {
+      background: none;
+      border: 1px solid rgba(248,113,113,0.3);
+      color: #f87171;
+      font-family: inherit;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .note-del-btn:hover { background: rgba(248,113,113,0.1); }
+
+    .note-title-input {
+      width: 100%;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0 0 0.55rem;
+      margin-bottom: 0.75rem;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    .note-title-input:focus { outline: none; border-bottom-color: var(--accent); }
+    .note-title-input::placeholder { color: var(--muted); font-weight: 400; }
+
+    .note-content-input {
+      width: 100%;
+      min-height: 230px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.75;
+      padding: 0.85rem;
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      tab-size: 2;
+    }
+
+    .note-content-input:focus { outline: none; border-color: var(--accent); }
+
+    .note-editor-footer {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    .note-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .note-preview-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .note-preview-toggle:hover,
+    .note-preview-toggle.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.06); }
+
+    .note-save-indicator {
+      font-size: 0.72rem;
+      color: var(--accent3);
+      margin-left: auto;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .note-save-indicator.show { opacity: 1; }
+
+    .note-preview-area {
+      margin-top: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: 100px;
+    }
+
+    .note-empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .note-empty-state .note-empty-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
     @media (max-width: 720px) {
       .focus-layout { grid-template-columns: 1fr; }
       .focus-ring-wrap { width: 180px; height: 180px; }
@@ -2780,12 +2986,45 @@
       </div>
 
       <!-- Notes (hidden) -->
-      <div id="ftab-notes" class="focus-box" style="display:none;">
-        <div class="focus-box-head">📝 Session Note</div>
-        <textarea id="focus-note-input" class="focus-textarea"
-          placeholder="What are you researching or building?&#10;&#10;Notes auto-save when the timer completes, or click Save."></textarea>
-        <button class="btn btn-primary" onclick="saveFocusNote()"
-          style="font-size:0.8rem;padding:0.5rem 1.25rem;margin-top:0.75rem;">Save</button>
+      <div id="ftab-notes" class="focus-box" style="display:none; padding:1rem;">
+
+        <!-- ── List view ── -->
+        <div id="notes-list-view">
+          <div class="notes-toolbar">
+            <button class="btn btn-primary" onclick="openNoteEditor(null)"
+              style="font-size:0.78rem;padding:0.4rem 0.9rem;white-space:nowrap;flex-shrink:0;">+ New</button>
+            <input id="notes-search" class="notes-search" placeholder="Search notes…"
+              oninput="filterNotes(this.value)"/>
+          </div>
+          <div id="notes-list"></div>
+          <div id="notes-empty" class="note-empty-state" style="display:none;">
+            <div class="note-empty-icon">📝</div>
+            No notes yet.<br>Click <strong>+ New</strong> to start.
+          </div>
+        </div>
+
+        <!-- ── Editor view (hidden) ── -->
+        <div id="notes-editor-view" style="display:none;">
+          <div class="note-editor-topbar">
+            <button class="note-back-btn" onclick="closeNoteEditor()">← All Notes</button>
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <span id="note-mode-badge" class="session-badge" style="font-size:0.63rem;"></span>
+              <button id="note-del-btn" class="note-del-btn" onclick="deleteCurrentNote()" style="display:none;">Delete</button>
+            </div>
+          </div>
+          <input id="note-title-input" class="note-title-input" placeholder="Note title…" maxlength="120"/>
+          <textarea id="note-content-input" class="note-content-input"
+            placeholder="Write in Markdown…&#10;&#10;## Heading&#10;**bold**, *italic*, \`code\`&#10;&#10;\`\`\`python&#10;print('hello')&#10;\`\`\`"></textarea>
+          <div id="note-preview-area" class="note-preview-area markdown-body" style="display:none;"></div>
+          <div class="note-editor-footer">
+            <button class="btn btn-primary" id="note-save-btn" onclick="saveCurrentNote()"
+              style="font-size:0.8rem;padding:0.45rem 1.1rem;">Save</button>
+            <button id="note-preview-toggle" class="note-preview-toggle" onclick="toggleNotePreview()">
+              ◧ Preview
+            </button>
+            <span id="note-save-indicator" class="note-save-indicator">Saved ✓</span>
+          </div>
+        </div>
       </div>
 
       <!-- History (hidden) -->
@@ -3635,8 +3874,8 @@
     document.getElementById('focus-start-btn').classList.remove('running');
     document.getElementById('timer-ring').classList.remove('glow');
     incrementActiveTodoPom();
-    const note = document.getElementById('focus-note-input').value.trim();
-    saveFocusSession(focusMode, FMODES[focusMode].duration, note);
+    autoSaveOpenNote();
+    saveFocusSession(focusMode, FMODES[focusMode].duration, '');
   }
 
   function fmtTime(s) {
@@ -3796,13 +4035,186 @@
     }).join('');
   }
 
-  // ── Session notes & history ──────────────────────────────────────────────
-  async function saveFocusNote() {
-    const note = document.getElementById('focus-note-input').value.trim();
-    if (!note) return;
-    await saveFocusSession(focusMode, 0, note);
-    document.getElementById('focus-note-input').value = '';
+  // ── Notes system ─────────────────────────────────────────────────────────
+  let notes        = JSON.parse(localStorage.getItem('dtn_notes') || '[]');
+  let currentNoteId = null;
+  let noteViewMode  = 'list'; // 'list' | 'editor'
+
+  function saveNotesToStorage() { localStorage.setItem('dtn_notes', JSON.stringify(notes)); }
+
+  function renderNotesList(filter) {
+    const query    = (filter || document.getElementById('notes-search').value || '').toLowerCase().trim();
+    const listEl   = document.getElementById('notes-list');
+    const emptyEl  = document.getElementById('notes-empty');
+
+    const filtered = query
+      ? notes.filter(n => (n.title+' '+n.content).toLowerCase().includes(query))
+      : notes;
+
+    const sorted = [...filtered].sort((a, b) =>
+      new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at));
+
+    if (!sorted.length) {
+      listEl.innerHTML = '';
+      emptyEl.style.display = '';
+      emptyEl.innerHTML = query
+        ? `<div class="note-empty-icon">🔍</div>No notes match "<strong>${escHtml(query)}</strong>"`
+        : `<div class="note-empty-icon">📝</div>No notes yet.<br>Click <strong>+ New</strong> to start.`;
+      return;
+    }
+
+    emptyEl.style.display = 'none';
+    listEl.innerHTML = sorted.map(n => {
+      const m       = n.mode ? FMODES[n.mode] : null;
+      const dateStr = new Date(n.updated_at || n.created_at).toLocaleDateString('en', { month:'short', day:'numeric' });
+      const preview = (n.content || '').replace(/```[\s\S]*?```/g, '[code]').replace(/[#*`_>\[\]!]/g, '').trim().slice(0, 100);
+      const wc      = (n.content || '').trim().split(/\s+/).filter(Boolean).length;
+      return `
+        <div class="note-item" onclick="openNoteEditor('${n.id}')">
+          <div class="note-item-header">
+            <span class="note-item-title">${escHtml(n.title || 'Untitled')}</span>
+            <span class="note-item-date">${dateStr}</span>
+          </div>
+          ${preview ? `<div class="note-item-preview">${escHtml(preview)}</div>` : ''}
+          <div class="note-item-footer">
+            ${m ? `<span class="session-badge" style="background:${m.color}20;color:${m.color}">${m.emoji} ${m.label}</span>` : ''}
+            <span class="note-item-wc">${wc} word${wc !== 1 ? 's' : ''}</span>
+          </div>
+        </div>`;
+    }).join('');
   }
+
+  function filterNotes(query) { renderNotesList(query); }
+
+  function openNoteEditor(id) {
+    currentNoteId = id;
+    const n = id ? notes.find(n => n.id === id) : null;
+
+    document.getElementById('note-title-input').value   = n?.title   || '';
+    document.getElementById('note-content-input').value = n?.content || '';
+
+    // Mode badge
+    const modeKey = n?.mode || focusMode;
+    const m       = FMODES[modeKey];
+    const badge   = document.getElementById('note-mode-badge');
+    badge.textContent       = `${m.emoji} ${m.label}`;
+    badge.style.background  = m.color + '20';
+    badge.style.color       = m.color;
+
+    // Delete only for existing notes
+    document.getElementById('note-del-btn').style.display = id ? '' : 'none';
+
+    // Reset preview
+    document.getElementById('note-preview-area').style.display   = 'none';
+    document.getElementById('note-content-input').style.display  = '';
+    document.getElementById('note-preview-toggle').classList.remove('active');
+    document.getElementById('note-preview-toggle').textContent   = '◧ Preview';
+
+    document.getElementById('notes-list-view').style.display   = 'none';
+    document.getElementById('notes-editor-view').style.display = '';
+    noteViewMode = 'editor';
+
+    setTimeout(() => {
+      const t = document.getElementById('note-title-input');
+      (t.value ? document.getElementById('note-content-input') : t).focus();
+    }, 40);
+  }
+
+  function closeNoteEditor() {
+    document.getElementById('notes-editor-view').style.display = 'none';
+    document.getElementById('notes-list-view').style.display   = '';
+    noteViewMode  = 'list';
+    currentNoteId = null;
+    renderNotesList();
+  }
+
+  function saveCurrentNote() {
+    const title   = document.getElementById('note-title-input').value.trim();
+    const content = document.getElementById('note-content-input').value.trim();
+    if (!title && !content) return;
+
+    const now = new Date().toISOString();
+    if (currentNoteId) {
+      const n = notes.find(n => n.id === currentNoteId);
+      if (n) { n.title = title; n.content = content; n.updated_at = now; }
+    } else {
+      const newNote = { id: Date.now().toString(), title, content,
+                        mode: focusMode, created_at: now, updated_at: now };
+      notes.unshift(newNote);
+      currentNoteId = newNote.id;
+      document.getElementById('note-del-btn').style.display = '';
+    }
+
+    saveNotesToStorage();
+
+    const ind = document.getElementById('note-save-indicator');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 1800);
+  }
+
+  function deleteCurrentNote() {
+    if (!currentNoteId || !confirm('Delete this note?')) return;
+    notes = notes.filter(n => n.id !== currentNoteId);
+    saveNotesToStorage();
+    closeNoteEditor();
+  }
+
+  function toggleNotePreview() {
+    const area    = document.getElementById('note-preview-area');
+    const ta      = document.getElementById('note-content-input');
+    const btn     = document.getElementById('note-preview-toggle');
+    const showing = area.style.display !== 'none';
+    if (showing) {
+      area.style.display = 'none';
+      ta.style.display   = '';
+      btn.classList.remove('active');
+      btn.textContent = '◧ Preview';
+    } else {
+      const md = ta.value;
+      area.innerHTML = typeof marked !== 'undefined' ? marked.parse(md) : `<pre>${escHtml(md)}</pre>`;
+      area.style.display = '';
+      ta.style.display   = 'none';
+      btn.classList.add('active');
+      btn.textContent = '✎ Edit';
+    }
+  }
+
+  // Auto-save open note when timer completes (non-disruptive — keeps editor open)
+  function autoSaveOpenNote() {
+    if (noteViewMode !== 'editor') return;
+    const title   = document.getElementById('note-title-input').value.trim();
+    const content = document.getElementById('note-content-input').value.trim();
+    if (!title && !content) return;
+
+    const now = new Date().toISOString();
+    if (currentNoteId) {
+      const n = notes.find(n => n.id === currentNoteId);
+      if (n) { n.title = title; n.content = content; n.updated_at = now; }
+    } else {
+      const newNote = { id: Date.now().toString(), title, content,
+                        mode: focusMode, created_at: now, updated_at: now };
+      notes.unshift(newNote);
+      currentNoteId = newNote.id;
+      document.getElementById('note-del-btn').style.display = '';
+    }
+    saveNotesToStorage();
+
+    const ind = document.getElementById('note-save-indicator');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 2000);
+  }
+
+  // Cmd/Ctrl+S to save while in editor
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 's' && noteViewMode === 'editor') {
+      e.preventDefault();
+      saveCurrentNote();
+    }
+  });
+
+  renderNotesList();
+
+  // ── Session history ───────────────────────────────────────────────────────
 
   async function saveFocusSession(mode, duration, note) {
     const session = { id: Date.now().toString(), mode, duration_completed: duration,
