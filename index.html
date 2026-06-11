@@ -1966,12 +1966,21 @@
   <div class="section-label">AI-Powered</div>
   <h2 class="section-title">Job Match Finder</h2>
 
-  <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.75rem; max-width:620px; line-height:1.7;">
-    Enter a location — AI searches LinkedIn, Indeed &amp; Glassdoor, then scores each job against my profile and tells you which ones fit best.
+  <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1.25rem; max-width:620px; line-height:1.7;">
+    AI searches LinkedIn, Indeed &amp; Glassdoor, then scores each result against my profile and tells you which ones to apply for.
   </p>
 
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+    <span style="font-size:0.72rem;color:var(--muted);">Try:</span>
+    <button onclick="quickSearch('Singapore')"     class="btn-ghost" style="font-size:0.72rem;padding:0.2rem 0.65rem;">Singapore</button>
+    <button onclick="quickSearch('Remote')"        class="btn-ghost" style="font-size:0.72rem;padding:0.2rem 0.65rem;">Remote</button>
+    <button onclick="quickSearch('Ho Chi Minh City')" class="btn-ghost" style="font-size:0.72rem;padding:0.2rem 0.65rem;">Ho Chi Minh City</button>
+    <button onclick="quickSearch('Japan')"         class="btn-ghost" style="font-size:0.72rem;padding:0.2rem 0.65rem;">Japan</button>
+    <button onclick="quickSearch('Germany')"       class="btn-ghost" style="font-size:0.72rem;padding:0.2rem 0.65rem;">Germany</button>
+  </div>
+
   <div class="job-search-bar">
-    <input class="job-input" type="text" id="job-location" placeholder="Location — e.g. Singapore, Vietnam, Remote" />
+    <input class="job-input" type="text" id="job-location" placeholder="Location — e.g. Singapore, Remote, Japan" />
     <input class="job-input" type="text" id="job-keywords" placeholder="Role — e.g. data engineer" value="data engineer" style="max-width:220px;" />
     <button class="btn btn-primary" id="job-search-btn" onclick="findJobs()" style="white-space:nowrap; padding:0.75rem 1.5rem;">
       Find Jobs
@@ -2403,6 +2412,11 @@
     }).join('');
 
     results.innerHTML = summary + `<div class="job-results">${cards}</div>`;
+  }
+
+  function quickSearch(location) {
+    document.getElementById('job-location').value = location;
+    findJobs();
   }
 
   document.getElementById('job-location').addEventListener('keydown', e => {

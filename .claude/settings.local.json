@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open *)",
+      "Bash(npm --version)",
+      "Bash(firebase --version)",
+      "Bash(git -C /Users/nguyen/Workspace/agent-build/careerpath status)",
+      "Bash(git -C /Users/nguyen/Workspace/agent-build/careerpath remote -v)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(git init *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(brew install *)",
+      "Bash(gh repo *)"
+    ]
+  }
+}
