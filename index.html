@@ -3120,6 +3120,13 @@
       if (err) err.style.display = 'block';
     };
 
+    // Detect OAuth errors in URL (e.g. bad_oauth_state) and clear them before doing anything
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error_code') === 'bad_oauth_state' || urlParams.get('error')) {
+      // Clear the error params from the URL so they don't persist on refresh
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
     // Try to init Supabase (non-blocking — fall back gracefully if unconfigured)
     try {
       const cfgRes = await fetch('/.netlify/functions/config');
@@ -3137,6 +3144,8 @@
           }
           if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
             currentUser = session.user;
+            // Clear any stale OAuth error from URL
+            window.history.replaceState({}, '', window.location.pathname);
             closeAuth();
 
             // Load user's data from DB (overrides localStorage)
@@ -3159,6 +3168,12 @@
         // Check for existing session
         const { data: { session } } = await supaClient.auth.getSession();
         if (session?.user) return; // onAuthStateChange will handle it
+
+        // OAuth error landed us here with no valid session — show login
+        if (urlParams.get('error_code') === 'bad_oauth_state') {
+          openAuth();
+          return;
+        }
 
         // No Supabase session — check localStorage fallback
         const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
