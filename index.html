@@ -3118,7 +3118,7 @@
     try {
       const cfgRes = await fetch('/.netlify/functions/config');
       const cfg = await cfgRes.json();
-      console.log('[CareerSite] Config:', { hasUrl: !!cfg.supabaseUrl, hasKey: !!cfg.supabaseKey });
+      console.log('[CareerSite] Config → url:', cfg.supabaseUrl ? cfg.supabaseUrl.slice(0,30)+'…' : 'MISSING', '| key:', cfg.supabaseKey ? 'SET('+cfg.supabaseKey.length+' chars)' : 'MISSING');
 
       if (cfg.supabaseUrl && cfg.supabaseKey) {
         supaClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
