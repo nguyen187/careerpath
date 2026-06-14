@@ -939,16 +939,19 @@
     <div class="auth-sub" id="auth-modal-sub">Sign in to save your career site and access it from any device — free, no credit card needed.</div>
 
     <div style="margin-top:1.5rem;">
-      <button class="auth-google-btn" id="auth-google-btn" onclick="signInWithGoogle()">
+      <button class="auth-google-btn" id="auth-google-btn" onclick="signInWithGoogle()" disabled>
         <svg class="auth-google-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
           <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
           <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.32-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
           <path fill="#FBBC05" d="M11.68 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.68-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.34-5.7z"/>
           <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.34 5.7c1.74-5.2 6.59-9.07 12.32-9.07z"/>
         </svg>
-        Continue with Google
+        <span id="auth-google-label">Continue with Google</span>
       </button>
       <p class="auth-loading-msg" id="auth-loading-msg">Redirecting to Google…</p>
+      <div id="auth-config-error" style="display:none;margin-top:.85rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:.75rem 1rem;font-size:.78rem;color:#f87171;line-height:1.55;">
+        <strong>Setup required:</strong> Add <code style="background:rgba(255,255,255,.08);padding:.1rem .3rem;border-radius:3px;">SUPABASE_URL</code> and <code style="background:rgba(255,255,255,.08);padding:.1rem .3rem;border-radius:3px;">SUPABASE_ANON_KEY</code> to your Netlify environment variables, then redeploy.
+      </div>
     </div>
 
     <p class="auth-note" style="margin-top:1.25rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Your CV is processed in your browser and never stored on our servers.</p>
@@ -1246,7 +1249,7 @@
   function closeAuth() { document.getElementById('auth-modal').classList.remove('open'); }
 
   async function signInWithGoogle() {
-    if (!supaClient) { alert('Auth not configured yet. Please try again in a moment.'); return; }
+    if (!supaClient) return;
     const btn = document.getElementById('auth-google-btn');
     const msg = document.getElementById('auth-loading-msg');
     if (btn) { btn.disabled = true; }
@@ -3096,6 +3099,21 @@
       document.getElementById('screen-landing').style.flexDirection = 'column';
     };
 
+    const enableAuthBtn = () => {
+      const btn = document.getElementById('auth-google-btn');
+      const lbl = document.getElementById('auth-google-label');
+      if (btn) { btn.disabled = false; }
+      if (lbl) lbl.textContent = 'Continue with Google';
+    };
+    const showAuthConfigError = () => {
+      const btn = document.getElementById('auth-google-btn');
+      const lbl = document.getElementById('auth-google-label');
+      const err = document.getElementById('auth-config-error');
+      if (btn) { btn.disabled = true; }
+      if (lbl) lbl.textContent = 'Not configured';
+      if (err) err.style.display = 'block';
+    };
+
     // Try to init Supabase (non-blocking — fall back gracefully if unconfigured)
     try {
       const cfgRes = await fetch('/.netlify/functions/config');
@@ -3103,6 +3121,7 @@
 
       if (cfg.supabaseUrl && cfg.supabaseKey) {
         supaClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+        enableAuthBtn();
 
         // Listen for auth state changes (handles OAuth redirect back)
         supaClient.auth.onAuthStateChange(async (event, session) => {
@@ -3133,9 +3152,13 @@
         // No Supabase session — check localStorage fallback
         const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
         if (stored?.personal) { renderSite(stored); return; }
+      } else {
+        showAuthConfigError();
+        console.warn('Supabase env vars not set. Add SUPABASE_URL and SUPABASE_ANON_KEY to Netlify environment variables.');
       }
     } catch (e) {
-      console.warn('Supabase not configured, running in local mode:', e.message);
+      showAuthConfigError();
+      console.warn('Supabase config fetch failed:', e.message);
       // Fallback: restore from localStorage
       const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
       if (stored?.personal) { renderSite(stored); return; }
