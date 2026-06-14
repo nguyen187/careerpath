@@ -1281,18 +1281,17 @@
 
   async function syncToCloud() {
     if (!supaClient || !currentUser) return;
-    try {
-      const { error } = await supaClient.from('profiles').upsert({
-        id: currentUser.id,
-        career_data:    JSON.parse(localStorage.getItem(APP_KEY) || 'null'),
-        tracker_apps:   JSON.parse(localStorage.getItem('tracker_apps_v1') || '[]'),
-        notes:          JSON.parse(localStorage.getItem('site_notes') || '[]'),
-        todos:          JSON.parse(localStorage.getItem('site_todos') || '[]'),
-        focus_sessions: JSON.parse(localStorage.getItem('site_focus_sessions') || '[]'),
-        updated_at:     new Date().toISOString()
-      }, { onConflict: 'id' });
-      updateSyncIndicator(error ? 'error' : 'saved');
-    } catch { updateSyncIndicator('error'); }
+    const { error } = await supaClient.from('profiles').upsert({
+      id:             currentUser.id,
+      career_data:    JSON.parse(localStorage.getItem(APP_KEY) || 'null'),
+      tracker_apps:   JSON.parse(localStorage.getItem('tracker_apps_v1') || '[]'),
+      notes:          JSON.parse(localStorage.getItem('site_notes') || '[]'),
+      todos:          JSON.parse(localStorage.getItem('site_todos') || '[]'),
+      focus_sessions: JSON.parse(localStorage.getItem('site_focus_sessions') || '[]'),
+      updated_at:     new Date().toISOString()
+    });
+    if (error) console.error('[Sync error]', error.message, error.details);
+    updateSyncIndicator(error ? 'error' : 'saved');
   }
 
   async function loadFromCloud(userId) {
@@ -3127,7 +3126,11 @@
 
         // Listen for auth state changes (handles OAuth redirect back)
         supaClient.auth.onAuthStateChange(async (event, session) => {
-          if (session?.user) {
+          if (event === 'TOKEN_REFRESHED' && session?.user) {
+            currentUser = session.user; // keep reference fresh, no re-render
+            return;
+          }
+          if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
             currentUser = session.user;
             closeAuth();
 
