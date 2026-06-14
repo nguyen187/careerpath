@@ -516,6 +516,27 @@
     .share-btn:hover { background:rgba(0,212,255,.22); }
     .share-btn.copied { background:rgba(16,185,129,.15); border-color:var(--accent3); color:var(--accent3); }
 
+    /* ── Auth — Google button ── */
+    .auth-divider { display:flex; align-items:center; gap:.75rem; margin:1.25rem 0; color:var(--muted); font-size:.78rem; }
+    .auth-divider::before,.auth-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .auth-google-btn { display:flex; align-items:center; justify-content:center; gap:.75rem; width:100%; padding:.75rem 1.25rem; border-radius:10px; background:#fff; color:#1f1f1f; border:1.5px solid #dadce0; font-family:inherit; font-size:.9rem; font-weight:600; cursor:pointer; transition:box-shadow .15s,background .15s; }
+    .auth-google-btn:hover { box-shadow:0 2px 8px rgba(0,0,0,.18); }
+    .auth-google-btn:disabled { opacity:.6; pointer-events:none; }
+    .auth-google-logo { width:20px; height:20px; flex-shrink:0; }
+    .auth-loading-msg { text-align:center; color:var(--muted); font-size:.82rem; margin-top:1rem; display:none; }
+
+    /* ── Nav user info ── */
+    .nav-user { display:flex; align-items:center; gap:.55rem; }
+    .nav-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; border:2px solid var(--border); }
+    .nav-avatar-fallback { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:800; color:#000; flex-shrink:0; }
+    .nav-username { font-size:.8rem; font-weight:600; color:var(--text); max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .nav-signout { background:none; border:1px solid var(--border); color:var(--muted); border-radius:6px; padding:.25rem .6rem; font-size:.72rem; cursor:pointer; font-family:inherit; transition:all .18s; }
+    .nav-signout:hover { border-color:var(--accent); color:var(--text); }
+    .sync-indicator { font-size:.68rem; font-weight:600; padding:.15rem .5rem; border-radius:100px; transition:all .3s; }
+    .sync-indicator.sync-saved { background:rgba(16,185,129,.12); color:#34d399; }
+    .sync-indicator.sync-saving { background:rgba(245,158,11,.12); color:var(--highlight); }
+    .sync-indicator.sync-error { background:rgba(239,68,68,.12); color:#f87171; }
+
     /* ── Application Tracker ── */
     .tracker-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.25rem; flex-wrap:wrap; gap:.75rem; }
     .tracker-sub { color:var(--muted); font-size:.85rem; margin-top:.25rem; }
@@ -764,6 +785,7 @@
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
@@ -913,42 +935,23 @@
   <div class="auth-card">
     <button class="auth-close" onclick="closeAuth()" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="auth-logo"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:var(--accent);vertical-align:middle" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> CareerSite.ai</div>
+    <div class="auth-title" id="auth-modal-title">Build your career site</div>
+    <div class="auth-sub" id="auth-modal-sub">Sign in to save your career site and access it from any device — free, no credit card needed.</div>
 
-    <!-- Sign Up panel -->
-    <div id="auth-panel-signup">
-      <div class="auth-title">Create your account</div>
-      <div class="auth-sub">Start building your personalized career website in minutes — free, no credit card needed.</div>
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('signup')">Sign Up</button>
-        <button class="auth-tab" onclick="switchAuthTab('login')">Log In</button>
-      </div>
-      <div class="auth-field">
-        <label>Full name</label>
-        <input class="auth-input" id="auth-name" type="text" placeholder="Your full name" autocomplete="name">
-      </div>
-      <div class="auth-field">
-        <label>Email address</label>
-        <input class="auth-input" id="auth-email" type="email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <button class="auth-btn" onclick="doSignup()">Continue → Build My Site</button>
-      <p class="auth-note">🔒 Your CV is processed in your browser and never stored on our servers.</p>
+    <div style="margin-top:1.5rem;">
+      <button class="auth-google-btn" id="auth-google-btn" onclick="signInWithGoogle()">
+        <svg class="auth-google-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.32-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+          <path fill="#FBBC05" d="M11.68 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.68-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.34-5.7z"/>
+          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.34 5.7c1.74-5.2 6.59-9.07 12.32-9.07z"/>
+        </svg>
+        Continue with Google
+      </button>
+      <p class="auth-loading-msg" id="auth-loading-msg">Redirecting to Google…</p>
     </div>
 
-    <!-- Log In panel -->
-    <div id="auth-panel-login" style="display:none">
-      <div class="auth-title">Welcome back</div>
-      <div class="auth-sub">Log in to continue building your career site.</div>
-      <div class="auth-tabs">
-        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
-        <button class="auth-tab active" onclick="switchAuthTab('login')">Log In</button>
-      </div>
-      <div class="auth-field">
-        <label>Email address</label>
-        <input class="auth-input" id="login-email" type="email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <button class="auth-btn" onclick="doLogin()">Log In → Continue</button>
-      <p class="auth-note">We use your email only to identify your saved career site locally.</p>
-    </div>
+    <p class="auth-note" style="margin-top:1.25rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Your CV is processed in your browser and never stored on our servers.</p>
   </div>
 </div><!-- /auth-modal -->
 
@@ -1172,6 +1175,9 @@
   let appCvText = '';
   let appSiteData = null;
   const APP_KEY = 'career_site_v1';
+  let supaClient = null;
+  let currentUser = null;
+  let _syncTimer = null;
 
   // ── Inline SVG icon library ───────────────────────────────────────────────
   const ICO = {
@@ -1228,46 +1234,83 @@
     document.getElementById('screen-landing').style.flexDirection = 'column';
   }
 
-  // ── Auth ────────────────────────────────────────────────────────────────────
-  function openAuth(tab) {
-    document.getElementById('auth-modal').classList.add('open');
-    switchAuthTab(tab || 'signup');
+  // ── Supabase auth ───────────────────────────────────────────────────────────
+  function openAuth() {
+    const modal = document.getElementById('auth-modal');
+    modal.classList.add('open');
+    const btn = document.getElementById('auth-google-btn');
+    const msg = document.getElementById('auth-loading-msg');
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+    if (msg) msg.style.display = 'none';
   }
   function closeAuth() { document.getElementById('auth-modal').classList.remove('open'); }
 
-  function switchAuthTab(tab) {
-    document.getElementById('auth-panel-signup').style.display = tab === 'signup' ? 'block' : 'none';
-    document.getElementById('auth-panel-login').style.display  = tab === 'login'  ? 'block' : 'none';
+  async function signInWithGoogle() {
+    if (!supaClient) { alert('Auth not configured yet. Please try again in a moment.'); return; }
+    const btn = document.getElementById('auth-google-btn');
+    const msg = document.getElementById('auth-loading-msg');
+    if (btn) { btn.disabled = true; }
+    if (msg) msg.style.display = 'block';
+    await supaClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
   }
 
-  function doSignup() {
-    const name  = document.getElementById('auth-name').value.trim();
-    const email = document.getElementById('auth-email').value.trim();
-    if (!name)  { document.getElementById('auth-name').focus(); shake('auth-name'); return; }
-    if (!email || !email.includes('@')) { document.getElementById('auth-email').focus(); shake('auth-email'); return; }
-    const user = { name, email, createdAt: new Date().toISOString().slice(0,10) };
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-    closeAuth();
-    startOnboarding(user);
+  async function signOut() {
+    if (supaClient) await supaClient.auth.signOut();
+    currentUser = null;
+    localStorage.removeItem(APP_KEY);
+    localStorage.removeItem('tracker_apps_v1');
+    localStorage.removeItem('site_notes');
+    localStorage.removeItem('site_todos');
+    localStorage.removeItem('site_focus_sessions');
+    window.location.reload();
   }
 
-  function doLogin() {
-    const email = document.getElementById('login-email').value.trim();
-    if (!email || !email.includes('@')) { document.getElementById('login-email').focus(); shake('login-email'); return; }
-    let user = null;
-    try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch {}
-    if (user?.email === email) {
-      closeAuth();
-      const saved = localStorage.getItem(APP_KEY);
-      if (saved) { try { renderSite(JSON.parse(saved)); return; } catch {} }
-      startOnboarding(user);
-    } else {
-      // new email → treat as signup
-      user = { name: email.split('@')[0], email, createdAt: new Date().toISOString().slice(0,10) };
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
-      closeAuth();
-      startOnboarding(user);
-    }
+  // ── Cloud sync ───────────────────────────────────────────────────────────────
+  function scheduleSyncToCloud() {
+    if (!supaClient || !currentUser) return;
+    clearTimeout(_syncTimer);
+    updateSyncIndicator('saving');
+    _syncTimer = setTimeout(syncToCloud, 2500);
+  }
+
+  async function syncToCloud() {
+    if (!supaClient || !currentUser) return;
+    try {
+      const { error } = await supaClient.from('profiles').upsert({
+        id: currentUser.id,
+        career_data:    JSON.parse(localStorage.getItem(APP_KEY) || 'null'),
+        tracker_apps:   JSON.parse(localStorage.getItem('tracker_apps_v1') || '[]'),
+        notes:          JSON.parse(localStorage.getItem('site_notes') || '[]'),
+        todos:          JSON.parse(localStorage.getItem('site_todos') || '[]'),
+        focus_sessions: JSON.parse(localStorage.getItem('site_focus_sessions') || '[]'),
+        updated_at:     new Date().toISOString()
+      }, { onConflict: 'id' });
+      updateSyncIndicator(error ? 'error' : 'saved');
+    } catch { updateSyncIndicator('error'); }
+  }
+
+  async function loadFromCloud(userId) {
+    if (!supaClient) return null;
+    const { data, error } = await supaClient.from('profiles').select('*').eq('id', userId).single();
+    if (error || !data) return null;
+    if (data.career_data)    localStorage.setItem(APP_KEY, JSON.stringify(data.career_data));
+    if (data.tracker_apps)   localStorage.setItem('tracker_apps_v1', JSON.stringify(data.tracker_apps));
+    if (data.notes)          localStorage.setItem('site_notes', JSON.stringify(data.notes));
+    if (data.todos)          localStorage.setItem('site_todos', JSON.stringify(data.todos));
+    if (data.focus_sessions) localStorage.setItem('site_focus_sessions', JSON.stringify(data.focus_sessions));
+    return data;
+  }
+
+  function updateSyncIndicator(state) {
+    const el = document.getElementById('sync-indicator');
+    if (!el) return;
+    el.className = 'sync-indicator';
+    if (state === 'saved')  { el.classList.add('sync-saved');  el.textContent = 'Synced'; }
+    if (state === 'saving') { el.classList.add('sync-saving'); el.textContent = 'Saving…'; }
+    if (state === 'error')  { el.classList.add('sync-error');  el.textContent = 'Sync error'; }
   }
 
   function shake(id) {
@@ -1425,6 +1468,7 @@
       data.__location    = obData.location;
       appSiteData = data;
       localStorage.setItem(APP_KEY, JSON.stringify(data));
+      scheduleSyncToCloud();
 
       procStep(4, 'done');
       await new Promise(r => setTimeout(r, 500));
@@ -1540,7 +1584,15 @@
         <div style="display:flex;gap:.5rem;align-items:center;">
           <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme">${isLight ? ICO.moon : ICO.sun}</button>
           <button class="share-btn" onclick="openShareModal()">${ICO.link} Share</button>
-          <button class="nav-rebuild" onclick="rebuildSite()">${ICO.refresh} Rebuild</button>
+          ${currentUser ? `
+          <div class="nav-user">
+            <span id="sync-indicator" class="sync-indicator sync-saved">Synced</span>
+            ${currentUser.user_metadata?.avatar_url
+              ? `<img class="nav-avatar" src="${esc(currentUser.user_metadata.avatar_url)}" alt="" referrerpolicy="no-referrer">`
+              : `<div class="nav-avatar-fallback">${esc((currentUser.user_metadata?.name || currentUser.email || 'U').charAt(0).toUpperCase())}</div>`}
+            <span class="nav-username">${esc((currentUser.user_metadata?.name || currentUser.email || '').split(' ')[0])}</span>
+            <button class="nav-signout" onclick="signOut()">Sign out</button>
+          </div>` : `<button class="nav-rebuild" onclick="rebuildSite()">${ICO.refresh} Rebuild</button>`}
         </div>
       </nav>`;
   }
@@ -2626,7 +2678,7 @@
   let todos = JSON.parse(localStorage.getItem('site_todos') || '[]');
   let activeTodoId = null;
 
-  function saveTodos() { localStorage.setItem('site_todos', JSON.stringify(todos)); }
+  function saveTodos() { localStorage.setItem('site_todos', JSON.stringify(todos)); scheduleSyncToCloud(); }
 
   function addTodo() {
     const input=document.getElementById('todo-input'), text=input.value.trim(); if (!text) return;
@@ -2686,7 +2738,7 @@
   let currentNoteId = null;
   let noteViewMode  = 'list';
 
-  function saveNotesToStorage() { localStorage.setItem('site_notes', JSON.stringify(notes)); }
+  function saveNotesToStorage() { localStorage.setItem('site_notes', JSON.stringify(notes)); scheduleSyncToCloud(); }
 
   function renderNotesList(filter) {
     const query=( filter||document.getElementById('notes-search')?.value||'').toLowerCase().trim();
@@ -2782,6 +2834,7 @@
     const stored=JSON.parse(localStorage.getItem('site_focus_sessions')||'[]');
     stored.unshift(session);
     localStorage.setItem('site_focus_sessions',JSON.stringify(stored.slice(0,100)));
+    scheduleSyncToCloud();
     renderFocusHistory(); updateFocusStats();
   }
 
@@ -2864,7 +2917,7 @@
   function getTrackerApps() {
     try { return JSON.parse(localStorage.getItem('tracker_apps_v1') || '[]'); } catch { return []; }
   }
-  function saveTrackerApps(apps) { localStorage.setItem('tracker_apps_v1', JSON.stringify(apps)); }
+  function saveTrackerApps(apps) { localStorage.setItem('tracker_apps_v1', JSON.stringify(apps)); scheduleSyncToCloud(); }
   function genTrackerID() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
   function renderTrackerBoard() {
@@ -3028,25 +3081,67 @@
     }
   };
 
-  // ── Boot: restore theme icons + auto-restore saved site ──────────────────
-  (() => {
-    // Sync all theme toggle buttons to current theme state
+  // ── Boot ─────────────────────────────────────────────────────────────────
+  (async () => {
+    // Sync theme icons
     const isLight = document.body.classList.contains('light');
     const themeSvg = isLight ? ICO.moon : ICO.sun;
     document.querySelectorAll('.theme-toggle, #theme-toggle-btn, #land-theme-btn').forEach(b => {
       if (b) b.innerHTML = themeSvg;
     });
 
-    // Auto-restore saved career site
-    const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
-    if (stored?.personal) {
-      renderSite(stored);
-      return;
+    // Show landing immediately while Supabase loads
+    const showLanding = () => {
+      document.getElementById('screen-landing').style.display = 'flex';
+      document.getElementById('screen-landing').style.flexDirection = 'column';
+    };
+
+    // Try to init Supabase (non-blocking — fall back gracefully if unconfigured)
+    try {
+      const cfgRes = await fetch('/.netlify/functions/config');
+      const cfg = await cfgRes.json();
+
+      if (cfg.supabaseUrl && cfg.supabaseKey) {
+        supaClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+
+        // Listen for auth state changes (handles OAuth redirect back)
+        supaClient.auth.onAuthStateChange(async (event, session) => {
+          if (session?.user) {
+            currentUser = session.user;
+            closeAuth();
+
+            // Load user's data from DB (overrides localStorage)
+            const profile = await loadFromCloud(currentUser.id);
+            const careerData = profile?.career_data || JSON.parse(localStorage.getItem(APP_KEY) || 'null');
+
+            if (careerData?.personal) {
+              renderSite(careerData);
+            } else {
+              // New user — go to onboarding
+              const meta = currentUser.user_metadata || {};
+              startOnboarding({ name: meta.full_name || meta.name || '', email: currentUser.email });
+            }
+          } else if (event === 'SIGNED_OUT') {
+            showLanding();
+          }
+        });
+
+        // Check for existing session
+        const { data: { session } } = await supaClient.auth.getSession();
+        if (session?.user) return; // onAuthStateChange will handle it
+
+        // No Supabase session — check localStorage fallback
+        const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
+        if (stored?.personal) { renderSite(stored); return; }
+      }
+    } catch (e) {
+      console.warn('Supabase not configured, running in local mode:', e.message);
+      // Fallback: restore from localStorage
+      const stored = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
+      if (stored?.personal) { renderSite(stored); return; }
     }
 
-    // Show landing page (default)
-    document.getElementById('screen-landing').style.display = 'flex';
-    document.getElementById('screen-landing').style.flexDirection = 'column';
+    showLanding();
   })();
 </script>
 </body>
