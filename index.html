@@ -1301,13 +1301,6 @@
   async function loadFromCloud(userId) {
     if (!supaClient) return null;
     const { data, error } = await supaClient.from('profiles').select('*').eq('id', userId).single();
-    if (error?.code === 'PGRST301' || error?.status === 401 || error?.status === 403) {
-      // Invalid/expired session — clear it and force re-login
-      await supaClient.auth.signOut();
-      currentUser = null;
-      window.location.reload();
-      return null;
-    }
     if (error || !data) return null;
     if (data.career_data)    localStorage.setItem(APP_KEY, JSON.stringify(data.career_data));
     if (data.tracker_apps)   localStorage.setItem('tracker_apps_v1', JSON.stringify(data.tracker_apps));
@@ -2904,12 +2897,12 @@
     if (!confirm('Start over and build a new career site? This will clear your current portfolio.')) return;
     localStorage.removeItem(APP_KEY);
     appCvFile = null; appCvText = ''; appSiteData = null;
-    // Also clear career_data from cloud so it doesn't reload on next login
     if (supaClient && currentUser) {
       await supaClient.from('profiles').update({ career_data: null }).eq('id', currentUser.id);
     }
     window.scrollTo(0, 0);
-    window.location.reload();
+    const meta = currentUser?.user_metadata || {};
+    startOnboarding({ name: meta.full_name || meta.name || '', email: currentUser?.email || '' });
   }
 
   // ── Share ─────────────────────────────────────────────────────────────────
