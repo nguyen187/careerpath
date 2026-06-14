@@ -1,6 +1,6 @@
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard → SQL Editor
 
-create table public.profiles (
+create table if not exists public.profiles (
   id            uuid references auth.users on delete cascade primary key,
   career_data   jsonb,
   tracker_apps  jsonb default '[]'::jsonb,
@@ -14,7 +14,11 @@ create table public.profiles (
 -- Row Level Security: each user can only read/write their own row
 alter table public.profiles enable row level security;
 
+drop policy if exists "Users manage own profile" on public.profiles;
 create policy "Users manage own profile"
   on public.profiles for all
   using (auth.uid() = id)
   with check (auth.uid() = id);
+
+-- Grant table-level access to authenticated users (required even with RLS)
+grant all on public.profiles to authenticated;
