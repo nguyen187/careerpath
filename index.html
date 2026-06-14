@@ -1289,9 +1289,13 @@
       todos:          JSON.parse(localStorage.getItem('site_todos') || '[]'),
       focus_sessions: JSON.parse(localStorage.getItem('site_focus_sessions') || '[]'),
       updated_at:     new Date().toISOString()
-    });
-    if (error) console.error('[Sync error]', error.message, error.details);
-    updateSyncIndicator(error ? 'error' : 'saved');
+    }, { onConflict: 'id' });
+    if (error) {
+      console.error('[Sync error]', error.code, error.message, error.details);
+      updateSyncIndicator('error', error.code + ': ' + error.message);
+    } else {
+      updateSyncIndicator('saved');
+    }
   }
 
   async function loadFromCloud(userId) {
@@ -1306,13 +1310,14 @@
     return data;
   }
 
-  function updateSyncIndicator(state) {
+  function updateSyncIndicator(state, detail) {
     const el = document.getElementById('sync-indicator');
     if (!el) return;
     el.className = 'sync-indicator';
+    el.removeAttribute('title');
     if (state === 'saved')  { el.classList.add('sync-saved');  el.textContent = 'Synced'; }
     if (state === 'saving') { el.classList.add('sync-saving'); el.textContent = 'Saving…'; }
-    if (state === 'error')  { el.classList.add('sync-error');  el.textContent = 'Sync error'; }
+    if (state === 'error')  { el.classList.add('sync-error');  el.textContent = 'Sync error'; if (detail) el.title = detail; }
   }
 
   function shake(id) {
