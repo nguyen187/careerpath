@@ -32,7 +32,7 @@
     /* ══════════════════════════════════════
        LANDING PAGE
     ══════════════════════════════════════ */
-    #screen-landing { position:relative; z-index:1; min-height:100vh; display:none; flex-direction:column; }
+    #screen-landing { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; }
 
     .land-nav {
       position:fixed; top:0; width:100%; z-index:100;
@@ -508,78 +508,6 @@
     .focus-rtab-panel.active { display:block !important; }
     .site-section { display:none !important; }
     .site-section.active { display:block !important; }
-    body.tab-active #site-container > section:not(.site-section),
-    body.tab-active #site-container > footer { display:none !important; }
-
-    /* ── Share button ── */
-    .share-btn { background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.3); color:var(--accent); border-radius:8px; padding:.38rem .85rem; font-size:.8rem; font-weight:700; cursor:pointer; transition:all .2s; }
-    .share-btn:hover { background:rgba(0,212,255,.22); }
-    .share-btn.copied { background:rgba(16,185,129,.15); border-color:var(--accent3); color:var(--accent3); }
-
-    /* ── Application Tracker ── */
-    .tracker-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.25rem; flex-wrap:wrap; gap:.75rem; }
-    .tracker-sub { color:var(--muted); font-size:.85rem; margin-top:.25rem; }
-    .tracker-add-btn { background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.3); color:var(--accent); border-radius:8px; padding:.45rem 1rem; font-size:.82rem; font-weight:700; cursor:pointer; transition:all .18s; }
-    .tracker-add-btn:hover { background:rgba(0,212,255,.22); }
-    .tracker-ai-btn { background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(0,212,255,.1)); border:1px solid rgba(124,58,237,.35); color:#a78bfa; border-radius:8px; padding:.45rem 1rem; font-size:.82rem; font-weight:700; cursor:pointer; transition:all .18s; }
-    .tracker-ai-btn:hover { background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(0,212,255,.18)); }
-    .tracker-ai-btn.loading { opacity:.6; pointer-events:none; }
-    .tracker-stats { display:flex; gap:.75rem; margin-bottom:1.25rem; flex-wrap:wrap; }
-    .tracker-stat { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.6rem 1rem; flex:1; min-width:90px; text-align:center; }
-    .tracker-stat-num { font-size:1.4rem; font-weight:800; }
-    .tracker-stat-label { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-top:.1rem; }
-    .tracker-stat.s-applied .tracker-stat-num { color:var(--accent); }
-    .tracker-stat.s-interview .tracker-stat-num { color:var(--accent2); }
-    .tracker-stat.s-offer .tracker-stat-num { color:var(--accent3); }
-    .tracker-stat.s-rejected .tracker-stat-num { color:#f87171; }
-    .tracker-board { display:grid; grid-template-columns:repeat(5,1fr); gap:.85rem; align-items:start; }
-    @media(max-width:900px) { .tracker-board { grid-template-columns:repeat(2,1fr); } }
-    @media(max-width:520px) { .tracker-board { grid-template-columns:1fr; } }
-    .tracker-col { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:.75rem; }
-    .tracker-col-title { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; margin-bottom:.75rem; display:flex; align-items:center; gap:.4rem; }
-    .tracker-col-title .col-count { background:var(--border); border-radius:100px; padding:.1rem .45rem; font-size:.68rem; color:var(--muted); }
-    .tracker-card { background:var(--bg); border:1px solid var(--border); border-radius:9px; padding:.75rem; margin-bottom:.55rem; cursor:pointer; transition:all .18s; position:relative; }
-    .tracker-card:hover { border-color:var(--accent); transform:translateY(-1px); }
-    .tracker-card.highlighted { border-color:var(--highlight); background:rgba(245,158,11,.04); }
-    .tracker-card.highlighted::before { content:'★'; position:absolute; top:.45rem; right:.55rem; color:var(--highlight); font-size:.8rem; }
-    .tracker-card-title { font-size:.82rem; font-weight:700; margin-bottom:.2rem; padding-right:1rem; }
-    .tracker-card-company { font-size:.75rem; color:var(--muted); }
-    .tracker-card-date { font-size:.68rem; color:var(--muted); margin-top:.35rem; opacity:.7; }
-    .tracker-card-note { font-size:.72rem; color:var(--highlight); background:rgba(245,158,11,.08); border-left:2px solid var(--highlight); padding:.25rem .45rem; margin-top:.4rem; border-radius:0 4px 4px 0; line-height:1.4; }
-    .tracker-card-reject { font-size:.72rem; color:#f87171; background:rgba(239,68,68,.07); border-left:2px solid #f87171; padding:.25rem .45rem; margin-top:.4rem; border-radius:0 4px 4px 0; line-height:1.4; }
-    .tracker-empty { text-align:center; color:var(--muted); font-size:.78rem; padding:1rem .5rem; border:1px dashed var(--border); border-radius:8px; }
-    .tracker-insights { background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(0,212,255,.04)); border:1px solid rgba(124,58,237,.25); border-radius:14px; padding:1.25rem; margin-bottom:1.25rem; }
-    .tracker-insights-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
-    .tracker-insights-title { font-size:.95rem; font-weight:800; color:#a78bfa; }
-    .tracker-score-badge { font-size:1.8rem; font-weight:900; }
-    .tracker-score-badge.high { color:var(--accent3); }
-    .tracker-score-badge.mid { color:var(--highlight); }
-    .tracker-score-badge.low { color:#f87171; }
-    .tracker-insight-cards { display:grid; gap:.65rem; }
-    .tracker-insight-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.85rem 1rem; }
-    .tracker-insight-card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:.35rem; }
-    .tracker-insight-card-title { font-size:.82rem; font-weight:700; }
-    .tracker-insight-impact { font-size:.68rem; font-weight:700; padding:.15rem .5rem; border-radius:100px; }
-    .tracker-insight-impact.High { background:rgba(16,185,129,.15); color:#34d399; }
-    .tracker-insight-impact.Medium { background:rgba(245,158,11,.15); color:var(--highlight); }
-    .tracker-insight-impact.Low { background:rgba(124,58,237,.15); color:#a78bfa; }
-    .tracker-insight-problem { font-size:.77rem; color:var(--muted); margin-bottom:.35rem; }
-    .tracker-insight-action { font-size:.78rem; color:var(--text); background:rgba(0,212,255,.06); border-left:2px solid var(--accent); padding:.3rem .6rem; border-radius:0 6px 6px 0; }
-    .tracker-summary { font-size:.8rem; color:var(--muted); margin-top:.85rem; font-style:italic; border-top:1px solid var(--border); padding-top:.75rem; }
-    .tracker-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:3000; display:flex; align-items:center; justify-content:center; padding:1rem; backdrop-filter:blur(4px); }
-    .tracker-modal { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:1.5rem; width:100%; max-width:480px; max-height:90vh; overflow-y:auto; position:relative; }
-    .tracker-modal h3 { font-size:1rem; font-weight:800; margin-bottom:1.1rem; }
-    .tracker-modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; color:var(--muted); font-size:1.2rem; cursor:pointer; }
-    .tracker-field { margin-bottom:.85rem; }
-    .tracker-field label { display:block; font-size:.77rem; font-weight:600; color:var(--muted); margin-bottom:.35rem; text-transform:uppercase; letter-spacing:.05em; }
-    .tracker-field input,.tracker-field select,.tracker-field textarea { width:100%; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:.55rem .75rem; font-family:inherit; font-size:.85rem; transition:border-color .18s; box-sizing:border-box; }
-    .tracker-field input:focus,.tracker-field select:focus,.tracker-field textarea:focus { outline:none; border-color:var(--accent); }
-    .tracker-field textarea { min-height:72px; resize:vertical; }
-    .tracker-highlight-toggle { display:flex; align-items:center; gap:.6rem; font-size:.82rem; cursor:pointer; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
-    .tracker-highlight-toggle input { width:auto; accent-color:var(--highlight); cursor:pointer; }
-    .tracker-modal-actions { display:flex; gap:.6rem; margin-top:1.1rem; }
-    .tracker-modal-save { flex:1; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#000; border:none; border-radius:8px; padding:.6rem 1rem; font-weight:700; font-size:.85rem; cursor:pointer; }
-    .tracker-modal-delete { background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25); color:#f87171; border-radius:8px; padding:.6rem .85rem; font-weight:700; font-size:.82rem; cursor:pointer; }
 
     /* ── Job Plan tab ── */
     .jp-hero { background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(124,58,237,.07)); border:1px solid rgba(245,158,11,.2); border-radius:14px; padding:1.5rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1.25rem; }
@@ -775,11 +703,11 @@
 
   <!-- Nav -->
   <header class="land-nav">
-    <span class="land-logo"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:var(--accent)" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> CareerSite.ai</span>
+    <span class="land-logo"><span class="land-logo-flash">⚡</span> CareerSite.ai</span>
     <div class="land-nav-btns">
-      <button class="theme-toggle" id="land-theme-btn" onclick="toggleTheme()" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+      <button class="theme-toggle" id="land-theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
       <button class="btn-login" onclick="openAuth('login')">Log In</button>
-      <button class="btn-cta-sm" onclick="openAuth('signup')">Get Started <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" style="vertical-align:middle"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <button class="btn-cta-sm" onclick="openAuth('signup')">Get Started →</button>
     </div>
   </header>
 
@@ -793,13 +721,13 @@
     </h1>
     <p class="land-sub">Upload your CV, set your goals, and get a fully personalized career website — with roadmap, skill gaps, job matches, and a focus studio — in under 2 minutes.</p>
     <div class="land-cta-row">
-      <button class="btn-hero-primary" onclick="openAuth('signup')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Build My Career Site</button>
-      <button class="btn-hero-secondary" onclick="scrollToFeatures()">See how it works <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" style="vertical-align:middle"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <button class="btn-hero-primary" onclick="openAuth('signup')">⚡ Build My Career Site</button>
+      <button class="btn-hero-secondary" onclick="scrollToFeatures()">See how it works ↓</button>
     </div>
     <div class="land-trust">
-      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> CV never stored</span>
-      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Free to use</span>
-      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Ready in 2 minutes</span>
+      <span>🔒 CV never stored</span>
+      <span>✨ Free to use</span>
+      <span>⚡ Ready in 2 minutes</span>
     </div>
 
     <!-- Browser mockup -->
@@ -841,22 +769,22 @@
     <p class="land-section-sub">One upload generates a complete career platform personalized around your goals and background.</p>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></div>
+        <div class="feature-icon">🤖</div>
         <div class="feature-title">AI Profile Builder</div>
         <div class="feature-desc">Instantly convert your CV into a polished professional website with a rich timeline, skill radars, and award highlights.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></div>
+        <div class="feature-icon">🗺️</div>
         <div class="feature-title">Personalized Roadmap</div>
         <div class="feature-desc">3-phase career plan tailored to your target role. Real skill gaps, concrete milestones, and certifications to pursue.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <div class="feature-icon">💼</div>
         <div class="feature-title">Smart Job Matching</div>
         <div class="feature-desc">AI scores open roles against your profile — tells you which to apply now, consider later, or skip entirely.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feature-icon">⏱️</div>
         <div class="feature-title">Focus Studio</div>
         <div class="feature-desc">Pomodoro timer, ambient noise, smart task list, and session history — everything to stay deep-focused on your goals.</div>
       </div>
@@ -892,14 +820,14 @@
     <div class="land-cta-card">
       <h2 class="land-cta-title">Ready to own <span class="grad">your career?</span></h2>
       <p class="land-cta-sub">Join thousands of professionals who built their personal career website in under 2 minutes.</p>
-      <button class="btn-hero-primary" style="margin:0 auto;" onclick="openAuth('signup')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Build My Career Site — Free</button>
+      <button class="btn-hero-primary" style="margin:0 auto;" onclick="openAuth('signup')">⚡ Build My Career Site — Free</button>
     </div>
   </section>
 
   <footer class="land-footer">
-    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:var(--accent);vertical-align:middle" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> CareerSite.ai</span>
+    <span>⚡ CareerSite.ai</span>
     <span>Your CV stays in your browser. Always.</span>
-    <button class="theme-toggle" onclick="toggleTheme()" id="land-theme-footer-btn" style="font-size:.85rem;border:none;background:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+    <button class="theme-toggle" onclick="toggleTheme()" style="font-size:.85rem;border:none;background:none;cursor:pointer;color:var(--muted);" title="Toggle theme">☀️ / 🌙</button>
   </footer>
 
 </div><!-- /screen-landing -->
@@ -911,8 +839,8 @@
 <div id="auth-modal">
   <div class="auth-backdrop" onclick="closeAuth()"></div>
   <div class="auth-card">
-    <button class="auth-close" onclick="closeAuth()" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="auth-logo"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:var(--accent);vertical-align:middle" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> CareerSite.ai</div>
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo">⚡ CareerSite.ai</div>
 
     <!-- Sign Up panel -->
     <div id="auth-panel-signup">
@@ -960,13 +888,13 @@
 
   <!-- Top nav with progress -->
   <header class="ob-nav">
-    <span class="ob-nav-logo"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:var(--accent);vertical-align:middle" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> CareerSite.ai</span>
+    <span class="ob-nav-logo">⚡ CareerSite.ai</span>
     <div class="ob-progress-wrap">
       <div class="ob-progress-track"><div class="ob-progress-fill" id="ob-progress-fill"></div></div>
       <div class="ob-step-label" id="ob-step-label">Step 1 of 4</div>
     </div>
     <div style="display:flex;gap:.5rem;align-items:center;">
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀️</button>
       <button style="background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;" onclick="goToLanding()">← Back</button>
     </div>
   </header>
@@ -1136,7 +1064,7 @@
 
       <div class="ob-nav-btns">
         <button class="ob-btn-back" onclick="obBack(4)">← Back</button>
-        <button class="ob-btn-next" id="build-btn" onclick="startBuild()"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Build My Career Site</button>
+        <button class="ob-btn-next" id="build-btn" onclick="startBuild()"><span>⚡</span> Build My Career Site</button>
       </div>
       <p class="upload-note">Your CV is analyzed only to generate your site — never stored on any server.</p>
     </div>
@@ -1172,37 +1100,6 @@
   let appCvText = '';
   let appSiteData = null;
   const APP_KEY = 'career_site_v1';
-
-  // ── Inline SVG icon library ───────────────────────────────────────────────
-  const ICO = {
-    sun:         `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
-    moon:        `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
-    zap:         `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-    link:        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
-    refresh:     `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>`,
-    search:      `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
-    brain:       `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>`,
-    map:         `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>`,
-    sparkles:    `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.88 5.76L20 9l-5 4.25L16.18 20 12 16.77 7.82 20 9 13.25 4 9l6.12-.24L12 3z"/></svg>`,
-    loader:      `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="animation:spin .8s linear infinite" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`,
-    x:           `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-    plus:        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-    check:       `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
-    star:        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-    arrowRight:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
-    chevronDown: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`,
-    shield:      `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    clock:       `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    target:      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
-    coffee:      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
-    leaf:        `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`,
-    trophy:      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`,
-    robot:       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>`,
-    globe:       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-    briefcase:   `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
-    clipboard:   `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>`,
-    barChart:    `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-  };
   const USER_KEY = 'csa_user';
 
   // ── Screen routing ──────────────────────────────────────────────────────────
@@ -1503,17 +1400,12 @@
       renderRoadmap(d) +
       renderJobs() +
       renderFocus() +
-      renderTracker() +
       renderSiteFooter(p);
 
     const container = document.getElementById('site-container');
     container.innerHTML = html;
     container.style.display = 'block';
     document.getElementById('app-processing').style.display = 'none';
-    const landingEl = document.getElementById('screen-landing');
-    if (landingEl) landingEl.style.display = 'none';
-    const onboardEl = document.getElementById('screen-onboard');
-    if (onboardEl) onboardEl.style.display = 'none';
 
     window.scrollTo(0, 0);
     initSite(d);
@@ -1529,18 +1421,18 @@
     const isLight = document.body.classList.contains('light');
     return `
       <nav>
-        <a href="#" class="nav-logo" onclick="showSection('about');return false;">${esc(abbr)}</a>
+        <a href="#hero" class="nav-logo">${esc(abbr)}</a>
         <ul class="nav-links">
-          <li><a href="#" data-section="about" onclick="showSection('about');return false;">About</a></li>
-          <li><a href="#" onclick="showSection('about');document.getElementById('roadmap').scrollIntoView({behavior:'smooth'});return false;" style="color:var(--highlight)">Roadmap</a></li>
+          <li><a href="#timeline">Journey</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#awards">Awards</a></li>
+          <li><a href="#roadmap" style="color:var(--highlight)">Roadmap</a></li>
           <li><a href="#" data-section="jobs" onclick="showSection('jobs');return false;">Jobs</a></li>
           <li><a href="#" data-section="focus" onclick="showSection('focus');return false;">Focus</a></li>
-          <li><a href="#" data-section="tracker" onclick="showSection('tracker');return false;">Tracker</a></li>
         </ul>
         <div style="display:flex;gap:.5rem;align-items:center;">
-          <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme">${isLight ? ICO.moon : ICO.sun}</button>
-          <button class="share-btn" onclick="openShareModal()">${ICO.link} Share</button>
-          <button class="nav-rebuild" onclick="rebuildSite()">${ICO.refresh} Rebuild</button>
+          <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme">${isLight ? '🌙' : '☀️'}</button>
+          <button class="nav-rebuild" onclick="rebuildSite()">↺ Rebuild</button>
         </div>
       </nav>`;
   }
@@ -1551,7 +1443,7 @@
       `<div class="stat"><div class="stat-value">${esc(s.value)}</div><div class="stat-label">${esc(s.label)}</div></div>`
     ).join('');
     return `
-      <section id="hero" class="site-section">
+      <section id="hero">
         <div class="hero-badge"><span class="dot"></span>${esc(p.badge || 'Open to opportunities')}</div>
         <h1>Hi, I'm <span class="name-highlight">${esc(p.name || 'Your Name')}</span></h1>
         <div class="hero-role">${esc(p.role || '')}</div>
@@ -1586,7 +1478,7 @@
         </div>`;
     }).join('');
     return `
-      <section id="timeline" class="site-section">
+      <section id="timeline">
         <div class="section-label">Career Journey</div>
         <h2 class="section-title">Professional Timeline</h2>
         <div class="timeline-container">
@@ -1616,7 +1508,7 @@
         </div>`;
     }).join('');
     return `
-      <section id="skills" class="site-section">
+      <section id="skills">
         <div class="section-label">Technical Expertise</div>
         <h2 class="section-title">Skills &amp; Proficiency</h2>
         <div class="skills-grid">${groups}</div>
@@ -1636,7 +1528,7 @@
         </div>
       </div>`).join('');
     return `
-      <section id="awards" class="site-section">
+      <section id="awards">
         <div class="section-label">Recognition</div>
         <h2 class="section-title">Certificates &amp; Awards</h2>
         <div class="awards-grid">${cards}</div>
@@ -1699,7 +1591,7 @@
     }).join('');
 
     return `
-      <section id="roadmap" class="site-section">
+      <section id="roadmap">
         <div class="section-label">Future Path</div>
         <h2 class="section-title">Road to <span style="background:linear-gradient(135deg,var(--highlight),#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${esc(goal)}</span></h2>
         <div class="roadmap-overview">${overviewHtml}</div>
@@ -1714,9 +1606,9 @@
         <div class="section-label">AI-Powered</div>
         <h2 class="section-title">Job Match Finder</h2>
         <div class="job-tabs">
-          <button class="job-tab active" data-tab="find"    onclick="switchJobTab('find')">${ICO.search} Find Jobs</button>
-          <button class="job-tab"        data-tab="analyze" onclick="switchJobTab('analyze')">${ICO.brain} Analyze a Posting</button>
-          <button class="job-tab ${isUnemployed ? 'urgent' : ''}" data-tab="plan" onclick="switchJobTab('plan')">${ICO.map} Job Plan${isUnemployed ? ` ${ICO.zap}` : ''}</button>
+          <button class="job-tab active" data-tab="find"    onclick="switchJobTab('find')">🔍 Find Jobs</button>
+          <button class="job-tab"        data-tab="analyze" onclick="switchJobTab('analyze')">🧠 Analyze a Posting</button>
+          <button class="job-tab ${isUnemployed ? 'urgent' : ''}" data-tab="plan" onclick="switchJobTab('plan')">🗺️ Job Plan${isUnemployed ? ' ⚡' : ''}</button>
         </div>
 
         <!-- ── Find Jobs ── -->
@@ -1767,7 +1659,7 @@
             AI generates a personalized job search strategy — estimated timeline, week-by-week action plan, platform priorities, and tips to land faster.
           </p>
           <button class="jp-gen-btn" id="jp-gen-btn" onclick="generateJobPlan()">
-            ${ICO.map} Generate My Job Search Plan
+            🗺️ Generate My Job Search Plan
           </button>
           <div id="job-plan-results" style="margin-top:1.5rem;"></div>
         </div>
@@ -1913,27 +1805,6 @@
       </section>`;
   }
 
-  function renderTracker() {
-    return `
-      <section id="tracker" class="site-section">
-        <div class="section-inner">
-          <div class="tracker-header">
-            <div>
-              <h2>Application Tracker</h2>
-              <p class="tracker-sub">Track every application · note rejections · let AI improve your strategy</p>
-            </div>
-            <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
-              <button class="tracker-add-btn" onclick="openTrackerModal()">${ICO.plus} Add Application</button>
-              <button class="tracker-ai-btn" id="tracker-ai-btn" onclick="analyzeApplications()">${ICO.sparkles} AI Analyze</button>
-            </div>
-          </div>
-          <div class="tracker-stats" id="tracker-stats"></div>
-          <div id="tracker-insights" class="tracker-insights" style="display:none;"></div>
-          <div class="tracker-board" id="tracker-board"></div>
-        </div>
-      </section>`;
-  }
-
   function renderSiteFooter(p) {
     return `
       <footer>
@@ -1955,20 +1826,18 @@
       if (pb) pb.style.width = pct + '%';
     });
 
-    // Tab sections: show only clicked tab, hide hero
+    // Jobs / Focus tab panels — toggle visibility on nav click
     window.showSection = function(id) {
-      document.body.classList.add('tab-active');
       document.querySelectorAll('.site-section').forEach(s => s.classList.remove('active'));
-      const ids = id === 'about' ? ['hero', 'timeline', 'skills', 'awards', 'roadmap'] : [id];
-      ids.forEach(sid => document.getElementById(sid)?.classList.add('active'));
-      window.scrollTo(0, 0);
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
       document.querySelectorAll('.nav-links a[data-section]').forEach(a => {
         a.classList.toggle('active', a.dataset.section === id);
       });
     };
-
-    // Default view: show about + roadmap on load
-    showSection('about');
 
     // Scroll animation — timeline items, skill bars, etc.
     const observer = new IntersectionObserver(entries => {
@@ -2034,9 +1903,6 @@
     renderFocusHistory();
     updateFocusStats();
 
-    // Application tracker
-    renderTrackerBoard();
-
     // Auto-switch to Job Plan tab and generate if unemployed
     if ((d.__workStatus || '').toLowerCase().includes('unemployed')) {
       setTimeout(() => {
@@ -2095,7 +1961,7 @@
     } catch (err) {
       out.innerHTML = `<p style="color:#f87171;font-size:.85rem;">Error: ${esc(err.message)}</p>`;
     } finally {
-      btn.disabled = false; btn.innerHTML = ICO.map + ' Regenerate Plan';
+      btn.disabled = false; btn.textContent = '🗺️ Regenerate Plan';
     }
   }
 
@@ -2311,6 +2177,10 @@
       const url   = `/.netlify/functions/find-jobs?location=${encodeURIComponent(location)}&keywords=${encodeURIComponent(keywords)}&types=${encodeURIComponent(types)}`;
       const res   = await fetch(url);
       const data  = await res.json();
+      if (data.jsearch_unavailable) {
+        results.innerHTML = `<p class="job-empty" style="margin-bottom:.75rem;">Live job search is unavailable (API key not configured). Search directly on:</p>${buildPlatformLinksBar()}`;
+        return;
+      }
       if (data.error) throw new Error(data.error);
       renderJobResults(data.jobs || [], location);
     } catch (err) {
@@ -2676,7 +2546,7 @@
           <button class="todo-check" onclick="toggleTodoDone('${t.id}',event)">${t.done?'✓':''}</button>
           <span class="todo-text">${esc(t.text)}</span>
           <span class="todo-pom" title="${poms} focus block${poms!==1?'s':''} completed">🍅${poms>0?`×${poms}`:''}</span>
-          <button class="todo-del" onclick="deleteTodo('${t.id}',event)" aria-label="Delete">${ICO.x}</button>
+          <button class="todo-del" onclick="deleteTodo('${t.id}',event)">✕</button>
         </div>`;
     }).join('');
   }
@@ -2824,12 +2694,10 @@
   function toggleTheme() {
     const isLight = document.body.classList.toggle('light');
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    const svg = isLight ? ICO.moon : ICO.sun;
+    const icon = isLight ? '🌙' : '☀️';
     document.querySelectorAll('.theme-toggle, #theme-toggle-btn, #land-theme-btn').forEach(b => {
-      if (b && b.id !== 'land-theme-footer-btn') b.innerHTML = svg;
+      if (b) b.textContent = icon;
     });
-    const footer = document.getElementById('land-theme-footer-btn');
-    if (footer) footer.innerHTML = svg;
   }
 
   function rebuildSite() {
@@ -2840,201 +2708,12 @@
     window.location.reload();
   }
 
-  // ── Share ─────────────────────────────────────────────────────────────────
-  function openShareModal() {
-    const btn = document.querySelector('.share-btn');
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      if (!btn) return;
-      const orig = btn.innerHTML;
-      btn.innerHTML = ICO.check + ' Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
-    });
-  }
-
-  // ── Application Tracker ───────────────────────────────────────────────────
-  const TRACKER_COLS = [
-    { id:'saved',     label:'Saved',     color:'var(--muted)' },
-    { id:'applied',   label:'Applied',   color:'var(--accent)' },
-    { id:'interview', label:'Interview', color:'var(--accent2)' },
-    { id:'offer',     label:'Offer',     color:'var(--accent3)' },
-    { id:'rejected',  label:'Rejected',  color:'#f87171' }
-  ];
-
-  function getTrackerApps() {
-    try { return JSON.parse(localStorage.getItem('tracker_apps_v1') || '[]'); } catch { return []; }
-  }
-  function saveTrackerApps(apps) { localStorage.setItem('tracker_apps_v1', JSON.stringify(apps)); }
-  function genTrackerID() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
-
-  function renderTrackerBoard() {
-    const apps = getTrackerApps();
-    const statsEl = document.getElementById('tracker-stats');
-    if (statsEl) {
-      const counts = { applied:0, interview:0, offer:0, rejected:0 };
-      apps.forEach(a => { if (counts[a.status] !== undefined) counts[a.status]++; });
-      const rate = apps.length ? Math.round((counts.offer + counts.interview) / apps.length * 100) : 0;
-      statsEl.innerHTML = `
-        <div class="tracker-stat"><div class="tracker-stat-num">${apps.length}</div><div class="tracker-stat-label">Total</div></div>
-        <div class="tracker-stat s-applied"><div class="tracker-stat-num">${counts.applied}</div><div class="tracker-stat-label">Applied</div></div>
-        <div class="tracker-stat s-interview"><div class="tracker-stat-num">${counts.interview}</div><div class="tracker-stat-label">Interview</div></div>
-        <div class="tracker-stat s-offer"><div class="tracker-stat-num">${counts.offer}</div><div class="tracker-stat-label">Offer</div></div>
-        <div class="tracker-stat s-rejected"><div class="tracker-stat-num">${counts.rejected}</div><div class="tracker-stat-label">Rejected</div></div>
-        <div class="tracker-stat"><div class="tracker-stat-num" style="color:var(--accent3)">${rate}%</div><div class="tracker-stat-label">Progress Rate</div></div>`;
-    }
-    const boardEl = document.getElementById('tracker-board');
-    if (!boardEl) return;
-    boardEl.innerHTML = TRACKER_COLS.map(col => {
-      const colApps = apps.filter(a => a.status === col.id);
-      const cards = colApps.length
-        ? colApps.map(a => `
-          <div class="tracker-card${a.highlighted ? ' highlighted' : ''}" onclick="openTrackerModal('${a.id}')">
-            <div class="tracker-card-title">${esc(a.title)}</div>
-            <div class="tracker-card-company">${esc(a.company)}</div>
-            ${a.appliedDate ? `<div class="tracker-card-date">${a.appliedDate}</div>` : ''}
-            ${a.highlighted && a.notes ? `<div class="tracker-card-note">${esc(a.notes.slice(0,80))}${a.notes.length>80?'…':''}</div>` : ''}
-            ${a.rejectionReason ? `<div class="tracker-card-reject">${esc(a.rejectionReason.slice(0,80))}${a.rejectionReason.length>80?'…':''}</div>` : ''}
-          </div>`).join('')
-        : `<div class="tracker-empty">No applications</div>`;
-      return `
-        <div class="tracker-col">
-          <div class="tracker-col-title" style="color:${col.color}">${col.label} <span class="col-count">${colApps.length}</span></div>
-          ${cards}
-        </div>`;
-    }).join('');
-  }
-
-  let __trackerEditId = null;
-
-  window.openTrackerModal = function(id) {
-    __trackerEditId = id || null;
-    const apps = getTrackerApps();
-    const app = id ? apps.find(a => a.id === id) : null;
-    const isEdit = !!app;
-    const overlay = document.createElement('div');
-    overlay.className = 'tracker-modal-overlay';
-    overlay.id = 'tracker-modal-overlay';
-    overlay.onclick = e => { if (e.target === overlay) closeTrackerModal(); };
-    overlay.innerHTML = `
-      <div class="tracker-modal">
-        <button class="tracker-modal-close" onclick="closeTrackerModal()" aria-label="Close">${ICO.x}</button>
-        <h3>${isEdit ? 'Edit Application' : 'Add Application'}</h3>
-        <div class="tracker-field"><label>Job Title *</label><input id="tm-title" placeholder="e.g. Senior Data Engineer" value="${esc(app?.title||'')}"></div>
-        <div class="tracker-field"><label>Company *</label><input id="tm-company" placeholder="e.g. Grab" value="${esc(app?.company||'')}"></div>
-        <div class="tracker-field"><label>Job URL</label><input id="tm-url" type="url" placeholder="https://..." value="${esc(app?.url||'')}"></div>
-        <div class="tracker-field">
-          <label>Status</label>
-          <select id="tm-status">
-            ${['saved','applied','interview','offer','rejected'].map(s =>
-              `<option value="${s}"${(app?.status||'saved')===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`
-            ).join('')}
-          </select>
-        </div>
-        <div class="tracker-field"><label>Applied Date</label><input id="tm-date" type="date" value="${app?.appliedDate||''}"></div>
-        <div class="tracker-field"><label>Notes</label><textarea id="tm-notes" placeholder="Key requirements, interview feedback, impressions...">${esc(app?.notes||'')}</textarea></div>
-        <div class="tracker-field"><label>Rejection Reason</label><textarea id="tm-reject" placeholder="Why rejected? Skills gap, culture fit, experience level..." style="min-height:54px;">${esc(app?.rejectionReason||'')}</textarea></div>
-        <div class="tracker-field">
-          <label class="tracker-highlight-toggle">
-            <input type="checkbox" id="tm-highlight"${app?.highlighted?' checked':''}>
-            ${ICO.star} Highlight (pins note preview on board)
-          </label>
-        </div>
-        <div class="tracker-modal-actions">
-          ${isEdit ? `<button class="tracker-modal-delete" onclick="deleteTrackerApp('${app.id}')">Delete</button>` : ''}
-          <button class="tracker-modal-save" onclick="saveTrackerApp()">Save</button>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-    setTimeout(() => document.getElementById('tm-title')?.focus(), 50);
-  };
-
-  window.closeTrackerModal = function() {
-    document.getElementById('tracker-modal-overlay')?.remove();
-  };
-
-  window.saveTrackerApp = function() {
-    const title = document.getElementById('tm-title').value.trim();
-    const company = document.getElementById('tm-company').value.trim();
-    if (!title || !company) { alert('Title and company are required.'); return; }
-    const apps = getTrackerApps();
-    const existing = __trackerEditId ? apps.find(a => a.id === __trackerEditId) : null;
-    const app = {
-      id: existing?.id || genTrackerID(),
-      title, company,
-      url: document.getElementById('tm-url').value.trim(),
-      status: document.getElementById('tm-status').value,
-      appliedDate: document.getElementById('tm-date').value,
-      notes: document.getElementById('tm-notes').value.trim(),
-      rejectionReason: document.getElementById('tm-reject').value.trim(),
-      highlighted: document.getElementById('tm-highlight').checked,
-      createdAt: existing?.createdAt || Date.now()
-    };
-    if (existing) { apps[apps.indexOf(existing)] = app; } else { apps.push(app); }
-    saveTrackerApps(apps);
-    closeTrackerModal();
-    renderTrackerBoard();
-  };
-
-  window.deleteTrackerApp = function(id) {
-    if (!confirm('Delete this application?')) return;
-    saveTrackerApps(getTrackerApps().filter(a => a.id !== id));
-    closeTrackerModal();
-    renderTrackerBoard();
-  };
-
-  window.analyzeApplications = async function() {
-    const apps = getTrackerApps();
-    if (!apps.length) { alert('Add some applications first.'); return; }
-    const btn = document.getElementById('tracker-ai-btn');
-    if (btn) { btn.innerHTML = ICO.loader + ' Analyzing...'; btn.classList.add('loading'); }
-    try {
-      const res = await fetch('/.netlify/functions/analyze-applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ applications: apps, profile: window.__cvProfile || '' })
-      });
-      if (!res.ok) throw new Error(`Server error ${res.status}`);
-      const data = await res.json();
-      const insightsEl = document.getElementById('tracker-insights');
-      if (!insightsEl) return;
-      const score = data.score || 0;
-      const scoreClass = score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low';
-      const trendMap = { improving:'↑ Improving', declining:'↓ Declining', stable:'→ Stable' };
-      const trendLabel = trendMap[data.trend] || '→ Stable';
-      const cards = (data.insights || []).map(ins => `
-        <div class="tracker-insight-card">
-          <div class="tracker-insight-card-head">
-            <div class="tracker-insight-card-title">${esc(ins.title)}</div>
-            <span class="tracker-insight-impact ${esc(ins.impact)}">${esc(ins.impact)} Impact</span>
-          </div>
-          <div class="tracker-insight-problem">${esc(ins.problem)}</div>
-          <div class="tracker-insight-action">→ ${esc(ins.action)}</div>
-        </div>`).join('');
-      insightsEl.innerHTML = `
-        <div class="tracker-insights-header">
-          <div>
-            <div class="tracker-insights-title">${ICO.sparkles} AI Career Insights</div>
-            <div style="font-size:.78rem;color:var(--muted);margin-top:.2rem;">Based on ${apps.length} application${apps.length!==1?'s':''} · ${trendLabel}</div>
-          </div>
-          <div class="tracker-score-badge ${scoreClass}" title="Success probability score">${score}</div>
-        </div>
-        <div class="tracker-insight-cards">${cards}</div>
-        ${data.summary ? `<div class="tracker-summary">${esc(data.summary)}</div>` : ''}`;
-      insightsEl.style.display = 'block';
-    } catch(e) {
-      alert('AI analysis failed: ' + e.message);
-    } finally {
-      if (btn) { btn.innerHTML = ICO.sparkles + ' AI Analyze'; btn.classList.remove('loading'); }
-    }
-  };
-
   // ── Boot: restore theme icons + auto-restore saved site ──────────────────
   (() => {
     // Sync all theme toggle buttons to current theme state
     const isLight = document.body.classList.contains('light');
-    const themeSvg = isLight ? ICO.moon : ICO.sun;
     document.querySelectorAll('.theme-toggle, #theme-toggle-btn, #land-theme-btn').forEach(b => {
-      if (b) b.innerHTML = themeSvg;
+      if (b) b.textContent = isLight ? '🌙' : '☀️';
     });
 
     // Auto-restore saved career site

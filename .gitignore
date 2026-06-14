@@ -2,3 +2,10 @@
 .claude/
 SETUP.md
 node_modules/
+.env
+
+# Local Netlify folder
+.netlify
+
+# Personal documents
+CV/

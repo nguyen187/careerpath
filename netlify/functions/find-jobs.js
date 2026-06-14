@@ -24,6 +24,7 @@ const CORS = {
   'Content-Type': 'application/json'
 };
 
+// ── JSearch (RapidAPI) ────────────────────────────────────────────────────────
 async function searchJobs(query, extraParams = '', employmentTypes = '') {
   const q = encodeURIComponent(query);
   const typeParam = employmentTypes ? `&employment_types=${encodeURIComponent(employmentTypes)}` : '';
@@ -34,11 +35,38 @@ async function searchJobs(query, extraParams = '', employmentTypes = '') {
       'x-rapidapi-host': 'jsearch.p.rapidapi.com'
     }
   });
+  if (res.status === 403) throw new Error('__jsearch_403__');
   if (!res.ok) throw new Error(`JSearch error ${res.status}`);
   const { data = [] } = await res.json();
   return data;
 }
 
+// ── Remotive (free, no key) ───────────────────────────────────────────────────
+async function searchRemotive(keywords) {
+  const q = encodeURIComponent(keywords.trim());
+  const res = await fetch(`https://remotive.com/api/remote-jobs?search=${q}&limit=15`);
+  if (!res.ok) throw new Error(`Remotive error ${res.status}`);
+  const { jobs = [] } = await res.json();
+  // Normalize to the same shape as JSearch
+  return jobs.slice(0, 10).map(j => ({
+    job_id:                    String(j.id),
+    job_title:                 j.title,
+    employer_name:             j.company_name,
+    job_city:                  null,
+    job_state:                 null,
+    job_country:               j.candidate_required_location || 'Remote',
+    job_is_remote:             true,
+    job_apply_link:            j.url,
+    job_publisher:             'Remotive',
+    job_posted_at_datetime_utc: j.publication_date,
+    job_min_salary:            null,
+    job_max_salary:            null,
+    job_salary_currency:       null,
+    job_description:           (j.description || '').replace(/<[^>]*>/g, '').slice(0, 500)
+  }));
+}
+
+// ── Groq scoring ──────────────────────────────────────────────────────────────
 async function scoreWithGroq(rawJobs) {
   const jobText = rawJobs.map((j, i) => {
     const loc  = [j.job_city, j.job_state, j.job_country].filter(Boolean).join(', ');
@@ -48,12 +76,9 @@ async function scoreWithGroq(rawJobs) {
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
+      model: 'llama-3.1-8b-instant',
       temperature: 0.2,
       max_tokens: 2048,
       response_format: { type: 'json_object' },
@@ -69,10 +94,7 @@ Rules:
 - why: max 12 words
 - gaps: max 12 words or "None"`
         },
-        {
-          role: 'user',
-          content: `CANDIDATE:\n${CV_PROFILE}\n\nJOBS:\n${jobText}`
-        }
+        { role: 'user', content: `CANDIDATE:\n${CV_PROFILE}\n\nJOBS:\n${jobText}` }
       ]
     })
   });
@@ -80,21 +102,7 @@ Rules:
   if (!res.ok) throw new Error(`Groq error ${res.status}`);
   const groqData = await res.json();
   const content  = groqData.choices?.[0]?.message?.content ?? '{"results":[]}';
-  const parsed   = JSON.parse(content);
-  return parsed.results || [];
-}
-
-function mergeResults(rawJobs, scores) {
-  // If Groq returned scores, merge them; otherwise assign defaults
-  if (scores.length > 0) {
-    return scores
-      .filter(s => rawJobs[s.index])
-      .map(s => buildJobObj(rawJobs[s.index], s));
-  }
-  // Fallback: return all jobs unscored
-  return rawJobs.map((j, i) => buildJobObj(j, {
-    index: i, score: 50, verdict: 'Review', why: 'AI scoring unavailable', gaps: 'Review manually', priority: 'Consider'
-  }));
+  return JSON.parse(content).results || [];
 }
 
 function buildJobObj(j, s) {
@@ -110,18 +118,26 @@ function buildJobObj(j, s) {
     url:       j.job_apply_link,
     publisher: j.job_publisher || null,
     posted:    j.job_posted_at_datetime_utc,
-    score:    s.score,
-    verdict:  s.verdict,
-    why:      s.why,
-    gaps:     s.gaps,
-    priority: s.priority
+    score:     s.score,
+    verdict:   s.verdict,
+    why:       s.why,
+    gaps:      s.gaps,
+    priority:  s.priority
   };
 }
 
-exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: CORS, body: '' };
+function mergeResults(rawJobs, scores) {
+  if (scores.length > 0) {
+    return scores.filter(s => rawJobs[s.index]).map(s => buildJobObj(rawJobs[s.index], s));
   }
+  return rawJobs.map((j, i) => buildJobObj(j, {
+    index: i, score: 50, verdict: 'Review', why: 'AI scoring unavailable', gaps: 'Review manually', priority: 'Consider'
+  }));
+}
+
+// ── Handler ───────────────────────────────────────────────────────────────────
+exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers: CORS, body: '' };
 
   const { location = '', keywords = 'data engineer', types = 'FULLTIME' } = event.queryStringParameters || {};
 
@@ -130,30 +146,41 @@ exports.handler = async (event) => {
   }
 
   try {
-    const loc = location.trim();
+    const loc      = location.trim();
     const typeList = types.trim();
-
-    // When contract/freelance is selected, inject relevant keyword to improve results
     const hasContract = typeList.includes('CONTRACTOR');
-    const extraKw = hasContract ? ' (contract OR freelance OR remote)' : '';
-    const kw = keywords.trim() + extraKw;
+    const extraKw  = hasContract ? ' (contract OR freelance OR remote)' : '';
+    const kw       = keywords.trim() + extraKw;
 
-    // ── Strategy 1: exact query ──────────────────────────────────────────────
-    let rawJobs = await searchJobs(`${kw} ${loc}`, '', typeList);
+    let rawJobs = [];
+    let source  = 'remotive';
 
-    // ── Strategy 2: add "remote" if few results ──────────────────────────────
-    if (rawJobs.length < 3) {
-      const remote = await searchJobs(`${kw} remote ${loc}`, '', typeList);
-      rawJobs = [...rawJobs, ...remote];
+    // ── Try JSearch first (if key is available) ───────────────────────────────
+    if (RAPIDAPI_KEY) {
+      try {
+        rawJobs = await searchJobs(`${kw} ${loc}`, '', typeList);
+        if (rawJobs.length < 3) {
+          const r = await searchJobs(`${kw} remote ${loc}`, '', typeList);
+          rawJobs = [...rawJobs, ...r];
+        }
+        if (rawJobs.length < 3) {
+          const r = await searchJobs(`${kw} Southeast Asia remote`, '', typeList);
+          rawJobs = [...rawJobs, ...r];
+        }
+        source = 'jsearch';
+      } catch (err) {
+        if (err.message !== '__jsearch_403__') throw err;
+        // 403 → fall through to Remotive
+      }
     }
 
-    // ── Strategy 3: Southeast Asia fallback ─────────────────────────────────
-    if (rawJobs.length < 3) {
-      const sea = await searchJobs(`${kw} Southeast Asia remote`, '', typeList);
-      rawJobs = [...rawJobs, ...sea];
+    // ── Remotive fallback (always free) ───────────────────────────────────────
+    if (!rawJobs.length) {
+      rawJobs = await searchRemotive(kw);
+      source  = 'remotive';
     }
 
-    // Deduplicate by job_id or title+company
+    // Deduplicate
     const seen = new Set();
     rawJobs = rawJobs.filter(j => {
       const key = j.job_id || `${j.job_title}|${j.employer_name}`;
@@ -166,24 +193,21 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers: CORS,
-        body: JSON.stringify({ jobs: [], message: `No jobs found for "${kw}" near ${loc}. Try "Remote" or "Singapore".` })
+        body: JSON.stringify({ jobs: [], message: `No jobs found for "${kw}". Try different keywords or "Remote".` })
       };
     }
 
-    // ── Score with Groq (with fallback) ──────────────────────────────────────
+    // ── AI scoring ────────────────────────────────────────────────────────────
     let scores = [];
-    try {
-      scores = await scoreWithGroq(rawJobs);
-    } catch (err) {
-      console.error('Groq scoring failed (using fallback):', err.message);
+    try { scores = await scoreWithGroq(rawJobs); } catch (e) {
+      console.error('Groq scoring failed:', e.message);
     }
 
     const jobs = mergeResults(rawJobs, scores).sort((a, b) => b.score - a.score);
-
     return {
       statusCode: 200,
       headers: CORS,
-      body: JSON.stringify({ jobs, total: jobs.length })
+      body: JSON.stringify({ jobs, total: jobs.length, source })
     };
 
   } catch (err) {

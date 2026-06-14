@@ -29,9 +29,9 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'POST only' }) };
   }
 
-  let jobText;
+  let jobText, cvProfile;
   try {
-    ({ jobText } = JSON.parse(event.body || '{}'));
+    ({ jobText, cvProfile } = JSON.parse(event.body || '{}'));
   } catch {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Invalid JSON body' }) };
   }
@@ -39,6 +39,8 @@ exports.handler = async (event) => {
   if (!jobText?.trim()) {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'jobText is required' }) };
   }
+
+  const profileToUse = cvProfile?.trim() || CV_PROFILE;
 
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -48,7 +50,7 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'llama-3.1-8b-instant',
         temperature: 0.25,
         max_tokens: 2000,
         response_format: { type: 'json_object' },
@@ -88,7 +90,7 @@ Scoring rules:
           },
           {
             role: 'user',
-            content: `CANDIDATE PROFILE:\n${CV_PROFILE}\n\nJOB POSTING:\n${jobText.slice(0, 4000)}`
+            content: `CANDIDATE PROFILE:\n${profileToUse}\n\nJOB POSTING:\n${jobText.slice(0, 4000)}`
           }
         ]
       })
