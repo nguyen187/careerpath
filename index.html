@@ -3102,8 +3102,10 @@
     const enableAuthBtn = () => {
       const btn = document.getElementById('auth-google-btn');
       const lbl = document.getElementById('auth-google-label');
+      const err = document.getElementById('auth-config-error');
       if (btn) { btn.disabled = false; }
       if (lbl) lbl.textContent = 'Continue with Google';
+      if (err) err.style.display = 'none';
     };
     const showAuthConfigError = () => {
       const btn = document.getElementById('auth-google-btn');
