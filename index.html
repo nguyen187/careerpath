@@ -1475,7 +1475,7 @@
       data.__location    = obData.location;
       appSiteData = data;
       localStorage.setItem(APP_KEY, JSON.stringify(data));
-      scheduleSyncToCloud();
+      syncToCloud(); // immediate — don't debounce the first portfolio save
 
       procStep(4, 'done');
       await new Promise(r => setTimeout(r, 500));
@@ -3145,6 +3145,7 @@
 
             if (careerData?.personal) {
               renderSite(careerData);
+              if (!profile) syncToCloud(); // local data exists but no cloud row yet — push it up
             } else {
               // New user — go to onboarding
               const meta = currentUser.user_metadata || {};
