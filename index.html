@@ -3187,6 +3187,10 @@
       if (err) err.style.display = 'block';
     };
 
+    // Show landing immediately so the page is never blank during async auth check.
+    // renderSite() / startOnboarding() will hide it once the real content is ready.
+    showLanding();
+
     // Detect OAuth errors in URL (e.g. bad_oauth_state) and clear them before doing anything
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('error_code') === 'bad_oauth_state' || urlParams.get('error')) {
@@ -3259,6 +3263,16 @@
 
     showLanding();
   })();
+
+  // Re-show landing if page is restored from bfcache but site-container is empty
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+      const container = document.getElementById('site-container');
+      if (container && container.style.display === 'block' && container.innerHTML.trim()) return;
+      const el = document.getElementById('screen-landing');
+      if (el) { el.style.display = 'flex'; el.style.flexDirection = 'column'; }
+    }
+  });
 </script>
 </body>
 </html>
