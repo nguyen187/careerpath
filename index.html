@@ -781,7 +781,17 @@
     .particle { position:fixed; pointer-events:none; opacity:.15; font-size:.65rem; color:var(--accent); font-family:monospace; z-index:0; animation:float linear infinite; }
     @keyframes float { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:.15} 90%{opacity:.15} 100%{transform:translateY(-100px);opacity:0} }
 
-    @media(max-width:640px){ nav{padding:0 1rem} .nav-links{display:none} section{padding:4rem 1rem} h1{font-size:2.2rem} }
+    @media(max-width:640px){ nav{padding:0 1rem} .nav-links{display:none} section{padding:4rem 1rem 6rem;} h1{font-size:2.2rem} }
+
+    /* Mobile bottom tab bar */
+    .mobile-tab-bar { display:none; }
+    @media(max-width:640px){
+      .mobile-tab-bar { display:flex; position:fixed; bottom:0; left:0; right:0; z-index:200; background:var(--nav-bg,rgba(10,14,26,0.95)); backdrop-filter:blur(14px); border-top:1px solid var(--border); padding:.3rem 0 calc(.3rem + env(safe-area-inset-bottom)); }
+      .mobile-tab-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:.2rem; padding:.4rem .25rem; border:none; background:none; color:var(--muted); font-family:inherit; font-size:.6rem; font-weight:600; cursor:pointer; text-transform:uppercase; letter-spacing:.06em; transition:color .15s; -webkit-tap-highlight-color:transparent; }
+      .mobile-tab-item svg { width:20px; height:20px; stroke-width:1.8; }
+      .mobile-tab-item.active { color:var(--accent); }
+      .share-btn { display:none; }
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
@@ -1602,7 +1612,29 @@
             <button class="nav-signout" onclick="signOut()">Sign out</button>
           </div>` : `<button class="nav-rebuild" onclick="rebuildSite()">${ICO.refresh} Rebuild</button>`}
         </div>
-      </nav>`;
+      </nav>
+      <div class="mobile-tab-bar" id="mobile-tab-bar">
+        <button class="mobile-tab-item" data-section="about" onclick="showSection('about')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          About
+        </button>
+        <button class="mobile-tab-item" data-section="jobs" onclick="showSection('jobs')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          Jobs
+        </button>
+        <button class="mobile-tab-item" data-section="focus" onclick="showSection('focus')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/></svg>
+          Focus
+        </button>
+        <button class="mobile-tab-item" data-section="tracker" onclick="showSection('tracker')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="8" width="5" height="13" rx="1"/><rect x="17" y="5" width="5" height="16" rx="1"/></svg>
+          Tracker
+        </button>
+        <button class="mobile-tab-item" onclick="openShareModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+      </div>`;
   }
 
   function renderHero(d) {
@@ -1891,19 +1923,19 @@
                 <input type="range" id="ambient-vol" class="ambient-vol" min="0" max="100" value="35"
                   oninput="setAmbientVol(this.value)" title="Volume"/>
               </div>
-              <div style="display:flex;gap:.5rem;margin-top:.65rem;">
-                <input id="yt-url-input" class="todo-input"
-                  placeholder="Paste YouTube URL and press Enter…"
-                  onkeydown="if(event.key==='Enter')playYouTubeInFocus()"
-                  style="font-size:.78rem;"/>
-                <button class="fctrl-btn" onclick="playYouTubeInFocus()"
-                  style="width:auto;border-radius:8px;padding:0 .85rem;font-size:.78rem;font-weight:700;flex-shrink:0;">▶</button>
-              </div>
-              <div id="yt-player-wrap" style="display:none;margin-top:.65rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);">
+              <div id="yt-player-wrap" style="margin-top:.65rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);">
                 <iframe id="yt-player-iframe" width="100%" height="166"
                   style="display:block;border:none;"
                   allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
                   allowfullscreen src="about:blank"></iframe>
+              </div>
+              <div style="display:flex;gap:.5rem;margin-top:.65rem;">
+                <input id="yt-url-input" class="todo-input"
+                  placeholder="Paste your YouTube URL to change music…"
+                  onkeydown="if(event.key==='Enter')playYouTubeInFocus()"
+                  style="font-size:.78rem;"/>
+                <button class="fctrl-btn" onclick="playYouTubeInFocus()"
+                  style="width:auto;border-radius:8px;padding:0 .85rem;font-size:.78rem;font-weight:700;flex-shrink:0;">▶</button>
               </div>
             </div>
           </div>
@@ -2025,10 +2057,15 @@
       document.querySelectorAll('.nav-links a[data-section]').forEach(a => {
         a.classList.toggle('active', a.dataset.section === id);
       });
+      document.querySelectorAll('.mobile-tab-item[data-section]').forEach(b => {
+        b.classList.toggle('active', b.dataset.section === id);
+      });
+      try { sessionStorage.setItem('activeSection', id); } catch(e) {}
     };
 
-    // Default view: show about + roadmap on load
-    showSection('about');
+    // Restore last active section (persists across mobile app switches/reloads)
+    const lastSection = (()=>{ try { return sessionStorage.getItem('activeSection'); } catch(e){ return null; } })();
+    showSection(lastSection || 'about');
 
     // Scroll animation — timeline items, skill bars, etc.
     const observer = new IntersectionObserver(entries => {
@@ -2647,6 +2684,30 @@
     } catch(e){}
   }
 
+  // Default YouTube music per focus mode
+  const FMODE_YT_DEFAULT = {
+    focus: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',  // lofi hip hop – beats to study/relax
+    chill: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',  // chillhop essentials
+    relax: 'https://www.youtube.com/watch?v=8uIEfIm9FzQ',  // relaxing sleep music
+  };
+
+  function ytUrlToEmbed(raw) {
+    try {
+      const u=new URL(raw); const videoId=u.searchParams.get('v'); const listId=u.searchParams.get('list');
+      if (u.hostname==='youtu.be') return `https://www.youtube-nocookie.com/embed/${u.pathname.replace('/','').split('?')[0]}?autoplay=1&rel=0`;
+      if (videoId) { let s=`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`; if(listId) s+=`&list=${listId}`; return s; }
+      if (listId) return `https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0`;
+    } catch(e){}
+    return '';
+  }
+
+  function loadYtPlayer(url) {
+    const embedSrc = ytUrlToEmbed(url);
+    if (!embedSrc) return;
+    const iframe = document.getElementById('yt-player-iframe');
+    if (iframe) iframe.src = embedSrc;
+  }
+
   function toggleFocusMusic() {
     focusMusicOn=!focusMusicOn;
     const panel=document.getElementById('focus-music-panel');
@@ -2656,25 +2717,26 @@
       document.getElementById('ambient-label').textContent=FMODES[focusMode].noiseLabel;
       document.getElementById('focus-eq').querySelectorAll('.eq-bar').forEach(b=>b.style.background=FMODES[focusMode].color);
       startAmbientSound();
+      // Load saved custom URL or fall back to mode default
+      const saved = localStorage.getItem('focus_yt_url');
+      const url = saved || FMODE_YT_DEFAULT[focusMode];
+      document.getElementById('yt-url-input').value = url;
+      loadYtPlayer(url);
     } else {
       panel.style.display='none'; btn.style.color=''; btn.style.borderColor=''; stopAmbientSound();
+      const iframe=document.getElementById('yt-player-iframe');
+      if (iframe) iframe.src='about:blank';
     }
   }
 
   function playYouTubeInFocus() {
     const input=document.getElementById('yt-url-input');
     const raw=input.value.trim(); if (!raw) return;
-    let embedSrc='';
-    try {
-      const u=new URL(raw); const videoId=u.searchParams.get('v'); const listId=u.searchParams.get('list');
-      if (u.hostname==='youtu.be') { embedSrc=`https://www.youtube-nocookie.com/embed/${u.pathname.replace('/','').split('?')[0]}?autoplay=1&rel=0`; }
-      else if (videoId) { embedSrc=`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`; if(listId) embedSrc+=`&list=${listId}`; }
-      else if (listId) { embedSrc=`https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0`; }
-    } catch(e){}
+    const embedSrc = ytUrlToEmbed(raw);
     if (!embedSrc) { input.style.borderColor='#f87171'; setTimeout(()=>{input.style.borderColor='';},1500); return; }
     input.style.borderColor='';
-    const wrap=document.getElementById('yt-player-wrap'), iframe=document.getElementById('yt-player-iframe');
-    iframe.src=embedSrc; wrap.style.display='block';
+    localStorage.setItem('focus_yt_url', raw);
+    loadYtPlayer(raw);
   }
 
   function switchFocusRTab(tab) {
