@@ -24,6 +24,33 @@
       --nav-bg: rgba(248,250,252,0.92);
     }
     body.light::before { opacity:0; }
+
+    /* ── World Cup 2026 Theme ── */
+    body.worldcup {
+      --bg: #031a08; --surface: #072310; --surface2: #0b2f15; --border: #164d22;
+      --accent: #ffd700; --accent2: #22c55e; --accent3: #ef4444;
+      --text: #ecfdf5; --muted: #6db888; --highlight: #ff9f1c;
+      --nav-bg: rgba(3,26,8,0.93);
+    }
+    body.worldcup::before {
+      background-image:
+        linear-gradient(rgba(34,197,94,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,0.07) 1px, transparent 1px),
+        linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+      background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+      opacity: 1;
+    }
+    body.worldcup .land-h1 .grad { background:linear-gradient(135deg,#ffd700,#22c55e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    body.worldcup .step-num { border-color: var(--accent); }
+    body.worldcup .feature-card:hover { border-color:var(--accent); box-shadow:0 12px 40px rgba(255,215,0,0.15); }
+    body.worldcup .btn-cta-sm, body.worldcup .btn-hero-primary { background:var(--accent); color:#031a08; }
+    body.worldcup .auth-google-btn { background:#072310; color:var(--accent); border-color:var(--accent); }
+    body.worldcup .sync-indicator.sync-saved { color: var(--accent2); }
+
+    /* WC ribbon */
+    body.worldcup #wc-ribbon { display:flex; }
+    #wc-ribbon { display:none; position:fixed; top:60px; left:0; right:0; z-index:99; background:linear-gradient(90deg,#ffd700,#22c55e,#ffd700); padding:.28rem 1rem; text-align:center; font-size:.72rem; font-weight:800; letter-spacing:.12em; color:#031a08; text-transform:uppercase; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; line-height: 1.6; overflow-x: hidden; transition: background 0.25s, color 0.25s; }
@@ -798,7 +825,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
-<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+<div id="wc-ribbon">⚽ FIFA World Cup 2026 — Let's Go! ⚽</div>
+<script>
+  const _t=localStorage.getItem('theme');
+  if(_t==='light') document.body.classList.add('light');
+  else if(_t==='worldcup') document.body.classList.add('worldcup');
+</script>
 
 <!-- ══════════════════════════════════════════
      LANDING PAGE
@@ -1588,6 +1620,8 @@
     const name = p.name || 'My Career';
     const abbr = name.split(' ').map(w=>w[0]).slice(0,2).join('') + '.';
     const isLight = document.body.classList.contains('light');
+    const isWC = document.body.classList.contains('worldcup');
+    const themeIcon = isWC ? ICO.trophy : isLight ? ICO.moon : ICO.sun;
     return `
       <nav>
         <a href="#" class="nav-logo" onclick="showSection('about');return false;">${esc(abbr)}</a>
@@ -1599,7 +1633,7 @@
           <li><a href="#" data-section="tracker" onclick="showSection('tracker');return false;">Tracker</a></li>
         </ul>
         <div style="display:flex;gap:.5rem;align-items:center;">
-          <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme">${isLight ? ICO.moon : ICO.sun}</button>
+          <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme">${themeIcon}</button>
           <button class="share-btn" onclick="openShareModal()">${ICO.link} Share</button>
           ${currentUser ? `
           <div class="nav-user">
@@ -2945,9 +2979,13 @@
 
   // ── Rebuild ───────────────────────────────────────────────────────────────
   function toggleTheme() {
-    const isLight = document.body.classList.toggle('light');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    const svg = isLight ? ICO.moon : ICO.sun;
+    const body = document.body;
+    const cur = body.classList.contains('worldcup') ? 'worldcup' : body.classList.contains('light') ? 'light' : 'dark';
+    const next = cur === 'dark' ? 'light' : cur === 'light' ? 'worldcup' : 'dark';
+    body.classList.remove('light', 'worldcup');
+    if (next !== 'dark') body.classList.add(next);
+    localStorage.setItem('theme', next);
+    const svg = next === 'dark' ? ICO.sun : next === 'light' ? ICO.moon : ICO.trophy;
     document.querySelectorAll('.theme-toggle, #theme-toggle-btn, #land-theme-btn').forEach(b => {
       if (b && b.id !== 'land-theme-footer-btn') b.innerHTML = svg;
     });
@@ -3159,7 +3197,8 @@
   (async () => {
     // Sync theme icons
     const isLight = document.body.classList.contains('light');
-    const themeSvg = isLight ? ICO.moon : ICO.sun;
+    const isWC = document.body.classList.contains('worldcup');
+    const themeSvg = isWC ? ICO.trophy : isLight ? ICO.moon : ICO.sun;
     document.querySelectorAll('.theme-toggle, #theme-toggle-btn, #land-theme-btn').forEach(b => {
       if (b) b.innerHTML = themeSvg;
     });
