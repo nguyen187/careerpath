@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚽ World Cup 2026 — Ho Chi Minh City Time</title>
+  <style>
+    :root {
+      --bg:#031a08; --surface:#072310; --surface2:#0b2f15; --border:#164d22;
+      --gold:#ffd700; --green:#22c55e; --green2:#16a34a; --text:#ecfdf5;
+      --muted:#6db888; --red:#ef4444; --blue:#3b82f6; --portugal:#d4000a;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(34,197,94,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.06) 1px,transparent 1px),linear-gradient(rgba(34,197,94,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.025) 1px,transparent 1px);background-size:80px 80px,80px 80px,20px 20px,20px 20px;pointer-events:none;z-index:0}
+
+    /* ── Header ── */
+    header{position:sticky;top:0;z-index:100;background:rgba(3,26,8,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+    .hd-left{display:flex;align-items:center;gap:.9rem}
+    .hd-logo{font-size:1.3rem;font-weight:900;letter-spacing:.03em}
+    .hd-logo span{color:var(--gold)}
+    .hd-badge{background:linear-gradient(135deg,var(--gold),#f5a623);color:#031a08;font-size:.65rem;font-weight:800;padding:.2rem .55rem;border-radius:100px;text-transform:uppercase;letter-spacing:.08em}
+    .hd-tz{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.35rem}
+    .hd-tz strong{color:var(--green)}
+    .back-btn{text-decoration:none;color:var(--muted);font-size:.8rem;border:1px solid var(--border);border-radius:6px;padding:.3rem .75rem;transition:all .2s}
+    .back-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* ── Tabs ── */
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);padding:0 1.5rem;background:var(--surface);position:sticky;top:65px;z-index:90}
+    .tab-btn{padding:.75rem 1.5rem;border:none;background:none;color:var(--muted);font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+    .tab-btn:hover{color:var(--text)}
+    .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+    .tab-btn.portugal-tab.active{color:#ff4444;border-bottom-color:#ff4444}
+
+    /* ── Container ── */
+    .page{max-width:1000px;margin:0 auto;padding:2rem 1.25rem 4rem;position:relative;z-index:1}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    /* ── Section headings ── */
+    .sec-label{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+    .sec-title{font-size:1.5rem;font-weight:800;margin-bottom:1.5rem}
+
+    /* ── Live clock ── */
+    .live-clock{display:flex;align-items:center;gap:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .clock-time{font-size:2rem;font-weight:900;font-family:'SF Mono',monospace;color:var(--gold);letter-spacing:.06em}
+    .clock-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+    .clock-date{font-size:.9rem;font-weight:600;color:var(--text)}
+    .wc-progress{flex:1;min-width:200px}
+    .wc-prog-label{font-size:.7rem;color:var(--muted);margin-bottom:.4rem;display:flex;justify-content:space-between}
+    .wc-prog-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+    .wc-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:3px;transition:width .5s}
+
+    /* ── Phase pills ── */
+    .phase-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem}
+    .phase-btn{padding:.35rem .9rem;border:1px solid var(--border);border-radius:100px;background:none;color:var(--muted);font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .phase-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .phase-btn.active{background:var(--gold);color:#031a08;border-color:var(--gold)}
+
+    /* ── Match card ── */
+    .day-group{margin-bottom:2rem}
+    .day-header{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;padding:.4rem 0;border-bottom:1px solid var(--border);margin-bottom:.85rem;display:flex;align-items:center;gap:.75rem}
+    .day-header span{color:var(--text);font-size:.85rem}
+    .match-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.25rem;margin-bottom:.65rem;display:grid;grid-template-columns:1fr auto 1fr;gap:.75rem;align-items:center;transition:border-color .2s,transform .2s;cursor:default}
+    .match-card:hover{border-color:var(--border);transform:translateY(-1px)}
+    .match-card.portugal{border-color:rgba(212,0,10,.4);background:linear-gradient(135deg,rgba(212,0,10,.06),var(--surface))}
+    .match-card.finished{opacity:.7}
+    .match-team{display:flex;flex-direction:column;gap:.15rem}
+    .match-team.right{align-items:flex-end}
+    .team-name{font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+    .team-flag{font-size:1.3rem}
+    .team-score{font-size:1.1rem;font-weight:900;color:var(--gold)}
+    .match-mid{text-align:center;display:flex;flex-direction:column;gap:.2rem;align-items:center}
+    .match-time{font-size:.75rem;font-weight:800;color:var(--green);font-family:'SF Mono',monospace;white-space:nowrap}
+    .match-vs{font-size:.7rem;color:var(--muted);font-weight:700}
+    .match-venue{font-size:.65rem;color:var(--muted);text-align:center;margin-top:.25rem}
+    .match-stage-badge{font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:100px;background:rgba(255,215,0,.12);color:var(--gold);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+    .match-stage-badge.live{background:rgba(239,68,68,.2);color:#f87171;animation:pulse 1.5s infinite}
+    .match-stage-badge.done{background:rgba(109,184,136,.12);color:var(--muted)}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+    /* ── Tournament bracket ── */
+    .bracket-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2.5rem}
+    .bracket-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center}
+    .bracket-card.current{border-color:var(--gold);background:rgba(255,215,0,.06)}
+    .bracket-round{font-size:.65rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem}
+    .bracket-dates{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+    .bracket-teams{font-size:.7rem;color:var(--muted)}
+
+    /* ── Portugal: CR7 Hero ── */
+    .cr7-hero{background:linear-gradient(135deg,rgba(212,0,10,.12),rgba(0,0,0,.4));border:1px solid rgba(212,0,10,.3);border-radius:20px;padding:2rem;margin-bottom:2rem;display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:center}
+    .cr7-avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#d4000a,#8b0000);display:flex;align-items:center;justify-content:center;font-size:3rem;flex-shrink:0;border:3px solid var(--gold);box-shadow:0 0 30px rgba(212,0,10,.4)}
+    .cr7-name{font-size:1.6rem;font-weight:900;margin-bottom:.2rem}
+    .cr7-nick{color:var(--gold);font-size:1.1rem;font-weight:800;margin-bottom:.5rem}
+    .cr7-info{font-size:.8rem;color:var(--muted);margin-bottom:1rem;display:flex;gap:1rem;flex-wrap:wrap}
+    .cr7-info span{display:flex;align-items:center;gap:.3rem}
+    .cr7-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+    .cr7-stat{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:.6rem;text-align:center}
+    .cr7-stat-num{font-size:1.3rem;font-weight:900;color:var(--gold)}
+    .cr7-stat-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    @media(max-width:600px){
+      .cr7-hero{grid-template-columns:1fr}
+      .cr7-avatar{margin:0 auto}
+      .cr7-stats{grid-template-columns:repeat(2,1fr)}
+    }
+
+    /* ── Portugal matches ── */
+    .pt-matches-grid{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+    .pt-match{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;transition:border-color .2s}
+    .pt-match:hover{border-color:rgba(212,0,10,.4)}
+    .pt-match-num{width:28px;height:28px;border-radius:50%;background:var(--portugal);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0}
+    .pt-match-info{display:flex;flex-direction:column;gap:.1rem}
+    .pt-match-teams{font-weight:700;font-size:.95rem}
+    .pt-match-meta{font-size:.72rem;color:var(--muted);display:flex;gap:.75rem;flex-wrap:wrap}
+    .pt-match-time{text-align:right;font-size:.78rem;font-family:'SF Mono',monospace}
+    .pt-match-hcm{color:var(--green);font-weight:700;white-space:nowrap}
+    .pt-match-utc{color:var(--muted);font-size:.66rem}
+
+    /* ── Squad card ── */
+    .squad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem;margin-bottom:2rem}
+    .squad-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem;text-align:center;transition:border-color .2s}
+    .squad-card:hover{border-color:rgba(212,0,10,.4)}
+    .squad-card.cr7{border-color:var(--gold);background:rgba(255,215,0,.05)}
+    .squad-num{font-size:1.2rem;font-weight:900;color:var(--gold);margin-bottom:.2rem}
+    .squad-name{font-size:.82rem;font-weight:700;margin-bottom:.15rem}
+    .squad-pos{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+    .squad-age{font-size:.65rem;color:var(--muted)}
+
+    /* ── CR7 Timeline ── */
+    .timeline{position:relative;padding-left:2rem;margin-bottom:2rem}
+    .timeline::before{content:'';position:absolute;left:.65rem;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--portugal),var(--gold),var(--portugal))}
+    .tl-item{position:relative;margin-bottom:1.5rem}
+    .tl-dot{position:absolute;left:-1.65rem;top:.3rem;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--bg);flex-shrink:0}
+    .tl-dot.red{background:var(--portugal)}
+    .tl-dot.green{background:var(--green)}
+    .tl-year{font-size:.68rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.2rem}
+    .tl-title{font-weight:700;font-size:.92rem;margin-bottom:.15rem}
+    .tl-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+    .tl-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,215,0,.1);color:var(--gold);font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:100px;margin-top:.25rem}
+    .tl-badge.red{background:rgba(212,0,10,.15);color:#ff6b6b}
+    .tl-badge.green{background:rgba(34,197,94,.12);color:var(--green)}
+
+    /* ── Portugal WC history ── */
+    .wc-history{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.65rem;margin-bottom:2rem}
+    .wc-hist-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.75rem;text-align:center}
+    .wc-hist-year{font-size:.8rem;font-weight:800;color:var(--gold);margin-bottom:.2rem}
+    .wc-hist-result{font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:.15rem}
+    .wc-hist-cr7{font-size:.65rem;color:var(--muted)}
+
+    /* Responsive */
+    @media(max-width:640px){
+      .tabs{padding:0 .75rem}
+      .tab-btn{padding:.6rem .9rem;font-size:.8rem}
+      .match-card{grid-template-columns:1fr;gap:.5rem}
+      .match-team.right{align-items:flex-start}
+      header{padding:.65rem 1rem}
+      .bracket-grid{grid-template-columns:repeat(2,1fr)}
+      .squad-grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hd-left">
+    <div class="hd-logo">⚽ <span>World Cup</span> 2026</div>
+    <div class="hd-badge">USA · Canada · Mexico</div>
+  </div>
+  <div class="hd-tz">🕐 Múi giờ <strong>Hồ Chí Minh</strong> (GMT+7)</div>
+  <a class="back-btn" href="/">← Trang chủ</a>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('schedule',this)">📅 Lịch thi đấu</button>
+  <button class="tab-btn portugal-tab" onclick="switchTab('portugal',this)">🇵🇹 Bồ Đào Nha · CR7</button>
+</div>
+
+<div class="page">
+
+  <!-- ══ SCHEDULE TAB ══════════════════════════════════════════ -->
+  <div id="tab-schedule" class="tab-panel active">
+
+    <div class="live-clock">
+      <div>
+        <div class="clock-label">Giờ Hồ Chí Minh hiện tại</div>
+        <div class="clock-time" id="live-clock">--:--:--</div>
+        <div class="clock-date" id="live-date">--</div>
+      </div>
+      <div class="wc-progress">
+        <div class="wc-prog-label">
+          <span>World Cup 2026</span>
+          <span id="prog-pct">--</span>
+        </div>
+        <div class="wc-prog-bar"><div class="wc-prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem" id="prog-days"></div>
+      </div>
+    </div>
+
+    <div class="sec-label">Vòng đấu</div>
+    <div class="bracket-grid" id="bracket-grid"></div>
+
+    <div class="sec-label">Lịch thi đấu nổi bật</div>
+    <div class="sec-title">Lịch World Cup 2026</div>
+
+    <div class="phase-filter">
+      <button class="phase-btn active" onclick="filterPhase('all',this)">Tất cả</button>
+      <button class="phase-btn" onclick="filterPhase('group',this)">Vòng bảng</button>
+      <button class="phase-btn" onclick="filterPhase('r32',this)">Vòng 32</button>
+      <button class="phase-btn" onclick="filterPhase('r16',this)">Vòng 16</button>
+      <button class="phase-btn" onclick="filterPhase('qf',this)">Tứ kết</button>
+      <button class="phase-btn" onclick="filterPhase('sf',this)">Bán kết</button>
+      <button class="phase-btn" onclick="filterPhase('final',this)">Chung kết</button>
+    </div>
+
+    <div id="schedule-list"></div>
+  </div>
+
+  <!-- ══ PORTUGAL TAB ══════════════════════════════════════════ -->
+  <div id="tab-portugal" class="tab-panel">
+
+    <!-- CR7 Hero -->
+    <div class="cr7-hero">
+      <div class="cr7-avatar">⚡</div>
+      <div>
+        <div class="cr7-name">Cristiano Ronaldo</div>
+        <div class="cr7-nick">CR7 — "GOAT"</div>
+        <div class="cr7-info">
+          <span>📅 05/02/1985 · 41 tuổi</span>
+          <span>📍 Funchal, Madeira</span>
+          <span>🏃 Tiền đạo · Số 7</span>
+          <span>🏆 Al-Nassr · Saudi Arabia</span>
+        </div>
+        <div class="cr7-stats">
+          <div class="cr7-stat"><div class="cr7-stat-num">900+</div><div class="cr7-stat-label">Bàn thắng sự nghiệp</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num" id="cr7-caps">200+</div><div class="cr7-stat-label">Trận ĐT Bồ Đào Nha</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num" id="cr7-intl">130+</div><div class="cr7-stat-label">Bàn thắng ĐT</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num">5</div><div class="cr7-stat-label">Quả Bóng Vàng</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portugal 2026 Matches -->
+    <div class="sec-label">World Cup 2026</div>
+    <div class="sec-title">🇵🇹 Lịch thi đấu Bồ Đào Nha</div>
+    <div class="pt-matches-grid" id="pt-matches"></div>
+
+    <!-- Portugal squad -->
+    <div class="sec-label" style="margin-top:1.5rem">Đội hình tiêu biểu</div>
+    <div class="sec-title">⭐ Các ngôi sao Bồ Đào Nha</div>
+    <div class="squad-grid" id="squad-grid"></div>
+
+    <!-- CR7 Career Timeline -->
+    <div class="sec-label" style="margin-top:1.5rem">Hành trình sự nghiệp</div>
+    <div class="sec-title">⚡ Timeline CR7</div>
+    <div class="timeline" id="cr7-timeline"></div>
+
+    <!-- Portugal WC History -->
+    <div class="sec-label">Lịch sử World Cup</div>
+    <div class="sec-title">🇵🇹 Bồ Đào Nha tại World Cup</div>
+    <div class="wc-history" id="wc-history"></div>
+
+  </div>
+</div>
+
+<script>
+// ── Timezone util ─────────────────────────────────────────────
+const HCM = 'Asia/Ho_Chi_Minh';
+
+function fmtHCM(utcStr, opts = {}) {
+  const d = new Date(utcStr);
+  return d.toLocaleString('vi-VN', {
+    timeZone: HCM,
+    ...opts
+  });
+}
+
+function hcmTime(utcStr) {
+  return fmtHCM(utcStr, { hour:'2-digit', minute:'2-digit', hour12:false });
+}
+
+function hcmFull(utcStr) {
+  return fmtHCM(utcStr, { weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit', hour12:false });
+}
+
+function hcmDate(utcStr) {
+  return fmtHCM(utcStr, { weekday:'long', day:'numeric', month:'long' });
+}
+
+function groupByDay(matches) {
+  const map = {};
+  matches.forEach(m => {
+    const key = fmtHCM(m.utc, { day:'2-digit', month:'2-digit', year:'numeric' });
+    if (!map[key]) map[key] = [];
+    map[key].push(m);
+  });
+  return map;
+}
+
+// ── Tournament structure ──────────────────────────────────────
+const ROUNDS = [
+  { key:'group', label:'Vòng bảng',   dates:'11/6 – 27/6',  teams:'48 đội · 12 bảng', desc:'3 trận/đội', utcStart:'2026-06-11T20:00:00Z', utcEnd:'2026-06-27T23:59:00Z' },
+  { key:'r32',   label:'Vòng 1/32',   dates:'29/6 – 2/7',   teams:'32 đội',            desc:'Knock-out',  utcStart:'2026-06-29T00:00:00Z', utcEnd:'2026-07-02T23:59:00Z' },
+  { key:'r16',   label:'Vòng 1/16',   dates:'4/7 – 7/7',    teams:'16 đội',            desc:'Knock-out',  utcStart:'2026-07-04T00:00:00Z', utcEnd:'2026-07-07T23:59:00Z' },
+  { key:'qf',    label:'Tứ kết',      dates:'10/7 – 12/7',  teams:'8 đội',             desc:'Knock-out',  utcStart:'2026-07-10T00:00:00Z', utcEnd:'2026-07-12T23:59:00Z' },
+  { key:'sf',    label:'Bán kết',     dates:'15/7 – 16/7',  teams:'4 đội',             desc:'Knock-out',  utcStart:'2026-07-15T00:00:00Z', utcEnd:'2026-07-16T23:59:00Z' },
+  { key:'final', label:'Chung kết',   dates:'19/7',          teams:'2 đội',             desc:'MetLife Stadium, NJ', utcStart:'2026-07-19T22:00:00Z', utcEnd:'2026-07-20T01:00:00Z' },
+];
+
+// ── Match data (UTC) ──────────────────────────────────────────
+// Times stored in UTC. HCM = UTC+7
+const MATCHES = [
+  // ─ GROUP STAGE ─
+  // Opening match
+  { id:1,  utc:'2026-06-11T23:00:00Z', home:'🇲🇽 Mexico',    away:'🇧🇴 Bolivia',     venue:'Estadio Azteca, Mexico City', stage:'Vòng bảng · Bảng A', phase:'group', homeScore:null, awayScore:null },
+  { id:2,  utc:'2026-06-12T22:00:00Z', home:'🇺🇸 USA',        away:'🇸🇷 Serbia',      venue:'SoFi Stadium, Los Angeles',  stage:'Vòng bảng · Bảng B', phase:'group', homeScore:null, awayScore:null },
+  { id:3,  utc:'2026-06-13T22:00:00Z', home:'🇧🇷 Brazil',     away:'🇩🇿 Algeria',     venue:'AT&T Stadium, Dallas',       stage:'Vòng bảng · Bảng C', phase:'group', homeScore:null, awayScore:null },
+  { id:4,  utc:'2026-06-14T01:00:00Z', home:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Anh',       away:'🇺🇾 Uruguay',     venue:'MetLife Stadium, New York',  stage:'Vòng bảng · Bảng D', phase:'group', homeScore:null, awayScore:null },
+  // Portugal matches (Group F)
+  { id:10, utc:'2026-06-15T01:00:00Z', home:'🇵🇹 Bồ Đào Nha', away:'🇬🇭 Ghana',       venue:'MetLife Stadium, New York',  stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
+  { id:5,  utc:'2026-06-16T00:00:00Z', home:'🇦🇷 Argentina',  away:'🇳🇬 Nigeria',     venue:'Rose Bowl, Los Angeles',     stage:'Vòng bảng · Bảng E', phase:'group', homeScore:null, awayScore:null },
+  { id:6,  utc:'2026-06-17T23:00:00Z', home:'🇫🇷 Pháp',       away:'🇯🇵 Nhật Bản',   venue:'Gillette Stadium, Boston',   stage:'Vòng bảng · Bảng G', phase:'group', homeScore:null, awayScore:null },
+  { id:7,  utc:'2026-06-18T22:00:00Z', home:'🇩🇪 Đức',        away:'🇨🇷 Costa Rica',  venue:'Mercedes-Benz, Atlanta',     stage:'Vòng bảng · Bảng H', phase:'group', homeScore:null, awayScore:null },
+  { id:8,  utc:'2026-06-19T22:00:00Z', home:'🇪🇸 Tây Ban Nha', away:'🇲🇦 Morocco',    venue:'Hard Rock, Miami',           stage:'Vòng bảng · Bảng I', phase:'group', homeScore:null, awayScore:null },
+  { id:11, utc:'2026-06-20T02:00:00Z', home:'🇪🇨 Ecuador',    away:'🇵🇹 Bồ Đào Nha', venue:'Lumen Field, Seattle',       stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
+  { id:9,  utc:'2026-06-21T22:00:00Z', home:'🇳🇱 Hà Lan',     away:'🇰🇿 Kazakhstan',  venue:'BC Place, Vancouver',        stage:'Vòng bảng · Bảng J', phase:'group', homeScore:null, awayScore:null },
+  { id:12, utc:'2026-06-25T01:00:00Z', home:'🇵🇹 Bồ Đào Nha', away:'🇰🇷 Hàn Quốc',   venue:'Arrowhead Stadium, Kansas City', stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
+  { id:13, utc:'2026-06-25T22:00:00Z', home:'🇦🇷 Argentina',  away:'🇫🇷 Pháp',        venue:'Rose Bowl, Los Angeles',     stage:'Vòng bảng · Bảng –', phase:'group', homeScore:null, awayScore:null },
+  // ─ ROUND OF 32 ─
+  { id:20, utc:'2026-06-29T22:00:00Z', home:'1A',             away:'3E/F/G',          venue:'MetLife Stadium, New York',  stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
+  { id:21, utc:'2026-06-30T01:00:00Z', home:'1F – Bồ Đào Nha?', away:'3A/B/C',       venue:'TBD',                        stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null, portugal:true },
+  { id:22, utc:'2026-07-01T22:00:00Z', home:'1C',             away:'3I/J/K',          venue:'Rose Bowl, Los Angeles',     stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
+  // ─ ROUND OF 16 ─
+  { id:30, utc:'2026-07-04T22:00:00Z', home:'TBD',            away:'TBD',             venue:'MetLife Stadium, New York',  stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null },
+  { id:31, utc:'2026-07-05T22:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'TBD',                        stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null, portugal:true },
+  // ─ QUARTER FINALS ─
+  { id:40, utc:'2026-07-10T22:00:00Z', home:'TBD',            away:'TBD',             venue:'Rose Bowl, Los Angeles',     stage:'Tứ kết',   phase:'qf',  homeScore:null, awayScore:null },
+  { id:41, utc:'2026-07-12T02:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'AT&T Stadium, Dallas',       stage:'Tứ kết',   phase:'qf',  homeScore:null, awayScore:null, portugal:true },
+  // ─ SEMI FINALS ─
+  { id:50, utc:'2026-07-15T22:00:00Z', home:'TBD',            away:'TBD',             venue:'Rose Bowl, Los Angeles',     stage:'Bán kết',  phase:'sf',  homeScore:null, awayScore:null },
+  { id:51, utc:'2026-07-17T01:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'MetLife Stadium, New York',  stage:'Bán kết',  phase:'sf',  homeScore:null, awayScore:null, portugal:true },
+  // ─ FINAL ─
+  { id:60, utc:'2026-07-19T22:00:00Z', home:'TBD',            away:'TBD',             venue:'MetLife Stadium, East Rutherford, NJ', stage:'⚽ CHUNG KẾT', phase:'final', homeScore:null, awayScore:null },
+];
+
+// ── Portugal squad ─────────────────────────────────────────────
+const SQUAD = [
+  { num:7,  name:'Cristiano Ronaldo', pos:'Tiền đạo',   age:41, cr7:true },
+  { num:8,  name:'Bruno Fernandes',  pos:'Tiền vệ',    age:31 },
+  { num:10, name:'Bernardo Silva',   pos:'Tiền vệ',    age:31 },
+  { num:11, name:'Rafael Leão',      pos:'Tiền đạo',   age:26 },
+  { num:9,  name:'Gonçalo Ramos',    pos:'Tiền đạo',   age:23 },
+  { num:3,  name:'Rúben Dias',       pos:'Hậu vệ',     age:27 },
+  { num:5,  name:'Rúben Neves',      pos:'Tiền vệ',    age:28 },
+  { num:18, name:'Diogo Jota',       pos:'Tiền đạo',   age:28 },
+  { num:2,  name:'João Cancelo',     pos:'Hậu vệ',     age:31 },
+  { num:1,  name:'Diogo Costa',      pos:'Thủ môn',    age:25 },
+  { num:17, name:'Pedro Neto',       pos:'Tiền đạo',   age:25 },
+  { num:4,  name:'João Palhinha',    pos:'Tiền vệ',    age:30 },
+];
+
+// ── CR7 Timeline ──────────────────────────────────────────────
+const TIMELINE = [
+  { year:'1985', title:'Sinh ra tại Funchal, Madeira', desc:'Cristiano Ronaldo dos Santos Aveiro chào đời ngày 5/2/1985.', type:'red' },
+  { year:'2002', title:'Ra mắt chuyên nghiệp – Sporting CP', desc:'Trở thành cầu thủ trẻ nhất ghi bàn ở mọi vòng đấu Primeira Liga.', type:'green' },
+  { year:'2003', title:'Gia nhập Manchester United', desc:'Sir Alex Ferguson ký hợp đồng CR7 với giá £12.24 triệu sau màn trình diễn ở tour hè.', type:'' },
+  { year:'2004', title:'Euro 2004 – Á quân cùng Bồ Đào Nha', desc:'Bồ Đào Nha về nhì tại EURO 2004, CR7 ở tuổi 19 lọt vào đội hình tiêu biểu.', type:'' },
+  { year:'2006', title:'World Cup 2006 – Hạng 3', desc:'CR7 ghi 1 bàn, Bồ Đào Nha về hạng 3. Ghi dấu World Cup đầu tiên.', type:'green', badge:'Hạng 3 World Cup' },
+  { year:'2008', title:'Quả Bóng Vàng đầu tiên + Champions League', desc:'Vô địch Champions League cùng Man United, ghi 42 bàn. Nhận Quả Bóng Vàng FIFA đầu tiên.', type:'', badge:'🏆 QBV #1' },
+  { year:'2009', title:'Real Madrid – Kỷ lục thế giới €94 triệu', desc:'Chuyển tới Real Madrid với mức phí kỷ lục thế giới lúc bấy giờ.', type:'' },
+  { year:'2011', title:'La Liga & 40 bàn/mùa', desc:'Vô địch La Liga, ghi 40 bàn – kỷ lục tại thời điểm đó.', type:'green' },
+  { year:'2013', title:'Quả Bóng Vàng thứ 2', desc:'Kết thúc cuộc thống trị của Messi với Quả Bóng Vàng thứ hai.', type:'', badge:'🏆 QBV #2' },
+  { year:'2014', title:'La Liga + QBV #3 + Champions League', desc:'Mùa giải xuất sắc: 54 bàn mọi giải đấu, Champions League lần 2, Quả Bóng Vàng #3.', type:'', badge:'🏆 QBV #3' },
+  { year:'2016', title:'EURO 2016 – Vô địch cùng Bồ Đào Nha!', desc:'Bồ Đào Nha vô địch EURO 2016 tại Pháp. CR7 dính chấn thương chỉ sau 9 phút nhưng đứng chỉ đạo từ ngoài đường biên. Quả Bóng Vàng #4.', type:'red', badge:'🏆 EURO 2016' },
+  { year:'2017', title:'Champions League thứ 4 + QBV #5', desc:'Đưa Real Madrid vô địch Champions League lần thứ 2 liên tiếp, nhận Quả Bóng Vàng lần thứ 5.', type:'', badge:'🏆 QBV #5' },
+  { year:'2018', title:'Hat-trick lịch sử vs Tây Ban Nha tại World Cup', desc:'Lập hat-trick trong trận hoà 3-3 kịch tính trước Tây Ban Nha. Chuyển sang Juventus €112 triệu.', type:'green', badge:'⚽ Hat-trick WC' },
+  { year:'2019', title:'Serie A + Vua phá lưới Champions League', desc:'Vô địch Serie A, trở thành cầu thủ đầu tiên vô địch PL, Liga và Serie A.', type:'green' },
+  { year:'2021', title:'Trở lại Manchester United', desc:'Tái ngộ Old Trafford sau 12 năm, ghi bàn ngay trong trận ra mắt.', type:'' },
+  { year:'2022', title:'World Cup 2022 – Tứ kết', desc:'Bồ Đào Nha dừng bước ở tứ kết (0-1 trước Morocco). CR7 bị để dự bị trong một số trận gây tranh cãi.', type:'red', badge:'Tứ kết 2022' },
+  { year:'2023', title:'Al-Nassr, Saudi Arabia', desc:'Ký hợp đồng với Al-Nassr, trở thành cầu thủ được trả lương cao nhất lịch sử.', type:'' },
+  { year:'2024', title:'EURO 2024 – Tứ kết', desc:'Bồ Đào Nha bị loại bởi Pháp ở tứ kết qua loạt sút penalty. CR7 bật khóc.', type:'red' },
+  { year:'2025', title:'Kỷ lục 130+ bàn thắng ĐTQG', desc:'Tiếp tục phá vỡ mọi kỷ lục quốc tế, trở thành ĐTQG có nhiều bàn thắng và trận đấu nhất lịch sử.', type:'green' },
+  { year:'2026', title:'World Cup 2026 – Chương cuối của CR7?', desc:'Ở tuổi 41, CR7 tham dự World Cup lần thứ 6 – kỳ World Cup cuối cùng trong sự nghiệp huyền thoại. Cả thế giới theo dõi.', type:'red', badge:'⚽ World Cup 2026' },
+];
+
+// ── Portugal WC History ───────────────────────────────────────
+const WC_HISTORY = [
+  { year:'1966', result:'Hạng 3 🥉', cr7:'' },
+  { year:'1986', result:'Vòng bảng', cr7:'' },
+  { year:'2002', result:'Vòng bảng', cr7:'' },
+  { year:'2006', result:'Hạng 3 🥉', cr7:'CR7: 1 bàn' },
+  { year:'2010', result:'Vòng 1/16', cr7:'CR7: 1 bàn' },
+  { year:'2014', result:'Vòng bảng', cr7:'CR7: 1 bàn' },
+  { year:'2018', result:'Vòng 1/16', cr7:'CR7: 4 bàn ⚡' },
+  { year:'2022', result:'Tứ kết 🔥', cr7:'CR7: 1 bàn' },
+  { year:'2026', result:'Đang diễn ra', cr7:'CR7: ???' },
+];
+
+// ── Render bracket ────────────────────────────────────────────
+function renderBracket() {
+  const now = Date.now();
+  document.getElementById('bracket-grid').innerHTML = ROUNDS.map(r => {
+    const inProgress = now >= new Date(r.utcStart) && now <= new Date(r.utcEnd);
+    const done = now > new Date(r.utcEnd);
+    return `<div class="bracket-card ${inProgress ? 'current' : ''}">
+      <div class="bracket-round">${r.label}</div>
+      <div class="bracket-dates">${r.dates}</div>
+      <div class="bracket-teams">${r.teams}</div>
+      <div style="font-size:.65rem;color:var(--muted);margin-top:.25rem">${done ? '✓ Hoàn thành' : inProgress ? '🔴 Đang diễn ra' : '🕐 Sắp diễn ra'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Render schedule ───────────────────────────────────────────
+let currentPhase = 'all';
+function filterPhase(phase, btn) {
+  currentPhase = phase;
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSchedule();
+}
+
+function matchStatus(m) {
+  const now = Date.now();
+  const start = new Date(m.utc).getTime();
+  const end = start + 105 * 60 * 1000; // ~105 min
+  if (now > end) return 'done';
+  if (now >= start) return 'live';
+  return 'upcoming';
+}
+
+function renderSchedule() {
+  const filtered = currentPhase === 'all' ? MATCHES : MATCHES.filter(m => m.phase === currentPhase);
+  const byDay = groupByDay(filtered);
+  const html = Object.entries(byDay).map(([day, matches]) => {
+    const firstMatch = matches[0];
+    const dayLabel = hcmDate(firstMatch.utc);
+    const cards = matches.map(m => {
+      const status = matchStatus(m);
+      const isPort = m.portugal;
+      const time = hcmTime(m.utc);
+      const stageBadge = status === 'live' ? 'live' : status === 'done' ? 'done' : '';
+      const scoreStr = (m.homeScore !== null && m.awayScore !== null)
+        ? `<span class="team-score">${m.homeScore}</span>` : '';
+      const scoreStrAway = (m.homeScore !== null && m.awayScore !== null)
+        ? `<span class="team-score">${m.awayScore}</span>` : '';
+      return `<div class="match-card ${isPort ? 'portugal' : ''} ${status === 'done' ? 'finished' : ''}">
+        <div class="match-team">
+          <div class="team-name">${m.home} ${scoreStr}</div>
+        </div>
+        <div class="match-mid">
+          <div class="match-stage-badge ${stageBadge}">${status === 'live' ? '🔴 LIVE' : status === 'done' ? '✓ FT' : m.stage.split('·')[0].trim()}</div>
+          <div class="match-time">${time} (HCM)</div>
+          <div class="match-vs">${status === 'done' ? 'FT' : 'VS'}</div>
+          <div class="match-venue" style="font-size:.6rem">${m.venue}</div>
+        </div>
+        <div class="match-team right">
+          <div class="team-name">${scoreStrAway} ${m.away}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="day-group">
+      <div class="day-header">📅 <span>${dayLabel}</span></div>
+      ${cards}
+    </div>`;
+  }).join('');
+  document.getElementById('schedule-list').innerHTML = html || '<div style="color:var(--muted);padding:2rem 0">Không có trận đấu nào trong giai đoạn này.</div>';
+}
+
+// ── Render Portugal matches ───────────────────────────────────
+function renderPortugalMatches() {
+  const ptMatches = MATCHES.filter(m => m.portugal);
+  document.getElementById('pt-matches').innerHTML = ptMatches.map((m, i) => {
+    const status = matchStatus(m);
+    const time = hcmFull(m.utc);
+    return `<div class="pt-match">
+      <div class="pt-match-num">${i + 1}</div>
+      <div class="pt-match-info">
+        <div class="pt-match-teams">${m.home} <span style="color:var(--muted)">vs</span> ${m.away}</div>
+        <div class="pt-match-meta">
+          <span>📍 ${m.venue}</span>
+          <span>🏷 ${m.stage}</span>
+          <span>${status === 'done' ? '✅ Kết thúc' : status === 'live' ? '🔴 LIVE' : '⏳ Sắp diễn ra'}</span>
+        </div>
+      </div>
+      <div class="pt-match-time">
+        <div class="pt-match-hcm">${hcmTime(m.utc)}</div>
+        <div class="pt-match-utc">${time.split(',')[0]}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Render squad ──────────────────────────────────────────────
+function renderSquad() {
+  document.getElementById('squad-grid').innerHTML = SQUAD.map(p =>
+    `<div class="squad-card ${p.cr7 ? 'cr7' : ''}">
+      <div class="squad-num">#${p.num}</div>
+      <div class="squad-name">${p.name}</div>
+      <div class="squad-pos">${p.pos}</div>
+      <div class="squad-age">${p.age} tuổi</div>
+    </div>`
+  ).join('');
+}
+
+// ── Render timeline ───────────────────────────────────────────
+function renderTimeline() {
+  document.getElementById('cr7-timeline').innerHTML = TIMELINE.map(t =>
+    `<div class="tl-item">
+      <div class="tl-dot ${t.type}"></div>
+      <div class="tl-year">${t.year}</div>
+      <div class="tl-title">${t.title}</div>
+      <div class="tl-desc">${t.desc}</div>
+      ${t.badge ? `<div class="tl-badge ${t.type}">${t.badge}</div>` : ''}
+    </div>`
+  ).join('');
+}
+
+// ── Render WC history ─────────────────────────────────────────
+function renderWCHistory() {
+  document.getElementById('wc-history').innerHTML = WC_HISTORY.map(h =>
+    `<div class="wc-hist-card">
+      <div class="wc-hist-year">${h.year}</div>
+      <div class="wc-hist-result">${h.result}</div>
+      ${h.cr7 ? `<div class="wc-hist-cr7">${h.cr7}</div>` : ''}
+    </div>`
+  ).join('');
+}
+
+// ── Live clock + progress ─────────────────────────────────────
+const WC_START = new Date('2026-06-11T20:00:00Z');
+const WC_END   = new Date('2026-07-19T23:00:00Z');
+
+function updateClock() {
+  const now = new Date();
+  const hcmStr = now.toLocaleString('vi-VN', { timeZone: HCM, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+  const dateStr = now.toLocaleString('vi-VN', { timeZone: HCM, weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('live-clock').textContent = hcmStr;
+  document.getElementById('live-date').textContent = dateStr;
+
+  const total = WC_END - WC_START;
+  const elapsed = Math.max(0, now - WC_START);
+  const pct = Math.min(100, Math.round((elapsed / total) * 100));
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+
+  if (now < WC_START) {
+    const days = Math.ceil((WC_START - now) / 86400000);
+    document.getElementById('prog-days').textContent = `⏳ Bắt đầu sau ${days} ngày`;
+  } else if (now > WC_END) {
+    document.getElementById('prog-days').textContent = '🏆 World Cup 2026 đã kết thúc';
+  } else {
+    const daysLeft = Math.ceil((WC_END - now) / 86400000);
+    document.getElementById('prog-days').textContent = `🔴 Đang diễn ra · còn ${daysLeft} ngày`;
+  }
+}
+
+// ── Tab switch ────────────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Init ──────────────────────────────────────────────────────
+renderBracket();
+renderSchedule();
+renderPortugalMatches();
+renderSquad();
+renderTimeline();
+renderWCHistory();
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
