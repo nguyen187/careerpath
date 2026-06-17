@@ -232,9 +232,9 @@
           <span>🏆 Al-Nassr · Saudi Arabia</span>
         </div>
         <div class="cr7-stats">
-          <div class="cr7-stat"><div class="cr7-stat-num">900+</div><div class="cr7-stat-label">Bàn thắng sự nghiệp</div></div>
-          <div class="cr7-stat"><div class="cr7-stat-num" id="cr7-caps">200+</div><div class="cr7-stat-label">Trận ĐT Bồ Đào Nha</div></div>
-          <div class="cr7-stat"><div class="cr7-stat-num" id="cr7-intl">130+</div><div class="cr7-stat-label">Bàn thắng ĐT</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num">973</div><div class="cr7-stat-label">Bàn thắng sự nghiệp</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num">228</div><div class="cr7-stat-label">Trận ĐT Bồ Đào Nha</div></div>
+          <div class="cr7-stat"><div class="cr7-stat-num">143</div><div class="cr7-stat-label">Bàn thắng ĐT</div></div>
           <div class="cr7-stat"><div class="cr7-stat-num">5</div><div class="cr7-stat-label">Quả Bóng Vàng</div></div>
         </div>
       </div>
@@ -299,9 +299,9 @@ function groupByDay(matches) {
 
 // ── Tournament structure ──────────────────────────────────────
 const ROUNDS = [
-  { key:'group', label:'Vòng bảng',   dates:'11/6 – 27/6',  teams:'48 đội · 12 bảng', desc:'3 trận/đội', utcStart:'2026-06-11T20:00:00Z', utcEnd:'2026-06-27T23:59:00Z' },
-  { key:'r32',   label:'Vòng 1/32',   dates:'29/6 – 2/7',   teams:'32 đội',            desc:'Knock-out',  utcStart:'2026-06-29T00:00:00Z', utcEnd:'2026-07-02T23:59:00Z' },
-  { key:'r16',   label:'Vòng 1/16',   dates:'4/7 – 7/7',    teams:'16 đội',            desc:'Knock-out',  utcStart:'2026-07-04T00:00:00Z', utcEnd:'2026-07-07T23:59:00Z' },
+  { key:'group', label:'Vòng bảng',   dates:'11/6 – 27/6',  teams:'48 đội · 12 bảng', desc:'3 trận/đội', utcStart:'2026-06-11T18:00:00Z', utcEnd:'2026-06-28T02:59:00Z' },
+  { key:'r32',   label:'Vòng 1/32',   dates:'28/6 – 3/7',   teams:'32 đội',            desc:'Knock-out',  utcStart:'2026-06-28T03:00:00Z', utcEnd:'2026-07-03T23:59:00Z' },
+  { key:'r16',   label:'Vòng 1/16',   dates:'4/7 – 9/7',    teams:'16 đội',            desc:'Knock-out',  utcStart:'2026-07-04T00:00:00Z', utcEnd:'2026-07-09T23:59:00Z' },
   { key:'qf',    label:'Tứ kết',      dates:'10/7 – 12/7',  teams:'8 đội',             desc:'Knock-out',  utcStart:'2026-07-10T00:00:00Z', utcEnd:'2026-07-12T23:59:00Z' },
   { key:'sf',    label:'Bán kết',     dates:'15/7 – 16/7',  teams:'4 đội',             desc:'Knock-out',  utcStart:'2026-07-15T00:00:00Z', utcEnd:'2026-07-16T23:59:00Z' },
   { key:'final', label:'Chung kết',   dates:'19/7',          teams:'2 đội',             desc:'MetLife Stadium, NJ', utcStart:'2026-07-19T22:00:00Z', utcEnd:'2026-07-20T01:00:00Z' },
@@ -310,53 +310,93 @@ const ROUNDS = [
 // ── Match data (UTC) ──────────────────────────────────────────
 // Times stored in UTC. HCM = UTC+7
 const MATCHES = [
-  // ─ GROUP STAGE ─
-  // Opening match
-  { id:1,  utc:'2026-06-11T23:00:00Z', home:'🇲🇽 Mexico',    away:'🇧🇴 Bolivia',     venue:'Estadio Azteca, Mexico City', stage:'Vòng bảng · Bảng A', phase:'group', homeScore:null, awayScore:null },
-  { id:2,  utc:'2026-06-12T22:00:00Z', home:'🇺🇸 USA',        away:'🇸🇷 Serbia',      venue:'SoFi Stadium, Los Angeles',  stage:'Vòng bảng · Bảng B', phase:'group', homeScore:null, awayScore:null },
-  { id:3,  utc:'2026-06-13T22:00:00Z', home:'🇧🇷 Brazil',     away:'🇩🇿 Algeria',     venue:'AT&T Stadium, Dallas',       stage:'Vòng bảng · Bảng C', phase:'group', homeScore:null, awayScore:null },
-  { id:4,  utc:'2026-06-14T01:00:00Z', home:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Anh',       away:'🇺🇾 Uruguay',     venue:'MetLife Stadium, New York',  stage:'Vòng bảng · Bảng D', phase:'group', homeScore:null, awayScore:null },
-  // Portugal matches (Group F)
-  { id:10, utc:'2026-06-15T01:00:00Z', home:'🇵🇹 Bồ Đào Nha', away:'🇬🇭 Ghana',       venue:'MetLife Stadium, New York',  stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
-  { id:5,  utc:'2026-06-16T00:00:00Z', home:'🇦🇷 Argentina',  away:'🇳🇬 Nigeria',     venue:'Rose Bowl, Los Angeles',     stage:'Vòng bảng · Bảng E', phase:'group', homeScore:null, awayScore:null },
-  { id:6,  utc:'2026-06-17T23:00:00Z', home:'🇫🇷 Pháp',       away:'🇯🇵 Nhật Bản',   venue:'Gillette Stadium, Boston',   stage:'Vòng bảng · Bảng G', phase:'group', homeScore:null, awayScore:null },
-  { id:7,  utc:'2026-06-18T22:00:00Z', home:'🇩🇪 Đức',        away:'🇨🇷 Costa Rica',  venue:'Mercedes-Benz, Atlanta',     stage:'Vòng bảng · Bảng H', phase:'group', homeScore:null, awayScore:null },
-  { id:8,  utc:'2026-06-19T22:00:00Z', home:'🇪🇸 Tây Ban Nha', away:'🇲🇦 Morocco',    venue:'Hard Rock, Miami',           stage:'Vòng bảng · Bảng I', phase:'group', homeScore:null, awayScore:null },
-  { id:11, utc:'2026-06-20T02:00:00Z', home:'🇪🇨 Ecuador',    away:'🇵🇹 Bồ Đào Nha', venue:'Lumen Field, Seattle',       stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
-  { id:9,  utc:'2026-06-21T22:00:00Z', home:'🇳🇱 Hà Lan',     away:'🇰🇿 Kazakhstan',  venue:'BC Place, Vancouver',        stage:'Vòng bảng · Bảng J', phase:'group', homeScore:null, awayScore:null },
-  { id:12, utc:'2026-06-25T01:00:00Z', home:'🇵🇹 Bồ Đào Nha', away:'🇰🇷 Hàn Quốc',   venue:'Arrowhead Stadium, Kansas City', stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null, portugal:true },
-  { id:13, utc:'2026-06-25T22:00:00Z', home:'🇦🇷 Argentina',  away:'🇫🇷 Pháp',        venue:'Rose Bowl, Los Angeles',     stage:'Vòng bảng · Bảng –', phase:'group', homeScore:null, awayScore:null },
-  // ─ ROUND OF 32 ─
-  { id:20, utc:'2026-06-29T22:00:00Z', home:'1A',             away:'3E/F/G',          venue:'MetLife Stadium, New York',  stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
-  { id:21, utc:'2026-06-30T01:00:00Z', home:'1F – Bồ Đào Nha?', away:'3A/B/C',       venue:'TBD',                        stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null, portugal:true },
-  { id:22, utc:'2026-07-01T22:00:00Z', home:'1C',             away:'3I/J/K',          venue:'Rose Bowl, Los Angeles',     stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
-  // ─ ROUND OF 16 ─
-  { id:30, utc:'2026-07-04T22:00:00Z', home:'TBD',            away:'TBD',             venue:'MetLife Stadium, New York',  stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null },
-  { id:31, utc:'2026-07-05T22:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'TBD',                        stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null, portugal:true },
-  // ─ QUARTER FINALS ─
-  { id:40, utc:'2026-07-10T22:00:00Z', home:'TBD',            away:'TBD',             venue:'Rose Bowl, Los Angeles',     stage:'Tứ kết',   phase:'qf',  homeScore:null, awayScore:null },
-  { id:41, utc:'2026-07-12T02:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'AT&T Stadium, Dallas',       stage:'Tứ kết',   phase:'qf',  homeScore:null, awayScore:null, portugal:true },
-  // ─ SEMI FINALS ─
-  { id:50, utc:'2026-07-15T22:00:00Z', home:'TBD',            away:'TBD',             venue:'Rose Bowl, Los Angeles',     stage:'Bán kết',  phase:'sf',  homeScore:null, awayScore:null },
-  { id:51, utc:'2026-07-17T01:00:00Z', home:'TBD (🇵🇹?)',    away:'TBD',             venue:'MetLife Stadium, New York',  stage:'Bán kết',  phase:'sf',  homeScore:null, awayScore:null, portugal:true },
-  // ─ FINAL ─
-  { id:60, utc:'2026-07-19T22:00:00Z', home:'TBD',            away:'TBD',             venue:'MetLife Stadium, East Rutherford, NJ', stage:'⚽ CHUNG KẾT', phase:'final', homeScore:null, awayScore:null },
+  // ─ BẢNG A: Mexico · Hàn Quốc · Nam Phi · Czechia ─
+  { id:1,  utc:'2026-06-11T19:00:00Z', home:'🇲🇽 Mexico',      away:'🇿🇦 Nam Phi',       venue:'Estadio Azteca, Mexico City', stage:'Vòng bảng · Bảng A', phase:'group', homeScore:2, awayScore:0 },
+  { id:2,  utc:'2026-06-12T22:00:00Z', home:'🇰🇷 Hàn Quốc',    away:'🇨🇿 Czechia',       venue:'BMO Field, Toronto',          stage:'Vòng bảng · Bảng A', phase:'group', homeScore:2, awayScore:1 },
+
+  // ─ BẢNG B: Canada · Thụy Sĩ · Qatar · Bosnia ─
+  { id:3,  utc:'2026-06-12T19:00:00Z', home:'🇨🇦 Canada',       away:'🇧🇦 Bosnia',         venue:'BC Place, Vancouver',         stage:'Vòng bảng · Bảng B', phase:'group', homeScore:1, awayScore:1 },
+  { id:4,  utc:'2026-06-13T19:00:00Z', home:'🇶🇦 Qatar',        away:'🇨🇭 Thụy Sĩ',       venue:'Levi\'s Stadium, San Jose',   stage:'Vòng bảng · Bảng B', phase:'group', homeScore:1, awayScore:1 },
+
+  // ─ BẢNG C: Brazil · Morocco · Scotland · Haiti ─
+  { id:5,  utc:'2026-06-13T22:00:00Z', home:'🇧🇷 Brazil',       away:'🇲🇦 Morocco',        venue:'AT&T Stadium, Dallas',        stage:'Vòng bảng · Bảng C', phase:'group', homeScore:1, awayScore:0 },
+
+  // ─ BẢNG D: USA · Australia · Paraguay · Thổ Nhĩ Kỳ ─
+  { id:6,  utc:'2026-06-13T22:30:00Z', home:'🇺🇸 USA',          away:'🇵🇾 Paraguay',       venue:'SoFi Stadium, Los Angeles',   stage:'Vòng bảng · Bảng D', phase:'group', homeScore:4, awayScore:1 },
+
+  // ─ BẢNG E: Đức · Ecuador · Côte d\'Ivoire · Curaçao ─
+  { id:7,  utc:'2026-06-15T21:00:00Z', home:'🇩🇪 Đức',          away:'🇨🇮 Côte d\'Ivoire', venue:'Mercedes-Benz, Atlanta',      stage:'Vòng bảng · Bảng E', phase:'group', homeScore:null, awayScore:null },
+  { id:8,  utc:'2026-06-18T22:00:00Z', home:'🇩🇪 Đức',          away:'🇪🇨 Ecuador',        venue:'AT&T Stadium, Dallas',        stage:'Vòng bảng · Bảng E', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG F: Hà Lan · Nhật Bản · Tunisia · Thụy Điển ─
+  { id:9,  utc:'2026-06-15T22:00:00Z', home:'🇳🇱 Hà Lan',       away:'🇸🇪 Thụy Điển',     venue:'Gillette Stadium, Boston',    stage:'Vòng bảng · Bảng F', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG G: Bỉ · Iran · Ai Cập · New Zealand ─
+  { id:10, utc:'2026-06-16T19:00:00Z', home:'🇧🇪 Bỉ',           away:'🇮🇷 Iran',            venue:'Arrowhead, Kansas City',      stage:'Vòng bảng · Bảng G', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG H: Tây Ban Nha · Uruguay · Saudi Arabia · Cape Verde ─
+  { id:11, utc:'2026-06-16T22:00:00Z', home:'🇪🇸 Tây Ban Nha',  away:'🇺🇾 Uruguay',        venue:'Hard Rock, Miami',            stage:'Vòng bảng · Bảng H', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG I: Pháp · Senegal · Na Uy · Iraq ─
+  { id:12, utc:'2026-06-17T19:00:00Z', home:'🇫🇷 Pháp',         away:'🇸🇳 Senegal',         venue:'Rose Bowl, Los Angeles',      stage:'Vòng bảng · Bảng I', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG J: Argentina · Áo · Algeria · Jordan ─
+  { id:13, utc:'2026-06-18T22:00:00Z', home:'🇦🇷 Argentina',    away:'🇩🇿 Algeria',        venue:'Rose Bowl, Los Angeles',      stage:'Vòng bảng · Bảng J', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ BẢNG K: Bồ Đào Nha · Colombia · Uzbekistan · DR Congo ─
+  { id:20, utc:'2026-06-17T17:00:00Z', home:'🇵🇹 Bồ Đào Nha',  away:'🇨🇩 DR Congo',       venue:'NRG Stadium, Houston',        stage:'Vòng bảng · Bảng K', phase:'group', homeScore:null, awayScore:null, portugal:true },
+  { id:21, utc:'2026-06-17T23:00:00Z', home:'🇨🇴 Colombia',     away:'🇺🇿 Uzbekistan',     venue:'MetLife Stadium, New York',   stage:'Vòng bảng · Bảng K', phase:'group', homeScore:null, awayScore:null },
+  { id:22, utc:'2026-06-23T17:00:00Z', home:'🇵🇹 Bồ Đào Nha',  away:'🇺🇿 Uzbekistan',     venue:'NRG Stadium, Houston',        stage:'Vòng bảng · Bảng K', phase:'group', homeScore:null, awayScore:null, portugal:true },
+  { id:23, utc:'2026-06-27T23:30:00Z', home:'🇨🇴 Colombia',     away:'🇵🇹 Bồ Đào Nha',    venue:'Hard Rock Stadium, Miami',    stage:'Vòng bảng · Bảng K', phase:'group', homeScore:null, awayScore:null, portugal:true },
+
+  // ─ BẢNG L: Anh · Croatia · Panama · Ghana ─
+  { id:14, utc:'2026-06-18T19:00:00Z', home:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Anh',      away:'🇵🇦 Panama',          venue:'SoFi Stadium, Los Angeles',   stage:'Vòng bảng · Bảng L', phase:'group', homeScore:null, awayScore:null },
+
+  // ─ VÒNG 1/32 (28/6 – 3/7) ─
+  { id:30, utc:'2026-06-28T22:00:00Z', home:'TBD',              away:'TBD',                venue:'MetLife Stadium, New York',   stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
+  { id:31, utc:'2026-06-29T22:00:00Z', home:'TBD',              away:'TBD',                venue:'Rose Bowl, Los Angeles',      stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
+  { id:32, utc:'2026-06-30T22:00:00Z', home:'TBD',              away:'TBD',                venue:'AT&T Stadium, Dallas',        stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null },
+  { id:33, utc:'2026-07-01T22:00:00Z', home:'TBD (🇵🇹?)',      away:'TBD',                venue:'TBD',                         stage:'Vòng 1/32', phase:'r32', homeScore:null, awayScore:null, portugal:true },
+
+  // ─ VÒNG 1/16 (4/7 – 9/7) ─
+  { id:40, utc:'2026-07-04T22:00:00Z', home:'TBD',              away:'TBD',                venue:'MetLife Stadium, New York',   stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null },
+  { id:41, utc:'2026-07-05T22:00:00Z', home:'TBD (🇵🇹?)',      away:'TBD',                venue:'TBD',                         stage:'Vòng 1/16', phase:'r16', homeScore:null, awayScore:null, portugal:true },
+
+  // ─ TỨ KẾT (10/7 – 12/7) ─
+  { id:50, utc:'2026-07-10T22:00:00Z', home:'TBD',              away:'TBD',                venue:'Rose Bowl, Los Angeles',      stage:'Tứ kết', phase:'qf', homeScore:null, awayScore:null },
+  { id:51, utc:'2026-07-12T22:00:00Z', home:'TBD (🇵🇹?)',      away:'TBD',                venue:'MetLife Stadium, New York',   stage:'Tứ kết', phase:'qf', homeScore:null, awayScore:null, portugal:true },
+
+  // ─ BÁN KẾT (15/7 – 16/7) ─
+  { id:60, utc:'2026-07-15T22:00:00Z', home:'TBD',              away:'TBD',                venue:'Rose Bowl, Los Angeles',      stage:'Bán kết', phase:'sf', homeScore:null, awayScore:null },
+  { id:61, utc:'2026-07-16T22:00:00Z', home:'TBD (🇵🇹?)',      away:'TBD',                venue:'MetLife Stadium, New York',   stage:'Bán kết', phase:'sf', homeScore:null, awayScore:null, portugal:true },
+
+  // ─ CHUNG KẾT (19/7) ─
+  { id:70, utc:'2026-07-19T22:00:00Z', home:'TBD',              away:'TBD',                venue:'MetLife Stadium, East Rutherford, NJ', stage:'⚽ CHUNG KẾT', phase:'final', homeScore:null, awayScore:null },
 ];
 
-// ── Portugal squad ─────────────────────────────────────────────
+// ── Portugal squad (WC 2026 — 26 người) ──────────────────────
 const SQUAD = [
-  { num:7,  name:'Cristiano Ronaldo', pos:'Tiền đạo',   age:41, cr7:true },
-  { num:8,  name:'Bruno Fernandes',  pos:'Tiền vệ',    age:31 },
-  { num:10, name:'Bernardo Silva',   pos:'Tiền vệ',    age:31 },
-  { num:11, name:'Rafael Leão',      pos:'Tiền đạo',   age:26 },
-  { num:9,  name:'Gonçalo Ramos',    pos:'Tiền đạo',   age:23 },
-  { num:3,  name:'Rúben Dias',       pos:'Hậu vệ',     age:27 },
-  { num:5,  name:'Rúben Neves',      pos:'Tiền vệ',    age:28 },
-  { num:18, name:'Diogo Jota',       pos:'Tiền đạo',   age:28 },
-  { num:2,  name:'João Cancelo',     pos:'Hậu vệ',     age:31 },
-  { num:1,  name:'Diogo Costa',      pos:'Thủ môn',    age:25 },
-  { num:17, name:'Pedro Neto',       pos:'Tiền đạo',   age:25 },
-  { num:4,  name:'João Palhinha',    pos:'Tiền vệ',    age:30 },
+  // Thủ môn
+  { num:1,  name:'Diogo Costa',         pos:'Thủ môn',     age:23, club:'FC Porto' },
+  // Hậu vệ
+  { num:5,  name:'Diogo Dalot',         pos:'Hậu vệ phải', age:27, club:'Man United' },
+  { num:0,  name:'Rúben Dias',          pos:'Hậu vệ',      age:29, club:'Man City' },
+  { num:0,  name:'Gonçalo Inácio',      pos:'Hậu vệ',      age:24, club:'Sporting CP' },
+  { num:0,  name:'Nuno Mendes',         pos:'Hậu vệ trái', age:23, club:'PSG' },
+  { num:0,  name:'João Cancelo',        pos:'Hậu vệ',      age:32, club:'Barcelona' },
+  // Tiền vệ
+  { num:8,  name:'Bruno Fernandes',     pos:'Tiền vệ',     age:31, club:'Man United' },
+  { num:10, name:'Bernardo Silva',      pos:'Tiền vệ',     age:31, club:'Man City' },
+  { num:23, name:'Vitinha',             pos:'Tiền vệ',     age:26, club:'PSG' },
+  { num:0,  name:'João Neves',          pos:'Tiền vệ',     age:22, club:'PSG' },
+  { num:0,  name:'Rúben Neves',         pos:'Tiền vệ',     age:29, club:'Al Hilal' },
+  // Tiền đạo
+  { num:7,  name:'Cristiano Ronaldo',   pos:'Tiền đạo',    age:41, club:'Al-Nassr', cr7:true },
+  { num:9,  name:'Gonçalo Ramos',       pos:'Tiền đạo',    age:24, club:'PSG' },
+  { num:11, name:'Rafael Leão',         pos:'Tiền đạo',    age:27, club:'AC Milan' },
+  { num:0,  name:'João Félix',          pos:'Tiền đạo',    age:26, club:'Chelsea' },
+  { num:0,  name:'Pedro Neto',          pos:'Tiền đạo',    age:26, club:'Chelsea' },
+  { num:0,  name:'Francisco Conceição', pos:'Tiền đạo',    age:23, club:'Juventus' },
 ];
 
 // ── CR7 Timeline ──────────────────────────────────────────────
@@ -368,32 +408,32 @@ const TIMELINE = [
   { year:'2006', title:'World Cup 2006 – Hạng 3', desc:'CR7 ghi 1 bàn, Bồ Đào Nha về hạng 3. Ghi dấu World Cup đầu tiên.', type:'green', badge:'Hạng 3 World Cup' },
   { year:'2008', title:'Quả Bóng Vàng đầu tiên + Champions League', desc:'Vô địch Champions League cùng Man United, ghi 42 bàn. Nhận Quả Bóng Vàng FIFA đầu tiên.', type:'', badge:'🏆 QBV #1' },
   { year:'2009', title:'Real Madrid – Kỷ lục thế giới €94 triệu', desc:'Chuyển tới Real Madrid với mức phí kỷ lục thế giới lúc bấy giờ.', type:'' },
-  { year:'2011', title:'La Liga & 40 bàn/mùa', desc:'Vô địch La Liga, ghi 40 bàn – kỷ lục tại thời điểm đó.', type:'green' },
+  { year:'2012', title:'La Liga + kỷ lục 50 bàn/mùa', desc:'Real Madrid vô địch La Liga với 100 điểm kỷ lục. CR7 ghi 50 bàn trong một mùa La Liga, phá kỷ lục mọi thời đại.', type:'green' },
   { year:'2013', title:'Quả Bóng Vàng thứ 2', desc:'Kết thúc cuộc thống trị của Messi với Quả Bóng Vàng thứ hai.', type:'', badge:'🏆 QBV #2' },
-  { year:'2014', title:'La Liga + QBV #3 + Champions League', desc:'Mùa giải xuất sắc: 54 bàn mọi giải đấu, Champions League lần 2, Quả Bóng Vàng #3.', type:'', badge:'🏆 QBV #3' },
+  { year:'2014', title:'Champions League La Décima + QBV #3', desc:'Real Madrid vô địch Champions League lần thứ 10 (La Décima). CR7 ghi 17 bàn CL, nhận Quả Bóng Vàng lần thứ 3.', type:'', badge:'🏆 QBV #3' },
   { year:'2016', title:'EURO 2016 – Vô địch cùng Bồ Đào Nha!', desc:'Bồ Đào Nha vô địch EURO 2016 tại Pháp. CR7 dính chấn thương chỉ sau 9 phút nhưng đứng chỉ đạo từ ngoài đường biên. Quả Bóng Vàng #4.', type:'red', badge:'🏆 EURO 2016' },
   { year:'2017', title:'Champions League thứ 4 + QBV #5', desc:'Đưa Real Madrid vô địch Champions League lần thứ 2 liên tiếp, nhận Quả Bóng Vàng lần thứ 5.', type:'', badge:'🏆 QBV #5' },
   { year:'2018', title:'Hat-trick lịch sử vs Tây Ban Nha tại World Cup', desc:'Lập hat-trick trong trận hoà 3-3 kịch tính trước Tây Ban Nha. Chuyển sang Juventus €112 triệu.', type:'green', badge:'⚽ Hat-trick WC' },
-  { year:'2019', title:'Serie A + Vua phá lưới Champions League', desc:'Vô địch Serie A, trở thành cầu thủ đầu tiên vô địch PL, Liga và Serie A.', type:'green' },
+  { year:'2019', title:'Vô địch Serie A cùng Juventus', desc:'Juventus vô địch Serie A. CR7 trở thành cầu thủ đầu tiên vô địch Premier League, La Liga và Serie A.', type:'green' },
   { year:'2021', title:'Trở lại Manchester United', desc:'Tái ngộ Old Trafford sau 12 năm, ghi bàn ngay trong trận ra mắt.', type:'' },
   { year:'2022', title:'World Cup 2022 – Tứ kết', desc:'Bồ Đào Nha dừng bước ở tứ kết (0-1 trước Morocco). CR7 bị để dự bị trong một số trận gây tranh cãi.', type:'red', badge:'Tứ kết 2022' },
   { year:'2023', title:'Al-Nassr, Saudi Arabia', desc:'Ký hợp đồng với Al-Nassr, trở thành cầu thủ được trả lương cao nhất lịch sử.', type:'' },
   { year:'2024', title:'EURO 2024 – Tứ kết', desc:'Bồ Đào Nha bị loại bởi Pháp ở tứ kết qua loạt sút penalty. CR7 bật khóc.', type:'red' },
-  { year:'2025', title:'Kỷ lục 130+ bàn thắng ĐTQG', desc:'Tiếp tục phá vỡ mọi kỷ lục quốc tế, trở thành ĐTQG có nhiều bàn thắng và trận đấu nhất lịch sử.', type:'green' },
+  { year:'2025', title:'Kỷ lục 143 bàn & 228 trận ĐTQG', desc:'Tiếp tục phá vỡ mọi kỷ lục quốc tế. 143 bàn thắng và 228 lần khoác áo Bồ Đào Nha – hai kỷ lục thế giới không ai gần chạm đến.', type:'green' },
   { year:'2026', title:'World Cup 2026 – Chương cuối của CR7?', desc:'Ở tuổi 41, CR7 tham dự World Cup lần thứ 6 – kỳ World Cup cuối cùng trong sự nghiệp huyền thoại. Cả thế giới theo dõi.', type:'red', badge:'⚽ World Cup 2026' },
 ];
 
 // ── Portugal WC History ───────────────────────────────────────
 const WC_HISTORY = [
-  { year:'1966', result:'Hạng 3 🥉', cr7:'' },
+  { year:'1966', result:'Hạng 3 🥉', cr7:'Eusébio huyền thoại' },
   { year:'1986', result:'Vòng bảng', cr7:'' },
   { year:'2002', result:'Vòng bảng', cr7:'' },
-  { year:'2006', result:'Hạng 3 🥉', cr7:'CR7: 1 bàn' },
-  { year:'2010', result:'Vòng 1/16', cr7:'CR7: 1 bàn' },
-  { year:'2014', result:'Vòng bảng', cr7:'CR7: 1 bàn' },
-  { year:'2018', result:'Vòng 1/16', cr7:'CR7: 4 bàn ⚡' },
-  { year:'2022', result:'Tứ kết 🔥', cr7:'CR7: 1 bàn' },
-  { year:'2026', result:'Đang diễn ra', cr7:'CR7: ???' },
+  { year:'2006', result:'Hạng 3 🥉', cr7:'CR7: 1 bàn (WC đầu tiên)' },
+  { year:'2010', result:'Vòng 1/16', cr7:'CR7: 1 bàn · thua TBN 0-1' },
+  { year:'2014', result:'Vòng bảng', cr7:'CR7: 1 bàn · bị loại sớm' },
+  { year:'2018', result:'Vòng 1/16', cr7:'CR7: 4 bàn ⚡ hat-trick' },
+  { year:'2022', result:'Tứ kết 🔥', cr7:'CR7: 1 bàn · thua Morocco' },
+  { year:'2026', result:'🔴 Đang diễn ra', cr7:'CR7 – WC thứ 6!' },
 ];
 
 // ── Render bracket ────────────────────────────────────────────
@@ -495,10 +535,10 @@ function renderPortugalMatches() {
 function renderSquad() {
   document.getElementById('squad-grid').innerHTML = SQUAD.map(p =>
     `<div class="squad-card ${p.cr7 ? 'cr7' : ''}">
-      <div class="squad-num">#${p.num}</div>
+      <div class="squad-num">${p.num ? '#' + p.num : '–'}</div>
       <div class="squad-name">${p.name}</div>
       <div class="squad-pos">${p.pos}</div>
-      <div class="squad-age">${p.age} tuổi</div>
+      <div class="squad-age">${p.age} tuổi · ${p.club || ''}</div>
     </div>`
   ).join('');
 }
